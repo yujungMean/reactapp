@@ -10,6 +10,7 @@ import AuthorInfo from './components/AuthorInfo';
 import Middle from './components/Middle';
 import ReplySubmit from './components/ReplySubmit';
 import ReplyContainer from './components/ReplyContainer';
+import BeforeAfterPost from './components/BeforeAfterPost';
 
 const replyList = [
     {
@@ -171,6 +172,14 @@ const CommunityDetailContainer = () => {
 
             {/* 댓글 컨테이너 */}
             <ReplyContainer replyList={replyList} />
+
+            {/* 이전글/다음글 컨테이너 */}
+            <BeforeAfterPost
+                prevTitle="시험 직전 불안이 심해질 때 내가 했던 복기 루틴 3가지"
+                prevId={2}
+                nextTitle="도서관 루틴으로 바꾸고 나서 집중력이 유지된 기록"
+                // nextId={4}
+            />
         </Wrapper>
     </Container>
     );
