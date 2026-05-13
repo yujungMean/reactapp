@@ -171,6 +171,12 @@ export const boxShadow = {
   `
 }
 
+export const hoverBorder = css`
+  &:hover {
+    border: 1px solid ${colorCSS["faillog_purple"]};
+  }
+`
+
 S.Span = styled.span`
   ${({size}) => sizeCSS[size]}
   color: ${({color}) => colorCSS[color] ? colorCSS[color] : colorCSS["faillog-black"]};

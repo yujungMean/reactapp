@@ -8,7 +8,8 @@ import Content from './components/Content';
 import ImagesContainer from './components/ImagesContainer';
 import AuthorInfo from './components/AuthorInfo';
 import Middle from './components/Middle';
-import Reply from './components/Reply';
+import ReplySubmit from './components/ReplySubmit';
+import ReplyContainer from './components/ReplyContainer';
 
 const postData = {
     category: 0,
@@ -65,7 +66,8 @@ const CommunityDetailContainer = () => {
             {/* 중앙(목록으로,좋아요,메뉴버튼컨테이너) */}
             <Middle isOwner={true} isLiked={true} likeCount={24} />
 
-            <Reply />
+            {/* 댓글 컨테이너 */}
+            <ReplyContainer />
         </Wrapper>
     </Container>
     );

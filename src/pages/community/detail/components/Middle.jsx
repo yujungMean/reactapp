@@ -6,7 +6,7 @@ import like from '../../resources/like.svg'
 import likeFill2 from '../../resources/like-fill2.svg'
 import menuIcon from '../../resources/menuIcon.svg'
 
-import S, { colorCSS } from '../../style.js'
+import S, { colorCSS, hoverBorder } from '../../style.js'
 import { flexCenterRow } from '../../../../styles/common.js';
 
 // 게시글 상세 중앙(목록으로, 좋아요버튼, 메뉴버튼)
@@ -79,9 +79,7 @@ const ListBtn = styled.button`
   background: ${colorCSS["faillog_white"]};
   cursor: pointer;
 
-  &:hover {
-    border: 1px solid ${colorCSS["faillog_purple"]};
-  }
+  ${hoverBorder}
 `
 
 const RightGroup = styled.div`
@@ -102,9 +100,7 @@ const LikeBtn = styled.button`
   background: ${colorCSS["faillog_white"]};
   cursor: pointer;
 
-  &:hover {
-    border: 1px solid ${colorCSS["faillog_purple"]};
-  }
+  ${hoverBorder}
 `
 
 const LikeIcon = styled.img`
@@ -127,9 +123,7 @@ const MenuBtn = styled.button`
   background: ${colorCSS["faillog_white"]};
   cursor: pointer;
 
-  &:hover {
-    border: 1px solid ${colorCSS["faillog_purple"]};
-  }
+  ${hoverBorder}
 `
 
 const Dropdown = styled.div`
@@ -151,7 +145,7 @@ const DropdownItem = styled.div`
   ${flexCenterRow}
   cursor: pointer;
 
-  &:hover span {
+    &:hover span {
     color: ${colorCSS["faillog_purple"]};
   }
 `
