@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import S from '../styles/MyProfileStyle'; // 스타일 경로 확인 필수
+import defaltProfileImage from '../resouces/default.png'
 
 const ProfileCardComponent = ({
   memberNickname,
@@ -11,8 +12,21 @@ const ProfileCardComponent = ({
   const [isEditing, setIsEditing] = useState(false);
   // 입력 중인 임시 닉네임 관리
   const [tempNickname, setTempNickname] = useState(memberNickname || '');
+  const fileInputRef = useRef(null);
+  const profileSrc = memberProfileImageUrl || defaltProfileImage;
 
-  const profileSrc = memberProfileImageUrl || '/default.jpg';
+  // 카메라 버튼 클릭 시
+  const handleImageButtonClick = () => {
+    fileInputRef.current.click();
+  }
+
+  // 파일 선택되었을 때 실행
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file && onImageChange){
+      onImageChange(file);
+    }
+  }
 
   // 저장 버튼 클릭 시
   const handleSave = () => {
@@ -35,12 +49,22 @@ const ProfileCardComponent = ({
         <div className="profileImageCircle">
           <img src={profileSrc} alt="프로필" />
         </div>
+
+      <input 
+        type='file'
+        ref={fileInputRef}
+        style={{display: 'none'}}
+        accept='image/*'
+        onChange={handleFileChange}
+      />
+
         <button 
           className="image-edit-btn" 
-          onClick={onImageChange}
+          onClick={handleImageButtonClick}
           type="button"
         >
-          📸
+          📸 
+          {/* 아이콘 집어넣을 것 */}
         </button>
       </div>
 

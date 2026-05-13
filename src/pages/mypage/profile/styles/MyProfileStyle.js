@@ -472,10 +472,9 @@ S.CommunityContainer = styled.div`
 `;
 
 S.HeaderSection = styled.div`
-  text-align: center;
-  margin-bottom: 50px;
-  h3 { font-size: 26px; font-weight: 800; color: #1e293b; margin-bottom: 12px; }
-  p { font-size: 15px; color: #64748b; }
+  margin-bottom: 250px;
+  h3 { font-size: 45px; font-weight: 800; color: #1e293b; margin-bottom: 12px; }
+  p { font-size: 24px; color: #64748b; }
 `;
 
 S.ControlBar = styled.div`
@@ -534,7 +533,7 @@ S.EmptyStateWrapper = styled.div`
 `;
 
 S.EmptyTitle = styled.h4`
-  font-size: 22px;
+  font-size: 45px;
   line-height: 1.5;
   color: #333;
   margin-bottom: 20px;
@@ -542,7 +541,7 @@ S.EmptyTitle = styled.h4`
 `;
 
 S.EmptySubText = styled.p`
-  font-size: 15px;
+  font-size: 32px;
   color: #888;
   line-height: 1.6;
   margin-bottom: 40px;
@@ -554,11 +553,12 @@ S.StartButton = styled.button`
   border: none;
   padding: 12px 40px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 28px;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s;
   &:hover { transform: scale(1.05); }
+  margin-bottom: 506px
 `;
 
 export default S;

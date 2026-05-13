@@ -153,21 +153,13 @@ const router = createBrowserRouter([
             element: <MyFailLogsContainer />
           },
           {
-            path: "posts",
-            element: <MyPostsContainer />
-          },
-          {
             path: "likes",
             element: <MyLikesContainer />
           },
           {
             path: "guestbook",
             element: <MyGuestbookContainer />
-          },
-          {
-            path: "trash",
-            element: <MyTrashContainer />
-          },
+          }
         ]
       },
       { 

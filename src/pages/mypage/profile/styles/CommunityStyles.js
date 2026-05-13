@@ -29,7 +29,6 @@ S.EmptyStateWrapper = styled.div`
   text-align: center;
 `;
 
-// ✅ 추가: 컨테이너에서 호출하는 EmptyTitle
 S.EmptyTitle = styled.h3`
   font-size: 24px;
   font-weight: 700;
@@ -41,7 +40,6 @@ S.EmptyTitle = styled.h3`
   }
 `;
 
-// ✅ 추가: 컨테이너에서 호출하는 EmptySubText
 S.EmptySubText = styled.p`
   font-size: 16px;
   color: #64748b;

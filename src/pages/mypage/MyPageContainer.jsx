@@ -1,12 +1,11 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import MyPageTebMenu from './MyPageTebMenu';
+import styled from 'styled-components';
+
 
 const MyPageContainer = () => {
     return (
         <div>
-            마이페이지 컨테이너
-            <MyPageTebMenu />
             <Outlet />
         </div>
     );
