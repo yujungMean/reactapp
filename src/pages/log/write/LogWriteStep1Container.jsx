@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
+import visionListIcon from './write_icon/vision_list.svg';
+import uploadIcon from './write_icon/upload.svg';
+import deleteIcon from './write_icon/delete.svg';
 
 const LogWriteStep1Container = () => {
   const navigate = useNavigate();
@@ -127,9 +130,7 @@ const LogWriteStep1Container = () => {
             <S.LabelRow>
               <S.Label>이루고 싶은 비전</S.Label>
               <S.LoadVisionButton $isOpen={isVisionListOpen} type="button" onClick={() => setIsVisionListOpen(!isVisionListOpen)}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2.6499 3.98242H13.3166M2.6499 7.98242H13.3166M2.6499 11.9824H13.3166" stroke="currentColor" strokeWidth="1.88235" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <S.VisionIcon src={visionListIcon} alt="vision list" />
                 기존 비전 불러오기
               </S.LoadVisionButton>
             </S.LabelRow>
@@ -166,9 +167,7 @@ const LogWriteStep1Container = () => {
             <S.ThumbnailRow>
               <S.UploadButtonArea onClick={() => fileInputRef.current?.click()}>
                 <S.UploadIcon>
-                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14.5001 9.51076C14.6327 9.51076 14.7599 9.56857 14.8536 9.67147C14.9473 9.77437 15 9.91394 15 10.0595V12.2543C15 12.9819 14.7371 13.6809 14.2682 14.1967C13.7993 14.7114 13.1685 15 12.4987 15H2.50133C1.83851 15 1.20168 14.7114 0.731806 14.1967C0.499498 13.9416 0.315288 13.6388 0.189717 13.3055C0.0641453 12.9722 -0.00032275 12.615 1.21494e-06 12.2543V10.0595C1.21494e-06 9.91394 0.0526656 9.77437 0.146409 9.67147C0.240152 9.56857 0.367295 9.51076 0.499868 9.51076C0.632441 9.51076 0.759584 9.56857 0.853327 9.67147C0.94707 9.77437 0.999735 9.91394 0.999735 10.0595V12.2543C0.999999 12.6905 1.15797 13.1087 1.43896 13.4172C1.71994 13.7256 2.10096 13.899 2.49833 13.8993H12.4957C12.893 13.899 13.2741 13.7256 13.555 13.4172C13.836 13.1087 13.994 12.6905 13.9943 12.2543V10.0595C13.9943 9.91394 14.0469 9.77437 14.1407 9.67147C14.2344 9.56857 14.3616 9.51076 14.4941 9.51076H14.5001ZM7.50963 12.066C7.37706 12.066 7.24991 12.0082 7.15617 11.9053C7.06243 11.8024 7.00976 11.6628 7.00976 11.5173L7.00976 1.87108L4.86033 4.23051C4.81386 4.28153 4.75868 4.32199 4.69796 4.3496C4.63724 4.37721 4.57216 4.39142 4.50643 4.39142C4.4407 4.39142 4.37562 4.37721 4.3149 4.3496C4.25417 4.32199 4.199 4.28153 4.15252 4.23051C4.10605 4.17949 4.06918 4.11893 4.04403 4.05227C4.01888 3.98562 4.00593 3.91417 4.00593 3.84203C4.00593 3.76988 4.01888 3.69844 4.04403 3.63178C4.06918 3.56513 4.10605 3.50456 4.15252 3.45354L7.15172 0.16132C7.19815 0.1102 7.25331 0.0696368 7.31403 0.0419549C7.37476 0.0142729 7.43987 1.52858e-05 7.50563 0C7.57139 1.52984e-05 7.6365 0.014273 7.69722 0.0419549C7.75795 0.0696369 7.81311 0.1102 7.85953 0.16132L10.8587 3.45354C10.9054 3.50549 10.9417 3.56475 10.9677 3.63133C11.0067 3.73119 11.0057 3.7696 11.0057 3.84203C11.0059 3.95079 10.9766 4.05716 10.9216 4.14763C10.8666 4.2381 10.7883 4.30858 10.6968 4.35013C10.6359 4.3779 10.5707 4.39219 10.5048 4.39219C10.4389 4.39219 10.3737 4.3779 10.3129 4.35013C10.2523 4.32233 10.1972 4.28168 10.1509 4.23051L8.0015 1.87108L8.0015 11.5173C8.0015 11.6628 7.94883 11.8024 7.85509 11.9053C7.76135 12.0082 7.6342 12.066 7.50163 12.066H7.50963Z" fill="currentColor" />
-                  </svg>
+                  <S.UploadIconImg src={uploadIcon} alt="upload" />
                 </S.UploadIcon>
                 <S.UploadText>클릭해서 사진 업로드 (JPG, PNG / 최대 5MB)</S.UploadText>
               </S.UploadButtonArea>
@@ -187,9 +186,7 @@ const LogWriteStep1Container = () => {
                     <S.PreviewFileName>{thumbnail.name}</S.PreviewFileName>
                   </S.FileNameContainer>
                   <S.DeleteIcon onClick={handleDeleteImage}>
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                    </svg>
+                    <S.DeleteImg src={deleteIcon} alt="delete" />
                   </S.DeleteIcon>
                 </S.PreviewWrapper>
               )}
@@ -211,7 +208,7 @@ S.Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 60px 20px;
-  background-color: #F8F9FA;
+  background-color: ${({ theme }) => theme.GRAYSCALE[1]};
 `;
 
 S.ContentWrapper = styled.div`
@@ -226,14 +223,14 @@ S.Header = styled.div`
 
 S.Title = styled.h1`
   font-size: 60px;
-  font-weight: ${theme.FONT_WEIGHT.regular};
-  color: ${theme.TEXT_COLOR.basic};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  color: ${({ theme }) => theme.TEXT_COLOR.basic};
 `;
 
 S.SubTitle = styled.p`
-  font-size: ${theme.FONT_SIZE.h8};
-  font-weight: ${theme.FONT_WEIGHT.regular};
-  color: ${theme.TEXT_COLOR.basic};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h8};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  color: ${({ theme }) => theme.TEXT_COLOR.basic};
 `;
 
 S.StepInfo = styled.div`
@@ -257,55 +254,55 @@ S.StepBadgeRow = styled.div`
 `;
 
 S.StepBadge = styled.span`
-  color: ${theme.PALETTE.third.main};
-  font-size: ${theme.FONT_SIZE.h5};
-  font-weight: ${theme.FONT_WEIGHT.bold};
+  color: ${({ theme }) => theme.PALETTE.third.main};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h5};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
   white-space: nowrap;
 `;
 
 S.StepTitle = styled.h2`
-  font-size: ${theme.FONT_SIZE.h5};
-  font-weight: ${theme.FONT_WEIGHT.bold};
-  color: ${theme.TEXT_COLOR.basic};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h5};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  color: ${({ theme }) => theme.TEXT_COLOR.basic};
 `;
 
 S.StepDesc = styled.p`
-  font-size: ${theme.FONT_SIZE.h9};
-  font-weight: ${theme.FONT_WEIGHT.regular};
-  color: ${theme.GRAYSCALE[9]};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  color: ${({ theme }) => theme.GRAYSCALE[9]};
 `;
 
 S.NextButton = styled.button`
   padding: 10px 28px;
-  background-color: ${theme.PALETTE.white};
-  color: ${theme.GRAYSCALE[9]};
-  border: 1px solid ${theme.GRAYSCALE[4]};
+  background-color: ${({ theme }) => theme.PALETTE.white};
+  color: ${({ theme }) => theme.GRAYSCALE[9]};
+  border: 1px solid ${({ theme }) => theme.GRAYSCALE[4]};
   border-radius: 8px;
-  font-size: ${theme.FONT_SIZE.h9};
-  font-weight: ${theme.FONT_WEIGHT.bold};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
   flex-shrink: 0;
 
   &:hover {
-    background-color: ${theme.PALETTE.third.main};
-    color: ${theme.PALETTE.white};
-    border-color: ${theme.PALETTE.third.main};
+    background-color: ${({ theme }) => theme.PALETTE.third.main};
+    color: ${({ theme }) => theme.PALETTE.white};
+    border-color: ${({ theme }) => theme.PALETTE.third.main};
   }
 `;
 
 S.FormContainer = styled.div`
   position: relative;
   width: 100%;
-  background-color: ${theme.PALETTE.white};
+  background-color: ${({ theme }) => theme.PALETTE.white};
   border-radius: 16px;
   padding: 40px 50px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   gap: 36px;
-  border: 1px solid ${theme.GRAYSCALE[4]};
+  border: 1px solid ${({ theme }) => theme.GRAYSCALE[3]};
 
   /* The left purple bar */
   &::before {
@@ -315,7 +312,7 @@ S.FormContainer = styled.div`
     bottom: 24px;
     left: 0px;
     width: 5px;
-    background-color: ${theme.PALETTE.third.main};
+    background-color: ${({ theme }) => theme.PALETTE.third.main};
     border-radius: 0 4px 4px 0;
   }
 `;
@@ -344,29 +341,29 @@ S.LabelRow = styled.div`
 `;
 
 S.Label = styled.label`
-  font-size: ${theme.FONT_SIZE.h8};
-  font-weight: ${theme.FONT_WEIGHT.bold};
-  color: ${theme.TEXT_COLOR.basic};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h8};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  color: ${({ theme }) => theme.TEXT_COLOR.basic};
 `;
 
 S.Input = styled.input`
   width: 100%;
   padding: 18px 24px;
-  border: 1px solid ${theme.GRAYSCALE[3]};
+  border: 1px solid ${({ theme }) => theme.GRAYSCALE[3]};
   border-radius: 8px;
   font-family: inherit;
-  font-size: ${theme.FONT_SIZE.h9};
-  font-weight: ${theme.FONT_WEIGHT.regular};
-  color: ${theme.TEXT_COLOR.basic};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  color: ${({ theme }) => theme.TEXT_COLOR.basic};
   outline: none;
-  background-color: ${theme.PALETTE.white};
+  background-color: ${({ theme }) => theme.PALETTE.white};
 
   &::placeholder {
-    color: ${theme.GRAYSCALE[9]};
+    color: ${({ theme }) => theme.GRAYSCALE[9]};
   }
 
   &:focus {
-    border-color: ${theme.PALETTE.third.main};
+    border-color: ${({ theme }) => theme.PALETTE.third.main};
   }
 `;
 
@@ -380,9 +377,9 @@ S.DropdownHeader = styled.div`
   padding: 18px 24px;
   border: 1px solid ${({ $isOpen }) => $isOpen ? theme.PALETTE.third.main : theme.GRAYSCALE[3]};
   border-radius: 8px;
-  font-size: ${theme.FONT_SIZE.h9};
-  font-weight: ${theme.FONT_WEIGHT.regular};
-  background-color: ${theme.PALETTE.white};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  background-color: ${({ theme }) => theme.PALETTE.white};
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -416,8 +413,8 @@ S.FloatingList = styled.ul`
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: ${theme.PALETTE.white};
-  border: 1px solid ${theme.GRAYSCALE[3]};
+  background-color: ${({ theme }) => theme.PALETTE.white};
+  border: 1px solid ${({ theme }) => theme.GRAYSCALE[3]};
   border-radius: 8px;
   overflow: hidden;
   z-index: 10;
@@ -426,15 +423,15 @@ S.FloatingList = styled.ul`
 
 S.FloatingItem = styled.li`
   padding: 14px 20px;
-  font-size: ${theme.FONT_SIZE.h9};
-  font-weight: ${theme.FONT_WEIGHT.regular};
-  color: ${theme.TEXT_COLOR.basic};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  color: ${({ theme }) => theme.TEXT_COLOR.basic};
   cursor: pointer;
   background-color: ${({ $isSelected }) => ($isSelected ? theme.PALETTE.third.light : 'transparent')};
   
   /* Prevent layout shift by using a transparent border initially */
   border: 1.5px solid transparent;
-  border-bottom: 1px solid ${theme.GRAYSCALE[2]};
+  border-bottom: 1px solid ${({ theme }) => theme.GRAYSCALE[2]};
   position: relative;
   transition: border-color 0.1s ease;
 
@@ -443,7 +440,7 @@ S.FloatingItem = styled.li`
   }
 
   &:hover {
-    border: 1.5px solid ${theme.PALETTE.third.main};
+    border: 1.5px solid ${({ theme }) => theme.PALETTE.third.main};
     border-radius: 8px;
     z-index: 1;
     /* Maintain background color as per user request */
@@ -452,7 +449,7 @@ S.FloatingItem = styled.li`
 
   /* Apply the same border for selected items as seen in the photo */
   ${({ $isSelected }) => $isSelected && `
-    border: 1.5px solid ${theme.PALETTE.third.main};
+    border: 1.5px solid ${({ theme }) => theme.PALETTE.third.main};
     border-radius: 8px;
     z-index: 1;
   `}
@@ -461,10 +458,10 @@ S.FloatingItem = styled.li`
 S.LoadVisionButton = styled.button`
   padding: 10px 16px;
   border: 1px solid ${({ $isOpen }) => $isOpen ? theme.PALETTE.third.main : theme.GRAYSCALE[3]};
-  background-color: ${theme.PALETTE.white};
+  background-color: ${({ theme }) => theme.PALETTE.white};
   border-radius: 6px;
-  font-size: ${theme.FONT_SIZE.h9};
-  font-weight: ${theme.FONT_WEIGHT.regular};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
   color: ${({ $isOpen }) => $isOpen ? theme.PALETTE.third.main : theme.GRAYSCALE[9]};
   cursor: pointer;
   display: flex;
@@ -474,20 +471,20 @@ S.LoadVisionButton = styled.button`
   transition: border-color 0.2s, color 0.2s, background-color 0.2s;
 
   &:hover {
-    background-color: ${theme.PALETTE.white};
+    background-color: ${({ theme }) => theme.PALETTE.white};
   }
 
   &:active {
-    border-color: ${theme.PALETTE.third.main};
-    color: ${theme.PALETTE.third.main};
+    border-color: ${({ theme }) => theme.PALETTE.third.main};
+    color: ${({ theme }) => theme.PALETTE.third.main};
   }
 `;
 
 S.EmptyVision = styled.li`
   padding: 50px 20px;
   text-align: center;
-  color: ${theme.GRAYSCALE[5]};
-  font-size: ${theme.FONT_SIZE.h9};
+  color: ${({ theme }) => theme.GRAYSCALE[5]};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
   line-height: 1.6;
 `;
 
@@ -500,23 +497,23 @@ S.ThumbnailRow = styled.div`
 S.UploadButtonArea = styled.div`
   flex: 2; /* aligns width with Title input */
   height: 64px;
-  border: 1px solid ${theme.GRAYSCALE[3]};
+  border: 1px solid ${({ theme }) => theme.GRAYSCALE[3]};
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${theme.PALETTE.white};
+  background-color: ${({ theme }) => theme.PALETTE.white};
   cursor: pointer;
   gap: 10px;
   transition: border-color 0.2s, background-color 0.2s;
 
   &:hover {
-    background-color: ${theme.PALETTE.white};
+    background-color: ${({ theme }) => theme.PALETTE.white};
   }
 
   &:active {
-    border-color: ${theme.PALETTE.third.main};
-    background-color: ${theme.PALETTE.white};
+    border-color: ${({ theme }) => theme.PALETTE.third.main};
+    background-color: ${({ theme }) => theme.PALETTE.white};
   }
 `;
 
@@ -524,20 +521,20 @@ S.UploadIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${theme.GRAYSCALE[9]};
+  color: ${({ theme }) => theme.GRAYSCALE[9]};
 `;
 
 S.UploadIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${theme.GRAYSCALE[9]};
+  color: ${({ theme }) => theme.GRAYSCALE[9]};
 `;
 
 S.UploadText = styled.span`
-  font-size: ${theme.FONT_SIZE.h8};
-  font-weight: ${theme.FONT_WEIGHT.regular};
-  color: ${theme.GRAYSCALE[9]};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h8};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  color: ${({ theme }) => theme.GRAYSCALE[9]};
 `;
 
 S.PreviewWrapper = styled.div`
@@ -547,9 +544,9 @@ S.PreviewWrapper = styled.div`
   position: relative;
   width: 100%;
   max-width: 200px;
-  border: 1.5px solid ${theme.GRAYSCALE[2]};
+  border: 1.5px solid ${({ theme }) => theme.GRAYSCALE[2]};
   border-radius: 12px;
-  background-color: ${theme.PALETTE.white};
+  background-color: ${({ theme }) => theme.PALETTE.white};
 `;
 
 S.PreviewImage = styled.img`
@@ -566,8 +563,8 @@ S.FileNameContainer = styled.div`
 `;
 
 S.PreviewFileName = styled.span`
-  font-size: ${theme.FONT_SIZE.h11};
-  color: ${theme.PALETTE.primary.main};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h7};
+  color: ${({ theme }) => theme.PALETTE.third.main};
   text-decoration: underline;
   text-underline-offset: 3px;
   white-space: nowrap;
@@ -583,13 +580,28 @@ S.DeleteIcon = styled.div`
   right: 0;
   cursor: pointer;
   z-index: 10;
-  color: ${theme.TEXT_COLOR.basic};
+  color: ${({ theme }) => theme.TEXT_COLOR.basic};
   transition: transform 0.2s, color 0.2s;
 
   &:hover {
     transform: scale(1.1);
-    color: ${theme.PALETTE.fourth.main};
+    color: ${({ theme }) => theme.PALETTE.fourth.main};
   }
+`;
+
+S.VisionIcon = styled.img`
+  width: 16px;
+  height: 16px;
+`;
+
+S.UploadIconImg = styled.img`
+  width: 15px;
+  height: 15px;
+`;
+
+S.DeleteImg = styled.img`
+  width: 14px;
+  height: 14px;
 `;
 
 export default LogWriteStep1Container;

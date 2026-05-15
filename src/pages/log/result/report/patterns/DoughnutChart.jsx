@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 /**
  * DoughnutChart Component
@@ -8,6 +8,7 @@ import styled from 'styled-components';
  * @param {number} size - Size of the chart in pixels
  */
 const DoughnutChart = ({ externalValue = 70, internalValue = 30, size = 200 }) => {
+    const theme = useTheme();
     const strokeWidth = 35;
     const center = size / 2;
     const radius = (size - strokeWidth) / 2;
@@ -45,18 +46,18 @@ const DoughnutChart = ({ externalValue = 70, internalValue = 30, size = 200 }) =
 
                 <defs>
                     <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#0075FF" />
+                        <stop offset="0%" stopColor={theme.PALETTE.primary.main} />
                         <stop offset="100%" stopColor="#00C2FF" />
                     </linearGradient>
                     <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#AB47FF" />
+                        <stop offset="0%" stopColor={theme.PALETTE.third.main} />
                         <stop offset="100%" stopColor="#7B39FD" />
                     </linearGradient>
                 </defs>
             </svg>
             
             <CenterText>
-                <Percentage color="#F53102">{externalValue}%</Percentage>
+                <Percentage color={theme.PALETTE.fourth.main}>{externalValue}%</Percentage>
                 <Label>외부요인</Label>
             </CenterText>
         </ChartWrapper>
@@ -90,7 +91,7 @@ const Percentage = styled.div`
 const Label = styled.div`
     font-size: 14px;
     font-weight: 700;
-    color: #333;
+    color: ${({ theme }) => theme.TEXT_COLOR.basic};
     margin-top: 4px;
 `;
 
