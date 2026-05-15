@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import S, { colorCSS } from '../../style.js';
 import ReplySubmit from './ReplySubmit.jsx';
 import Reply from './Reply.jsx';
+import { MenuContext } from './MenuContext.js';
 
 // replyList: Reply.jsx EXAMPLE 형식의 댓글 배열, onSubmit: 댓글 등록 이벤트
 const ReplyContainer = ({ replyList = [], onSubmit }) => {
+  const [openMenuId, setOpenMenuId] = useState(null);
+
   return (
+    <MenuContext.Provider value={{ openMenuId, setOpenMenuId }}>
     <Wrapper>
       <TitleRow>
         <S.Span size="h7Bold">댓글</S.Span>
@@ -26,6 +30,7 @@ const ReplyContainer = ({ replyList = [], onSubmit }) => {
         </ReplyListArea>
       )}
     </Wrapper>
+    </MenuContext.Provider>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 
 import likeImg from '../../resources/like.svg';
@@ -9,6 +9,7 @@ import S, { colorCSS, sizeCSS } from '../../style.js';
 import { flexCenterRow } from '../../../../styles/common.js';
 import Rereply from './Rereply.jsx';
 import ReplySubmit from './ReplySubmit.jsx';
+import { useMenuContext } from './MenuContext.js';
 
 const LIMIT = 230;
 
@@ -52,7 +53,11 @@ const Reply = ({
   likeCount = EXAMPLE.likeCount,
   rereplyList = EXAMPLE.rereplyList,
 }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { openMenuId, setOpenMenuId } = useMenuContext();
+  const menuId = useRef(`reply-${Math.random()}`).current;
+  const menuOpen = openMenuId === menuId;
+  const toggleMenu = () => setOpenMenuId(menuOpen ? null : menuId);
+
   const [expanded, setExpanded] = useState(false);
   const [replyOpen, setReplyOpen] = useState(false);
 
@@ -70,18 +75,18 @@ const Reply = ({
         </ProfileGroup>
 
         <MenuContainer>
-          <MenuBtn onClick={() => setMenuOpen(prev => !prev)}>
+          <MenuBtn onClick={toggleMenu}>
             <img src={menuIcon} width={20} height={20} alt="메뉴" />
           </MenuBtn>
 
           {menuOpen && (
             <Dropdown>
               {isOwner ? (
-                <DropdownItem onClick={() => setMenuOpen(false)}>
+                <DropdownItem onClick={() => setOpenMenuId(null)}>
                   <S.Span size="h9Regular">삭제하기</S.Span>
                 </DropdownItem>
               ) : (
-                <DropdownItem onClick={() => setMenuOpen(false)}>
+                <DropdownItem onClick={() => setOpenMenuId(null)}>
                   <S.Span size="h9Regular">신고하기</S.Span>
                 </DropdownItem>
               )}
