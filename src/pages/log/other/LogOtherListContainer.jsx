@@ -229,9 +229,7 @@ S.CardGrid = styled.div`
 `;
 
 S.Card = styled.div`
-    width: 424px;
-    min-width: 424px;
-    max-width: 424px;
+    width: 100%;
     height: 500px;
     border-radius: 20px;
     background: ${theme.PALETTE.white};
@@ -291,8 +289,12 @@ S.Title = styled.p`
     color: ${theme.PALETTE.black};
     margin: 0 0 20px 0;    /* 8px → 20px */
     line-height: 1.4;
-    word-break: keep-all;
+    word-break: break-word;
     overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 `;
 
 S.Vision = styled.p`
@@ -359,7 +361,7 @@ S.Stat = styled.span`
 `;
 
 S.Thumbnail = styled.img`
-    width: 424px;
+    width: 100%;
     height: 200px;
     object-fit: cover;
     flex-shrink: 0;

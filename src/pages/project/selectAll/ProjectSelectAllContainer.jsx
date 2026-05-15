@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
 	flexBetweenRow,
@@ -21,7 +22,6 @@ import ArrowUpIcon from '../project_icon/la_arrow-up.svg';
 import ProjectCreateModal from '../create/ProjectCreateModal';
 import ProjectCreateStep1Modal from '../create/ProjectCreateStep1Modal';
 import ProjectCreateStep2Modal from '../create/ProjectCreateStep2Modal';
-import ProjectEditModal from '../edit/ProjectEditModal';
 import useProjectStore from '../../../store/projectStore';
 
 // ─────────────────────────────────────────
@@ -111,10 +111,10 @@ const Pagination = ({ minPage = 1, maxPage = 10, currentPage, onPageChange }) =>
 // MAIN COMPONENT
 // ─────────────────────────────────────────
 const ProjectSelectAllContainer = () => {
-	const { projects, addProject, updateProject } = useProjectStore();
+	const navigate = useNavigate();
+	const { projects, addProject } = useProjectStore();
 	const [step, setStep] = useState(null);
 	const [projectData, setProjectData] = useState({});
-	const [editingProject, setEditingProject] = useState(null);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [carouselIndex, setCarouselIndex] = useState(0);
 	const ITEMS_PER_VIEW = 6;
@@ -124,7 +124,6 @@ const ProjectSelectAllContainer = () => {
 
 	const handleClose = () => {
 		setStep(null);
-		setEditingProject(null);
 		setProjectData({});
 	};
 
@@ -145,21 +144,9 @@ const ProjectSelectAllContainer = () => {
 		handleClose();
 	};
 
-	const handleEditOpen = (project) => {
-		setEditingProject(project);
-		setStep('edit');
-	};
-
-	const handleUpdate = (data) => {
-		if (editingProject) {
-			updateProject(editingProject.id, {
-				name: data.projectName,
-				startDate: data.startDate,
-				endDate: data.endDate,
-				isActive: data.isActive,
-			});
-		}
-		handleClose();
+	// 카드 클릭 → 상세 페이지로 이동
+	const handleCardClick = (project) => {
+		navigate(`/projects/${project.id}`);
 	};
 
 	const handlePrevCarousel = () => setCarouselIndex(prev => Math.max(prev - 3, 0));
@@ -170,7 +157,6 @@ const ProjectSelectAllContainer = () => {
 			{step === 'select' && <ProjectCreateModal onClose={handleClose} onNext={handleFaillogNext} />}
 			{step === 'step1' && <ProjectCreateStep1Modal onClose={handleClose} onNext={handleStep1Next} />}
 			{step === 'step2' && <ProjectCreateStep2Modal onClose={handleClose} onSubmit={handleCreate} projectName={projectData.projectName} />}
-			{step === 'edit' && <ProjectEditModal onClose={handleClose} onSubmit={handleUpdate} initialData={editingProject ? { projectName: editingProject.name, startDate: editingProject.startDate, endDate: editingProject.endDate, isActive: editingProject.isActive } : {}} />}
 
 			<S.Inner>
 				<S.PageHeader>
@@ -186,7 +172,7 @@ const ProjectSelectAllContainer = () => {
 						<S.ArrowBtn onClick={handlePrevCarousel} disabled={carouselIndex === 0}>&#8249;</S.ArrowBtn>
 						<S.CardGrid>
 							{displayProjects.slice(carouselIndex, carouselIndex + ITEMS_PER_VIEW).map((project) => (
-								<ProjectCard key={project.id} project={project} onClick={handleEditOpen} />
+								<ProjectCard key={project.id} project={project} onClick={handleCardClick} />
 							))}
 						</S.CardGrid>
 						<S.ArrowBtn onClick={handleNextCarousel} disabled={carouselIndex + ITEMS_PER_VIEW >= displayProjects.length}>&#8250;</S.ArrowBtn>

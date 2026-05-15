@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import theme from '../../styles/theme';
-import chatbotIcon from './intro_icon/chatbot_10541415.svg';
 import repeatIcon from './intro_icon/repeat_238888.svg';
 import washTimeIcon from './intro_icon/wash-time_103937.svg';
 import arrowIcon from './intro_icon/arrow_90418.svg';
@@ -391,10 +390,6 @@ const IntroContainer = () => {
                 </div>
             </S.Section5Wrapper>
 
-            {/* 챗봇 버튼 */}
-            <S.ChatbotFab aria-label="챗봇 열기">
-                <S.ChatbotFabIcon src={chatbotIcon} alt="chatbot" />
-            </S.ChatbotFab>
         </S.Wrap>
     );
 };
@@ -1114,36 +1109,6 @@ S.LogStat = styled.span`
     font-size: ${theme.FONT_SIZE.h9};
     font-weight: ${theme.FONT_WEIGHT.regular};
     color: ${theme.GRAYSCALE[10]};
-`;
-
-// ── 챗봇 FAB
-S.ChatbotFab = styled.button`
-    position: fixed;
-    bottom: 36px;
-    right: 36px;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #027df0, #ab47ff);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 20px rgba(2, 125, 240, 0.35);
-    transition: transform 0.2s, box-shadow 0.2s;
-    z-index: 200;
-
-    &:hover {
-        transform: scale(1.08);
-        box-shadow: 0 8px 28px rgba(2, 125, 240, 0.45);
-    }
-`;
-
-S.ChatbotFabIcon = styled.img`
-    width: 32px;
-    height: 32px;
-    filter: invert(1);
 `;
 
 export default IntroContainer;

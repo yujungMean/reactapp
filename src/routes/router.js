@@ -32,6 +32,7 @@ import LogOtherListContainer from "../pages/log/other/LogOtherListContainer";
 import ChronologyMainContainer from "../pages/chronology/ChronologyMainContainer";
 import ProjectMainContainer from "../pages/project/ProjectMainContainer";
 import ProjectSelectAllContainer from "../pages/project/selectAll/ProjectSelectAllContainer";
+import ProjectDetailContainer from "../pages/project/detail/ProjectDetailContainer";
 import VisionMainContainer from "../pages/vision/VisionMainContainer";
 
 const router = createBrowserRouter([
@@ -163,7 +164,7 @@ const router = createBrowserRouter([
         ]
       },
       { 
-        path : "chronology",
+        path: "chronology",
         element: <ChronologyMainContainer />,
         children: []
       },
@@ -171,19 +172,21 @@ const router = createBrowserRouter([
         path: "projects",
         element: <ProjectMainContainer />,
         children: [
-        {
+          {
             path: "",
             element: <ProjectSelectAllContainer />
-        }
-        ]  
+          },
+          {
+            path: ":id",
+            element: <ProjectDetailContainer />
+          }
+        ]
       },
       {
-        path : "vision",
-        element : <VisionMainContainer />,
-        children : []
+        path: "vision",
+        element: <VisionMainContainer />,
+        children: []
       }
-      
-
     ]
   },
 ])
