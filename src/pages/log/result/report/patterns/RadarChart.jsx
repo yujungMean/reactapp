@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 /**
  * RadarChart Component
@@ -7,6 +7,7 @@ import styled from 'styled-components';
  * @param {number} size - Size of the chart in pixels
  */
 const RadarChart = ({ data, size = 300 }) => {
+    const theme = useTheme();
     const center = size / 2;
     const radius = (size / 2) * 0.7; // Leave space for labels
     const angleStep = (Math.PI * 2) / data.length;
@@ -37,11 +38,11 @@ const RadarChart = ({ data, size = 300 }) => {
                     const x = center + radius * Math.sin(i * angleStep);
                     const y = center - radius * Math.cos(i * angleStep);
                     return (
-                        <line 
+                         <line 
                             key={`axis-${i}`}
                             x1={center} y1={center} 
                             x2={x} y2={y} 
-                            stroke="#E0E0E0" 
+                            stroke={theme.GRAYSCALE[2]} 
                             strokeWidth="1" 
                         />
                     );
@@ -49,20 +50,20 @@ const RadarChart = ({ data, size = 300 }) => {
 
                 {/* Grid Polygons (Levels) */}
                 {gridPoints.map((gp, i) => (
-                    <polygon 
+                     <polygon 
                         key={`grid-${i}`}
                         points={gp} 
                         fill="none" 
-                        stroke="#E0E0E0" 
+                        stroke={theme.GRAYSCALE[2]} 
                         strokeWidth="1" 
                     />
                 ))}
 
-                {/* Data Polygon */}
+                 {/* Data Polygon */}
                 <polygon 
                     points={points} 
-                    fill="rgba(171, 71, 255, 0.2)" 
-                    stroke="#AB47FF" 
+                    fill={`${theme.PALETTE.third.main}33`} 
+                    stroke={theme.PALETTE.third.main} 
                     strokeWidth="2" 
                     strokeLinejoin="round"
                 />
@@ -86,7 +87,7 @@ const RadarChart = ({ data, size = 300 }) => {
                             dominantBaseline="middle"
                             fontSize="13"
                             fontWeight="600"
-                            fill="#333"
+                            fill={theme.TEXT_COLOR.basic}
                         >
                             {item.label}
                         </text>
