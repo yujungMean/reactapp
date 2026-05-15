@@ -156,6 +156,7 @@ export const colorCSS = {
 
   "faillog_gray1" : "#F2F2F2",
   "faillog_gray2" : "#E6E6E6",
+  "faillog_gray3" : "#D9D9D9",
   "faillog_gray4" : "#CCCCCC",
   "faillog_gray8" : "#999999",
   "faillog_gray9" : "#8D8D8D",
@@ -170,9 +171,15 @@ export const boxShadow = {
   `
 }
 
+export const hoverBorder = css`
+  &:hover {
+    border: 1px solid ${colorCSS["faillog_purple"]};
+  }
+`
+
 S.Span = styled.span`
   ${({size}) => sizeCSS[size]}
-  color: ${({color}) => colorCSS[color] ? colorCSS[color] : "#333333"};
+  color: ${({color}) => colorCSS[color] ? colorCSS[color] : colorCSS["faillog-black"]};
   display: ${({display}) => display ? display : "inline"};
   /* overflow: ${({isvisible}) => isvisible ? "visible" : "hidden"}; */
   overflow: visible;
