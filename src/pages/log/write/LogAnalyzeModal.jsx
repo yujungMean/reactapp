@@ -231,7 +231,7 @@ const LogAnalyzeModal = ({ onClose }) => {
       </S.LoadingTitle>
       <S.LoadingSub>잠시만 기다려주세요...</S.LoadingSub>
       <S.ProgressBarWrapper>
-        <S.ProgressBar $progress={progress} />
+        <S.ProgressBar style={{ transform: `scaleX(${progress / 100})` }} />
       </S.ProgressBarWrapper>
     </S.LoadingWrapper>
   );

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { S } from './LogResultContainerStyles';
+import viewIcon from './result_icon/view_icon.svg';
+import likeIcon from './result_icon/like_icon.svg';
 
 const LogResultContainer = () => {
   const navigate = useNavigate();
@@ -118,17 +120,43 @@ const LogResultContainer = () => {
   const selectedLog = MOCK_LOGS.find(log => String(log.id) === String(id)) || MOCK_LOGS[0];
   const relatedPeople = MOCK_LOGS.filter(log => log.id !== "my");
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // Clone array to create an infinite loop effect: [clone1, original, clone2]
+  const extendedPeople = [...relatedPeople, ...relatedPeople, ...relatedPeople];
+
   const itemsPerPage = 3;
-  const maxIndex = relatedPeople.length - itemsPerPage;
+  const [currentIndex, setCurrentIndex] = useState(relatedPeople.length); // Start at the original items
+  const [isTransitioning, setIsTransitioning] = useState(true);
 
   const handlePrev = () => {
-    setCurrentIndex(prev => Math.max(prev - 1, 0));
+    setIsTransitioning(true);
+    setCurrentIndex(prev => prev - 1);
   };
 
   const handleNext = () => {
-    setCurrentIndex(prev => Math.min(prev + 1, maxIndex));
+    setIsTransitioning(true);
+    setCurrentIndex(prev => prev + 1);
   };
+
+  const handleTransitionEnd = () => {
+    // If we scrolled left into the first clone's start (e.g., index 3)
+    if (currentIndex <= relatedPeople.length - itemsPerPage) {
+      setIsTransitioning(false);
+      setCurrentIndex(currentIndex + relatedPeople.length);
+    } 
+    // If we scrolled right into the third clone's start (e.g., index 12)
+    else if (currentIndex >= relatedPeople.length * 2) {
+      setIsTransitioning(false);
+      setCurrentIndex(currentIndex - relatedPeople.length);
+    }
+  };
+
+  useEffect(() => {
+    if (!isTransitioning) {
+      // Small delay to allow the CSS 'transition: none' to apply and DOM to jump
+      const timer = setTimeout(() => setIsTransitioning(true), 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isTransitioning]);
 
   return (
     <S.Wrapper>
@@ -165,11 +193,15 @@ const LogResultContainer = () => {
           <S.CarouselSubTitle>다른 사람들의 생생한 노력/복기 사례를 통해 인사이트를 얻어보세요.</S.CarouselSubTitle>
 
           <S.CarouselContainer>
-            <S.NavButton className="left" onClick={handlePrev} disabled={currentIndex === 0}>〈</S.NavButton>
+            <S.NavButton className="left" onClick={handlePrev}>〈</S.NavButton>
             <S.SliderWindow>
-              <S.CardList style={{ transform: `translateX(-${currentIndex * 448}px)` }}>
-                {relatedPeople.map((person) => (
-                  <S.RelatedCard key={person.id} onClick={() => navigate(`/logs/result/${person.id}/detail`)}>
+              <S.CardList 
+                $isTransitioning={isTransitioning}
+                style={{ transform: `translateX(-${currentIndex * 448}px)` }}
+                onTransitionEnd={handleTransitionEnd}
+              >
+                {extendedPeople.map((person, idx) => (
+                  <S.RelatedCard key={`${person.id}-${idx}`} onClick={() => navigate(`/logs/result/${person.id}/detail`)}>
                     <S.RelatedBadge>{person.category}</S.RelatedBadge>
                     <S.RelatedDate>{person.date}</S.RelatedDate>
                     <S.RelatedTitle>{person.title}</S.RelatedTitle>
@@ -177,15 +209,21 @@ const LogResultContainer = () => {
                     <S.RelatedFooter>
                       <S.RelatedAuthor>{person.author.name}</S.RelatedAuthor>
                       <S.RelatedStats>
-                        <span>👁️ {person.views}</span>
-                        <span>🤍 {person.likes}</span>
+                        <S.StatItem>
+                          <img src={viewIcon} alt="views" />
+                          <span>{person.views}</span>
+                        </S.StatItem>
+                        <S.StatItem>
+                          <img src={likeIcon} alt="likes" />
+                          <span>{person.likes}</span>
+                        </S.StatItem>
                       </S.RelatedStats>
                     </S.RelatedFooter>
                   </S.RelatedCard>
                 ))}
               </S.CardList>
             </S.SliderWindow>
-            <S.NavButton className="right" onClick={handleNext} disabled={currentIndex === maxIndex}>〉</S.NavButton>
+            <S.NavButton className="right" onClick={handleNext}>〉</S.NavButton>
           </S.CarouselContainer>
         </S.CarouselSection>
 
@@ -194,4 +232,4 @@ const LogResultContainer = () => {
   );
 };
 
-export default LogResultContainer;
+export default LogResultContainer;

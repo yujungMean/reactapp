@@ -428,10 +428,12 @@ S.ProgressBarWrapper = styled.div`
 
 S.ProgressBar = styled.div`
   height: 100%;
-  width: ${({ $progress }) => $progress}%;
+  width: 100%;
+  transform-origin: left center;
   background: linear-gradient(90deg, ${({ theme }) => theme.PALETTE.third.light}, ${({ theme }) => theme.PALETTE.third.main});
   border-radius: 99px;
-  transition: width 0.08s linear;
+  transition: transform 0.08s linear;
+  will-change: transform;
 `;
 
 /* ─── Step 4 (Complete) ─── */

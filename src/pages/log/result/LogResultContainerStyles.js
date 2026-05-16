@@ -145,7 +145,7 @@ S.SliderWindow = styled.div`
 S.CardList = styled.div`
   display: flex;
   gap: 24px;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: ${({ $isTransitioning }) => $isTransitioning ? 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'};
   will-change: transform;
 `;
 
@@ -230,6 +230,12 @@ S.RelatedStats = styled.div`
   gap: 16px;
   font-size: 13px;
   color: ${({ theme }) => theme.GRAYSCALE[5]};
+`;
+
+S.StatItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
 `;
 
 S.NavButton = styled.button`
