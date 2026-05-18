@@ -1,8 +1,9 @@
 import React from 'react';
-import myStyle from '../../styles/CategoryComponentStyle';
-import S from '../styles/'
+import myStyle from './styles/CategoryComponentStyle'; 
+import S from './styles/CategoryContainerStyle' ;
 
 const CategoryComponent = ({selected, content, onClick}) => {
+  console.log("확인 결과 ->", { myStyle, button: myStyle?.button, S, Span: S?.Span });
   return (
     <div>
       <myStyle.button selected={selected} onClick={onClick}>

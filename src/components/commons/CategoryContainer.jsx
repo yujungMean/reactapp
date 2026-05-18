@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import CategoryComponent from './CategoryComponent';
-import S from '../../styles/CategoryContainerStyle';
+import S from './styles/CategoryContainerStyle';
 import useSearchStore from '../useSearchStore';
 
-const CommunityCategoryContainer = ({ onCategorySelect }) => {
+const CategoryContainer = ({ onCategorySelect }) => {
   const categories = ["전체", "공부/취업", "사업/창업", "인간관계", "건강/루틴", "기타"];
   const [selected, setSelected] = useState("전체");
   

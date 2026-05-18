@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import S from '../style'
-import myStyle from '../styles/SearchOptionComponentStyle'
+import myStyle from '../commons/styles/SearchOptionComponentStyle'
 
 import downImage from '../resources/down.svg'
 

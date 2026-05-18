@@ -1,6 +1,6 @@
 import styled from "styled-components"
-import { colorCSS } from "../style"
-import { flexBetweenRow, flexCenterRow } from "../../styles/common"
+import { colorCSS } from "../../style"
+import { flexBetweenRow, flexCenterRow } from "../../../styles/common"
 
 const S = {}
 

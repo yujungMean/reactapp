@@ -1,9 +1,19 @@
 import React from 'react';
 import S from '../styles/MyFailLogStyles';
 
-const FeaturedLogComponent = () => {
+/**
+ * @param {Array} logs - 부모(Container)에게서 전달받은 전체 페일로그 리스트 (allLogs)
+ */
+const FeaturedLogComponent = ({ logs = [] }) => {
+  
+  // 실제 데이터 중 최신 혹은 상위 3개만 추출하여 연동
+  const displayLogs = logs.slice(0, 3);
+  const hasLogs = displayLogs.length > 0;
+
   return (
-    <>
+    /* 🎯 교정 포인트: 에러를 유발하던 S.FeaturedWrapperBlock 대신 
+          일반 div 태그에 정렬 스타일을 주어 안전하게 독립 구역을 선언합니다. */
+    <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto 60px' }}>
       <S.SectionHeader>
         <h2>나의 <span>페일로그</span></h2>
       </S.SectionHeader>
@@ -16,23 +26,25 @@ const FeaturedLogComponent = () => {
             <p>User님의 페일 로그 및 게시글 중<br/>제일 관심이 많았던 게시글이 표시됩니다.</p>
           </div>
 
-          {[1, 2, 3].map((item, idx) => (
-            <S.FeaturedItem key={idx}>
-              <h4>{idx === 0 ? "펙수클루의 성공 엔진: 실행의 오차를 줄이고 성장을 앞당기는 월별피드백" : 
-                   idx === 1 ? "기획자와 디자이너의 '동상이몽'을 끝내다. 비개발자 디자이너의 AI 자동화 플랫폼 구축기" : 
-                   "문제의식에서 시작된 자기 개발"}</h4>
-              <div className="Meta">
-                <div className="User">
-                  <div style={{width:'20px', height:'20px', background:'#6366f1', borderRadius:'50%'}} />
-                  필기마스터
+          {hasLogs ? (
+            displayLogs.map((log, idx) => (
+              <S.FeaturedItem key={log.id || idx}>
+                <h4>{log.title}</h4>
+                <div className="Meta">
+                  <div className="User">
+                    <div style={{ width: '20px', height: '20px', background: '#6366f1', borderRadius: '50%' }} />
+                    필기마스터
+                  </div>
+                  <div className="Stats">
+                    <span>👁️ {log.views || 45}</span>
+                    <span>❤️ {log.likes || 35}</span>
+                  </div>
                 </div>
-                <div className="Stats">
-                  <span>👁️ 45</span>
-                  <span>❤️ 35</span>
-                </div>
-              </div>
-            </S.FeaturedItem>
-          ))}
+              </S.FeaturedItem>
+            ))
+          ) : (
+            <p style={{ padding: '20px', color: '#94A3B8' }}>등록된 페일로그가 없습니다.</p>
+          )}
         </S.FeaturedListArea>
 
         {/* 이미지 영역 */}
@@ -43,15 +55,20 @@ const FeaturedLogComponent = () => {
             alt="featured" 
           />
           <div className="BlackOverlay">
-            <p>“공부를 거듭할수록 기존 학습법의 한계가 분명해졌고, 그 순간 ‘더 나은 방법을 찾아야 한다’는 문제의식이 생겼습니다”</p>
+            <p>
+              {hasLogs 
+                ? `“${displayLogs[0].content.substring(0, 70)}...”`
+                : `“공부를 거듭할수록 기존 학습법의 한계가 분명해졌고, 그 순간 ‘더 나은 방법을 찾아야 한다’는 문제의식이 생겼습니다”`
+              }
+            </p>
             <div className="AuthorInfo">
-              <div style={{width:'18px', height:'18px', background:'#fff', borderRadius:'50%'}} />
+              <div style={{ width: '18px', height: '18px', background: '#fff', borderRadius: '50%' }} />
               필기마스터
             </div>
           </div>
         </S.FeaturedMainImage>
       </S.FeaturedContainer>
-    </>
+    </div>
   );
 };
 

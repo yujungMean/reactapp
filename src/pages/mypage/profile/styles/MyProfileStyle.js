@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { sizeCSS, colorCSS } from "../../../../components/style";
 
 const S = {};
 
@@ -100,6 +101,15 @@ S.QuickCard = styled.div`
     height: auto;
     aspect-ratio: 424 / 236;
   }
+`;
+
+S.SearchCenterWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  width: 100%;
 `;
 
 // 3. Info Management Section (Middle)
@@ -208,17 +218,20 @@ S.AccountItem = styled.div`
 // 3-2. Profile Card & Nickname Edit
 S.ProfileCard = styled.div`
   background: #ffffff;
-  border-radius: 20px;
-  padding: 30px;
+  border-radius: 24px;
+  padding: 32px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  height: fit-content;
+  border: 1px solid #F1F5F9;
+  height: 100%;
+  min-height: 320px;
 
   .profileImageContainer {
     position: relative;
-    margin-bottom: 25px;
+    margin-bottom: 28px;
 
     .profileImageCircle {
       width: 120px;
@@ -473,8 +486,15 @@ S.CommunityContainer = styled.div`
 
 S.HeaderSection = styled.div`
   margin-bottom: 250px;
-  h3 { font-size: 45px; font-weight: 800; color: #1e293b; margin-bottom: 12px; }
-  p { font-size: 24px; color: #64748b; }
+  h3 {
+    ${sizeCSS["h4Bold"]};
+    color: ${colorCSS["faillog-black"]};
+    margin-bottom: 12px;
+  }
+  p {
+    ${sizeCSS["h8Regular"]};
+    color: ${colorCSS["faillog_gray9"]};
+  }
 `;
 
 S.ControlBar = styled.div`

@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { flexCenterRow } from "../../styles/common"
+import { flexCenterRow } from "../../../styles/common"
 
 const S = {}
 

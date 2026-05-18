@@ -7,7 +7,8 @@ S.MainWrapper = styled.div`
   margin: 0 auto;
   padding-bottom: 80px;
   background-color: #ffffff;
-  
+  font-family: 'pretendard', sans-serif;
+
   /* 반응형 대응: 화면이 작아질 때 좌우 여백 확보 */
   @media (max-width: 1200px) {
     padding-left: 20px;

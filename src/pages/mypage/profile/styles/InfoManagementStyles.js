@@ -29,11 +29,167 @@ S.InfoManagementSection = styled.section`
 S.TopCardGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 1:1:1 비율로 3개 배치 */
+  grid-auto-rows: 1fr;
+  align-items: stretch;
   gap: 20px;
   margin-bottom: 30px;
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr; /* 모바일/태블릿에선 세로로 나열 */
+  }
+`;
+
+S.InfoCard = styled.div`
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid #F1F5F9;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 320px;
+  height: 100%;
+`;
+
+S.DonutChartArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+  padding-top: 6px;
+`;
+
+S.CardTitle = styled.h3`
+  width: 100%;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1E293B;
+  margin: 0;
+  text-align: left;
+  margin-bottom: 10px;
+`;
+
+S.DonutChart = styled.div`
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: conic-gradient(#5D5FEE 0% 70%, #E5E7EB 70% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #ffffff;
+  }
+
+  strong {
+    position: relative;
+    font-size: 24px;
+    color: #1E293B;
+  }
+
+  span {
+    position: relative;
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #64748B;
+  }
+`;
+
+S.ChartLegend = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  width: 100%;
+`;
+
+S.LegendItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748B;
+  font-size: 14px;
+
+  span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    background: ${({ color }) => color || '#5D5FEE'};
+  }
+`;
+
+S.StreakHeader = styled.div`
+  text-align: center;
+
+  h3 {
+    font-size: 28px;
+    font-weight: 900;
+    color: #1E293B;
+    margin: 0 0 12px;
+    line-height: 1.05;
+  }
+
+  p {
+    font-size: 14px;
+    color: #64748B;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+`;
+
+S.StreakGrid = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin-top: 22px;
+  width: 100%;
+`;
+
+S.StreakStat = styled.div`
+  background: #E7F0FF;
+  border-radius: 18px;
+  width: 88px;
+  height: 64px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  strong {
+    display: block;
+    font-size: 20px;
+    font-weight: 900;
+    color: #1E293B;
+    margin-bottom: 4px;
+    line-height: 1.05;
+  }
+
+  span {
+    display: block;
+    font-size: 12px;
+    color: #64748B;
+    line-height: 1.3;
+    white-space: normal;
   }
 `;
 
