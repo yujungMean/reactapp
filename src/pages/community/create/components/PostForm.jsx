@@ -48,8 +48,17 @@ const PostForm = ({
 
   const onSubmitForm = (data) => {
     const categoryIndex = CATEGORY_OPTIONS.indexOf(data.category);
+
+    //html문자열
     console.log(editor?.getHTML());
-    onSubmit?.({ title: data.title, category: categoryIndex, content: editor?.getHTML() ?? '' });
+    const html = editor?.getHTML() ?? '';
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+
+    //업로드된 image배열
+    data.images = Array.from(doc.querySelectorAll('img')).map(img => img.getAttribute('src'));
+    console.log(data.images);
+
+    onSubmit?.({ title: data.title, category: categoryIndex, content: html, images: data.images });
   };
 
   // tiptap 세팅
@@ -77,6 +86,13 @@ const PostForm = ({
     }),
   });
 
+  //이미지 업로드 갯수 불러오기
+  const getImagesCount = () => {
+    const html = editor?.getHTML() ?? '';
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return Array.from(doc.querySelectorAll('img')).map(img => img.getAttribute('src')).length;
+  }
+
   //버튼 이벤트
   //link 토글
   const handleOnClickLinkButton = () => {
@@ -91,8 +107,13 @@ const PostForm = ({
     }
   };
 
-  //image버튼
+  //image버튼 (10개 제한)
   const handleOnClickPictureButton = () => {
+
+    if(getImagesCount() >= 10) {
+      return alert("이미지는 최대 10개까지 추가 할 수 있습니다");
+    }
+
     const url = window.prompt('URL')
 
     if (url) {
