@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatRelativeTime } from '../../../utils/relativeTime';
 import S from './styles/MyFailCardItemStyles';
 
 /**
@@ -32,7 +33,7 @@ const MyFailCardItemComponent = ({ log = {}, isSelected = false, iconSrc, onClic
 
           {/* 하단 푸터 영역 (작성 시간 및 좋아요) */}
           <div className="CardFooter">
-            <span className="TimeText">{log?.createdAt || log?.date || '방금 전'}</span>
+            <span className="TimeText">{formatRelativeTime(log?.createdAt || log?.date) || '방금 전'}</span>
             
             {log?.likeCount !== undefined && (
               <div className="LikeArea">

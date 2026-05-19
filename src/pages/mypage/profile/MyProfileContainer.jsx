@@ -13,6 +13,20 @@ import MyCommunityContainer from './components/MyCommunityContainer'; // 📌 �
 import HeroRotationComponent from '../heroSection/HeroRotationComponents';
 import { getHeroContent } from '../heroSection/HeroData';
 
+// 더미 페일로그 데이터 (실제 연동 시 API 응답으로 대체)
+const DUMMY_FAIL_LOGS = [
+  { id: 1, factorType: 'external' },
+  { id: 2, factorType: 'external' },
+  { id: 3, factorType: 'external' },
+  { id: 4, factorType: 'internal' },
+  { id: 5, factorType: 'internal' },
+  { id: 6, factorType: 'external' },
+  { id: 7, factorType: 'internal' },
+  { id: 8, factorType: 'external' },
+  { id: 9, factorType: 'external' },
+  { id: 10, factorType: 'internal' },
+];
+
 const MyProfileContainer = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -70,7 +84,7 @@ const MyProfileContainer = () => {
             onNicknameChange={handleNicknameChange}
             onImageChange={handleImageChange}
           />
-          <ProfileChartCard />
+          <ProfileChartCard logs={DUMMY_FAIL_LOGS} />
           <ProfileStreakCard />
         </InfoS.TopCardGrid>
 
