@@ -14,8 +14,7 @@ const ProfileCardComponent = ({
   const [isEditing, setIsEditing] = useState(false);
   // 입력 중인 임시 닉네임 관리
   const [tempNickname, setTempNickname] = useState(memberNickname || '');
-  const [showImageAlert, setShowImageAlert] = useState(false);
-  const [changeNicknameAlert, setChangeNicknameAlert] = useState(false);
+  const [showProfileAlert, setShowProfileAlert] = useState(false);
   const fileInputRef = useRef(null);
   const profileSrc = memberProfileImageUrl || defaltProfileImage;
 
@@ -29,7 +28,7 @@ const ProfileCardComponent = ({
     const file = e.target.files[0];
     if (file && onImageChange) {
       onImageChange(file);
-      setShowImageAlert(true);
+      setShowProfileAlert(true);
     }
     e.target.value = '';
   }
@@ -38,9 +37,9 @@ const ProfileCardComponent = ({
   const handleSave = () => {
     if (onNicknameChange) {
       onNicknameChange(tempNickname);
-      setChangeNicknameAlert(true);
     }
     setIsEditing(false);
+    setShowProfileAlert(true);
   };
 
   // 취소 버튼 클릭 시
@@ -52,14 +51,9 @@ const ProfileCardComponent = ({
   return (
     <>
     <PopupComponent
-      isOpen={showImageAlert}
-      message="사진이 변경되었습니다."
-      onConfirm={() => setShowImageAlert(false)}
-    />
-    <PopupComponent
-      isOpen={changeNicknameAlert}
-      message="닉네임이 변경되었습니다."
-      onConfirm={() => setChangeNicknameAlert(false)}
+      isOpen={showProfileAlert}
+      message="프로필이 수정되었습니다."
+      onConfirm={() => setShowProfileAlert(false)}
     />
     <S.ProfileCard>
       {/* 1. 프로필 이미지 영역 */}

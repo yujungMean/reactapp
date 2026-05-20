@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import PageS from './styles/MyPageWrapper';
 import InfoS from './styles/InfoManagementStyles';
@@ -35,7 +35,6 @@ const DUMMY_FAIL_LOGS = [
 ];
 
 const MyProfileContainer = () => {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const { mainContent, quickMenus } = getHeroContent(pathname);
 
@@ -60,14 +59,15 @@ const MyProfileContainer = () => {
   };
 
   const handleNicknameChange = (newNickname) => {
-    setMemberInfo((prev) => ({
-      ...prev,
-      memberNickname: newNickname,
-    }));
+    setMemberInfo((prev) => ({ ...prev, memberNickname: newNickname }));
   };
 
-  const handlePasswordChange = () => {
-    navigate('/change-password');
+  const handleEmailChange = (newEmail) => {
+    setMemberInfo((prev) => ({ ...prev, memberEmail: newEmail }));
+  };
+
+  const handlePasswordChange = (newPassword) => {
+    setMemberInfo((prev) => ({ ...prev, memberPassword: newPassword }));
   };
 
   return (
@@ -98,11 +98,13 @@ const MyProfileContainer = () => {
 
         <InfoS.BottomAccountArea>
           <AccountDataComponent
+            memberNickname={memberInfo.memberNickname}
             memberEmail={memberInfo.memberEmail}
             memberName={memberInfo.memberName}
             memberPhone={memberInfo.memberPhone}
             memberPhoneVerified={memberInfo.memberPhoneVerified}
-            onPasswordChange={handlePasswordChange}
+            onEmailSubmit={handleEmailChange}
+            onPasswordSubmit={handlePasswordChange}
           />
         </InfoS.BottomAccountArea>
       </InfoS.InfoManagementSection>
