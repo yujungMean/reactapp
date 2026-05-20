@@ -15,6 +15,7 @@ const ProfileCardComponent = ({
   // 입력 중인 임시 닉네임 관리
   const [tempNickname, setTempNickname] = useState(memberNickname || '');
   const [showImageAlert, setShowImageAlert] = useState(false);
+  const [changeNicknameAlert, setChangeNicknameAlert] = useState(false);
   const fileInputRef = useRef(null);
   const profileSrc = memberProfileImageUrl || defaltProfileImage;
 
@@ -37,6 +38,7 @@ const ProfileCardComponent = ({
   const handleSave = () => {
     if (onNicknameChange) {
       onNicknameChange(tempNickname);
+      setChangeNicknameAlert(true);
     }
     setIsEditing(false);
   };
@@ -53,6 +55,11 @@ const ProfileCardComponent = ({
       isOpen={showImageAlert}
       message="사진이 변경되었습니다."
       onConfirm={() => setShowImageAlert(false)}
+    />
+    <PopupComponent
+      isOpen={changeNicknameAlert}
+      message="닉네임이 변경되었습니다."
+      onConfirm={() => setChangeNicknameAlert(false)}
     />
     <S.ProfileCard>
       {/* 1. 프로필 이미지 영역 */}
