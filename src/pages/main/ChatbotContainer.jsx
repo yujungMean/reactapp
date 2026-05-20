@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import botIconSvg from './chatbot_icon/Group 1838.svg';
-import sendIconSvg from './chatbot_icon/Group 446.svg';
 import S from './ChatbotContainerStyle';
 import theme from '../../styles/theme';
 
@@ -111,7 +109,7 @@ const ChatbotContainer = () => {
                             msg.role === 'bot' ? (
                                 <S.BotRow key={msg.id}>
                                     <S.BotAvatarWrap>
-                                        <img src={botIconSvg} alt="페로" width={24} height={24} />
+                                        <img src="/assets/picture/chatbot-icon/Group 1838.svg" alt="페로" width={24} height={24} />
                                     </S.BotAvatarWrap>
                                     <S.BotContent>
                                         <S.BotName>페로</S.BotName>
@@ -151,7 +149,7 @@ const ChatbotContainer = () => {
                         {loading && (
                             <S.BotRow>
                                 <S.BotAvatarWrap>
-                                    <img src={botIconSvg} alt="페로" width={24} height={24} />
+                                    <img src="/assets/picture/chatbot-icon/Group 1838.svg" alt="페로" width={24} height={24} />
                                 </S.BotAvatarWrap>
                                 <S.BotContent>
                                     <S.BotName>페로</S.BotName>
@@ -177,7 +175,7 @@ const ChatbotContainer = () => {
                                     disabled={loading}
                                 />
                                 <S.SendBtn onClick={() => sendMessage()} aria-label="전송" disabled={loading}>
-                                    <img src={sendIconSvg} alt="전송" width={16} height={16} />
+                                    <img src="/assets/picture/chatbot-icon/Group 446.svg" alt="전송" width={16} height={16} />
                                 </S.SendBtn>
                             </S.InputInner>
                         </S.InputWrap>
@@ -186,7 +184,7 @@ const ChatbotContainer = () => {
             )}
 
             <S.Fab onClick={() => setOpen((v) => !v)} aria-label="챗봇 열기">
-                <img src={botIconSvg} alt="chatbot" width={32} height={32} />
+                <img src="/assets/picture/chatbot-icon/Group 1838.svg" alt="chatbot" width={32} height={32} />
             </S.Fab>
         </>
     );

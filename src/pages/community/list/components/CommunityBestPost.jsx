@@ -3,13 +3,6 @@ import React from 'react';
 import CommunityBestPostStyle from '../../styles/CommunityBestPostStyle';
 import S from '../../style';
 
-import icon04 from '../../resources/icon04.png'
-import study from '../../resources/study.jpg'
-import eye from '../../resources/eye.svg'
-import heart from '../../resources/like.svg'
-import post from '../../resources/post.svg'
-import heartFill from '../../resources/like-fill2.svg'
-import thumbnailEmpty from '../../resources/month-image-empty.png'
 import { useNavigate } from 'react-router-dom';
 
 const CommunityBestPost = ({
@@ -67,15 +60,15 @@ const CommunityBestPost = ({
                             <S.Span size={"h9Regular"} color={"faillog_black"}>{author}</S.Span>
                             <myStyle.PostInfo>
                               <myStyle.infoElement>
-                                <img src={eye} width={16} height={12} />
+                                <img src="/assets/picture/eye.svg" width={16} height={12} />
                                 <S.Span size={"h9Regular"} color={"faillog_black"}>{views}</S.Span>
                               </myStyle.infoElement>
                               <myStyle.infoElement>
-                                <img src={isLike ? heartFill : heart} width={16} height={16} />
+                                <img src={isLike ? "/assets/picture/like-fill2.svg" : "/assets/picture/like.svg"} width={16} height={16} />
                                 <S.Span size={"h9Regular"} color={"faillog_black"}>{likes}</S.Span>
                               </myStyle.infoElement>
                               <myStyle.infoElement>
-                                <img src={post} width={16} height={16} />                              
+                                <img src="/assets/picture/post.svg" width={16} height={16} />
                                 <S.Span size={"h9Regular"} color={"faillog_black"}>{comments}</S.Span>
                               </myStyle.infoElement>
                             </myStyle.PostInfo>
@@ -92,7 +85,7 @@ const CommunityBestPost = ({
 
                 {/* 이미지 영역 */}
                 <myStyle.BestPostImgWrapDiv>
-                  <S.Img width={"100%"} height={"100%"} src={thumbnail ? thumbnail : thumbnailEmpty}></S.Img>
+                  <S.Img width={"100%"} height={"100%"} src={thumbnail ? thumbnail : "/assets/picture/month-image-empty.png"}></S.Img>
                 </myStyle.BestPostImgWrapDiv>
             </myStyle.BestPost>
         </myStyle.BestPostWrap>

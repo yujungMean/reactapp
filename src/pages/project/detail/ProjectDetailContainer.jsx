@@ -5,7 +5,6 @@ import ProjectCreateStep1Modal from '../create/ProjectCreateStep1Modal';
 import ProjectCreateStep2Modal from '../create/ProjectCreateStep2Modal';
 import ProjectEditModal from '../edit/ProjectEditModal';
 import useProjectStore from '../../../store/projectStore';
-import GeminiIcon from '../project_icon/material-icon-theme_gemini-ai.svg';
 import {
 	flexBetweenRow,
 	flexStartRow,
@@ -404,7 +403,7 @@ const ProjectDetailContainer = () => {
 						<S.SuggestionLeft>
 							<S.SuggestionHeader>
 								<S.SuggestionIcon>
-									<img src={GeminiIcon} alt="gemini icon" width={28} height={28} />
+									<img src="/assets/picture/project-icon/material-icon-theme_gemini-ai.svg" alt="gemini icon" width={28} height={28} />
 								</S.SuggestionIcon>
 								<S.SuggestionPrompt>당신의 체크리스트를 공유해주세요.</S.SuggestionPrompt>
 							</S.SuggestionHeader>

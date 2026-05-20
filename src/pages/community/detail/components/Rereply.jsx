@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 
-import menuIcon from '../../resources/menuIcon.svg';
 import S, { colorCSS, sizeCSS } from '../../style.js';
 import { flexCenterRow } from '../../../../styles/common.js';
 import { useMenuContext } from './MenuContext.js';
@@ -47,7 +46,7 @@ const Rereply = ({
 
         <MenuContainer>
           <MenuBtn onClick={toggleMenu}>
-            <img src={menuIcon} width={20} height={20} alt="메뉴" />
+            <img src="/assets/picture/menuIcon.svg" width={20} height={20} alt="메뉴" />
           </MenuBtn>
 
           {menuOpen && (

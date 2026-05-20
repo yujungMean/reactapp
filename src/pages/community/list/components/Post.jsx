@@ -3,10 +3,6 @@ import styled from 'styled-components';
 import { h11Bold, h8Extrabold, h9Regular, h10Regular, h11Regular, flexCenterRow } from '../../../../styles/common';
 import S, { colorCSS } from '../../style';
 
-import eye from '../../resources/eye.svg'
-import heart from '../../resources/like.svg'
-import comment from '../../resources/post.svg'
-import likeFill from '../../resources/like-fill2.svg'
 import getCategoryInfo from '../../GetCategoryInfo';
 
 const Wrapper = styled.div`
@@ -166,15 +162,15 @@ const Post = ({
               </AuthorWrap>
               <Stats>
                 <StatItem>
-                  <img src={eye} width={12} height={8}></img>
+                  <img src="/assets/picture/eye.svg" width={12} height={8}></img>
                   <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{views}</S.Span>
                 </StatItem>
                 <StatItem>
-                  <img src={heart} width={14} height={14}></img>
+                  <img src="/assets/picture/like.svg" width={14} height={14}></img>
                   <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{likes}</S.Span>
                 </StatItem>
                 <StatItem>
-                  <img src={comment} width={14} height={14}></img>
+                  <img src="/assets/picture/post.svg" width={14} height={14}></img>
                   <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{comments}</S.Span>
                 </StatItem>
               </Stats>

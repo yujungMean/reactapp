@@ -2,9 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import S from '../../commons/styles/MyFailCardItemStyles';
 import LS from '../styles/LikesLogStyles';
-import likeIcon from '../../../../components/resources/like.svg';
-import likeFillIcon from '../../../../components/resources/like-fill2.svg';
-import defaultProfile from '../../../../components/resources/default-profile.svg';
 import { formatRelativeTime } from '../../../../utils/relativeTime';
 
 const LikesCardItemComponent = ({ log = {}, iconSrc, onUnlike }) => {
@@ -35,7 +32,7 @@ const LikesCardItemComponent = ({ log = {}, iconSrc, onUnlike }) => {
           <div className="AuthorArea">
             <img
               className="ProfileIcon"
-              src={log?.profileImg || defaultProfile}
+              src={log?.profileImg || "/assets/picture/default-profile.svg"}
               alt="profile"
             />
             <span>{log?.author || '나의 기록'}</span>
@@ -56,7 +53,7 @@ const LikesCardItemComponent = ({ log = {}, iconSrc, onUnlike }) => {
                 }}
               >
                 <img
-                  src={log?.isLiked ? likeFillIcon : likeIcon}
+                  src={log?.isLiked ? "/assets/picture/like-fill2.svg" : "/assets/picture/like.svg"}
                   alt={log?.isLiked ? '좋아요 취소' : '좋아요'}
                   style={{ width: '22px', height: '22px' }}
                 />

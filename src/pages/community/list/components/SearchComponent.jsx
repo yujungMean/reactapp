@@ -1,8 +1,6 @@
 import React, { useRef } from 'react';
 import myStyle from '../../styles/SearchComponentStyle'
 
-import shine from '../../resources/shine.svg'
-import upArrow from '../../resources/arrow-up.svg'
 
 const SearchComponent = ({onSubmit}) => {
 
@@ -26,11 +24,11 @@ const SearchComponent = ({onSubmit}) => {
     <div>
       <myStyle.component>
         <myStyle.contentLeft>
-          <myStyle.image1 src={shine}></myStyle.image1>
+          <myStyle.image1 src="/assets/picture/shine.svg"></myStyle.image1>
           <myStyle.search maxLength='100' placeholder="인기있는 게시글을 검색해보세요" ref={(el) => {input.current[0] = el}} onKeyDown={handleKeyDown}></myStyle.search>
         </myStyle.contentLeft>
         <myStyle.searchButton onClick={handleOnClick}>
-          <myStyle.buttonImage src={upArrow}></myStyle.buttonImage>
+          <myStyle.buttonImage src="/assets/picture/arrow-up.svg"></myStyle.buttonImage>
         </myStyle.searchButton>
       </myStyle.component>
     </div>

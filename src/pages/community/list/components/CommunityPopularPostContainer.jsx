@@ -2,16 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import myStyle from '../../styles/CommunityPopularPostContainerStyle';
 import S from '../../style';
 
-import study from '../../resources/study.jpg';
-import icon04 from '../../resources/icon04.png'
-import trumpet from '../../resources/trumpet.svg'
-import eye from '../../resources/eye.svg'
-import heart from '../../resources/like.svg'
-import comment from '../../resources/post.svg'
-import likeFill from '../../resources/like-fill2.svg'
 import getCategoryInfo from '../../GetCategoryInfo';
-
-import imageEmpty from '../../resources/popular-image-empty.png'
 
 const CARD_W = 420;
 const FOCUS_W = 480;
@@ -114,7 +105,7 @@ const CommunityPopularPostContainer = ({ posts }) => {
       <myStyle.headerWrap>
         <myStyle.header>
           <myStyle.headerTestOneDiv>
-            <img src={trumpet} width={80} height={80}></img>
+            <img src="/assets/picture/trumpet.svg" width={80} height={80}></img>
             <S.Span size="h2-bold" color="faillog-black">실시간 인기글</S.Span>
           </myStyle.headerTestOneDiv>
           <myStyle.headerTextTwoDiv>
@@ -137,7 +128,7 @@ const CommunityPopularPostContainer = ({ posts }) => {
               >
                 <myStyle.Card>
                   <myStyle.CardImageWrap>
-                    <myStyle.CardImage src={post.thumbnail ? post.thumbnail : imageEmpty} width={"100%"} height={"100%"}></myStyle.CardImage>
+                    <myStyle.CardImage src={post.thumbnail ? post.thumbnail : "/assets/picture/popular-image-empty.png"} width={"100%"} height={"100%"}></myStyle.CardImage>
                   </myStyle.CardImageWrap>
                   <myStyle.CardBody>
                     <myStyle.CardMeta>
@@ -165,15 +156,15 @@ const CommunityPopularPostContainer = ({ posts }) => {
                       </myStyle.AuthorInfo>
                       <myStyle.Stats>
                         <myStyle.postInfo>
-                          <img src={eye} width={12} height={8}></img>
+                          <img src="/assets/picture/eye.svg" width={12} height={8}></img>
                           <S.Span size={"h11Regular"} color={"faillog-black"} isvisible={true}>{post.views}</S.Span>
                         </myStyle.postInfo>
                         <myStyle.postInfo>
-                          <img src={heart} width={14} height={14}></img>
+                          <img src="/assets/picture/like.svg" width={14} height={14}></img>
                           <S.Span size={"h11Regular"} color={"faillog-black"}>{post.likes}</S.Span>
                         </myStyle.postInfo>
                         <myStyle.postInfo>
-                          <img src={comment} width={14} height={14}></img>
+                          <img src="/assets/picture/post.svg" width={14} height={14}></img>
                           <S.Span size={"h11Regular"} color={"faillog-black"}>{post.comments}</S.Span>
                         </myStyle.postInfo>
                       </myStyle.Stats>

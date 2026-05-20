@@ -149,7 +149,7 @@ S.DraftCard = styled.div`
       color: ${colorCSS["faillog-red"]};
       padding: 8px 16px;
       border-radius: 12px; 
-      ${sizeCSS["h10-bold"]} 
+      ${sizeCSS["h10Bold"]}
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       transition: background-color 0.25s ease, color 0.25s ease;
     }

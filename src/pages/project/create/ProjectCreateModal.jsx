@@ -12,7 +12,6 @@ import {
     h11Regular 
 } from '../../../styles/common';
 import theme from '../../../styles/theme';
-import CheckIconSrc from './create_icon/check-small.svg';
 
 const MOCK_FAILLOGS = [
     { id: 1, category: '사업/창업', title: 'B 투자사 미팅 거절', desc: '미팅 성공으로 수출액 올리기', date: '2024.03.15 작성' },
@@ -66,7 +65,7 @@ const ProjectCreateModal = ({ onClose, onNext }) => {
                             </div>
                             <S.RadioCircle $active={selectedLogId === log.id}>
                                 {selectedLogId === log.id && (
-                                    <S.CheckIcon src={CheckIconSrc} alt="check" />
+                                    <S.CheckIcon src="/assets/picture/project-create-icon/check-small.svg" alt="check" />
                                 )}
                             </S.RadioCircle>
                         </S.LogCard>

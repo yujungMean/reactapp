@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import S, { boxShadow, colorCSS } from '../../style';
 import AiPost from './AiPost';
-import aiImage from '../../resources/ai_image.svg';
 
 const posts = [
   {
@@ -46,7 +45,7 @@ const AiPostListContainer = () => {
       <Header>
         <TitleRow>
           <S.Span size="h7Bold" color="faillog-black">맞춤 게시글</S.Span>
-          <img src={aiImage} alt="ai" height={24} />
+          <img src="/assets/picture/ai_image.svg" alt="ai" height={24} />
         </TitleRow>
         <S.Span size="h10Regular" color="faillog_gray9">
           최근 작성 글을 바탕으로, 당신과 유사한 글을 선별했습니다.

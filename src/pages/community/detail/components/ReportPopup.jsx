@@ -3,7 +3,6 @@ import styled, { keyframes } from 'styled-components';
 
 import S, { colorCSS } from '../../style.js';
 
-import check from  '../../resources/check-small.svg'
 
 const REPORT_REASONS = [
   { id: 'ad',      title: '광고 / 도배',   desc: '홍보성 댓글' },
@@ -73,7 +72,7 @@ const ReportPopup = ({ type = '댓글', id, profileImg, author, content, onClose
                 <S.Span size="h10Regular" color="faillog_gray9">{reason.desc}</S.Span>
               </ReasonText>
               <RadioCircle selected={selectedReason === reason.id}>
-                {selectedReason === reason.id && <RadioCheck src={check} alt="check" />}
+                {selectedReason === reason.id && <RadioCheck src="/assets/picture/project-create-icon/check-small.svg" alt="check" />}
               </RadioCircle>
             </ReasonBox>
           ))}

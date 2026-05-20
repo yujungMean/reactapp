@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { useTheme } from 'styled-components';
-import heartActiveIcon from '../../result_icon/heart_active.svg';
-import heartInactiveIcon from '../../result_icon/heart_inactive.svg';
 import RadarChart from './RadarChart';
 import DoughnutChart from './DoughnutChart';
-import patternIcon from '../../result_icon/pattern.svg';
-import habitIcon from '../../result_icon/habit.svg';
-import flowIcon from '../../result_icon/flow.svg';
 import { S } from './LogPatternsContainerStyles';
 
 const LogPatternsContainer = () => {
@@ -90,7 +85,7 @@ const LogPatternsContainer = () => {
                 </S.AuthorInfo>
                 <S.LikeButton onClick={handleLike}>
                     <S.HeartIcon>
-                        <img src={liked ? heartActiveIcon : heartInactiveIcon} alt="heart" />
+                        <img src={liked ? "/assets/picture/result-icon/heart_active.svg" : "/assets/picture/result-icon/heart_inactive.svg"} alt="heart" />
                     </S.HeartIcon>
                     <span>{likeCount}</span>
                 </S.LikeButton>
@@ -116,7 +111,7 @@ const LogPatternsContainer = () => {
                 <S.AccordionItem $isOpen={isOpen(0)}>
                     <S.AccordionHeader onClick={() => toggleAccordion(0)}>
                         <S.IconWrapper>
-                            <S.IconImg src={patternIcon} alt="pattern" />
+                            <S.IconImg src="/assets/picture/result-icon/pattern.svg" alt="pattern" />
                         </S.IconWrapper>
                         <S.AccordionTitle>요인별 영향도 & 나의 실패 패턴</S.AccordionTitle>
                         <S.Chevron $isOpen={isOpen(0)} />
@@ -165,7 +160,7 @@ const LogPatternsContainer = () => {
                 <S.AccordionItem $isOpen={isOpen(1)}>
                     <S.AccordionHeader onClick={() => toggleAccordion(1)}>
                         <S.IconWrapper>
-                            <S.IconImg src={habitIcon} alt="habit" />
+                            <S.IconImg src="/assets/picture/result-icon/habit.svg" alt="habit" />
                         </S.IconWrapper>
                         <S.AccordionTitle>자주 반복되는 습관 & 요인에 따른 실패 분류</S.AccordionTitle>
                         <S.Chevron $isOpen={isOpen(1)} />
@@ -220,7 +215,7 @@ const LogPatternsContainer = () => {
                 <S.AccordionItem $isOpen={isOpen(2)}>
                     <S.AccordionHeader onClick={() => toggleAccordion(2)}>
                         <S.IconWrapper>
-                            <S.IconImg src={flowIcon} alt="flow" />
+                            <S.IconImg src="/assets/picture/result-icon/flow.svg" alt="flow" />
                         </S.IconWrapper>
                         <S.AccordionTitle>나의 실패 흐름 & 로그에 나타난 내용</S.AccordionTitle>
                         <S.Chevron $isOpen={isOpen(2)} />

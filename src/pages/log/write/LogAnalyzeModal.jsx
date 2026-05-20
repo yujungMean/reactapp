@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import theme from '../../../styles/theme';
-import closeIcon from './write_icon/close.svg';
-import backIcon from './write_icon/back.svg';
-import checkIcon from './write_icon/check.svg';
-import styleWarm1Icon from './write_icon/style_warm_1.svg';
-import styleWarm2Icon from './write_icon/style_warm_2.svg';
-import styleObjectiveIcon from './write_icon/style_objective.svg';
-import styleColdIcon from './write_icon/style_cold.svg';
 import { S } from './LogAnalyzeModalStyles';
 
 const LogAnalyzeModal = ({ onClose }) => {
@@ -18,8 +11,8 @@ const LogAnalyzeModal = ({ onClose }) => {
       id: "warm",
       icon: (
         <S.StyleWarmWrapper>
-          <S.StyleWarm1Img src={styleWarm1Icon} alt="warm style" />
-          <S.StyleWarm2Img src={styleWarm2Icon} alt="warm overlay" />
+          <S.StyleWarm1Img src="/assets/picture/write-icon/style_warm_1.svg" alt="warm style" />
+          <S.StyleWarm2Img src="/assets/picture/write-icon/style_warm_2.svg" alt="warm overlay" />
         </S.StyleWarmWrapper>
       ),
       title: "따뜻한 위로와 공감",
@@ -30,7 +23,7 @@ const LogAnalyzeModal = ({ onClose }) => {
     },
     {
       id: "objective",
-      icon: <S.StyleObjectiveImg src={styleObjectiveIcon} alt="objective style" />,
+      icon: <S.StyleObjectiveImg src="/assets/picture/write-icon/style_objective.svg" alt="objective style" />,
       title: "객관적인 원인 분석가",
       desc: "문제의 본질만을 파악해서 분석해요.\n논리적이고 명확한 분석과 방향성을 얻습니다.",
       badge: "약간 매운맛",
@@ -39,7 +32,7 @@ const LogAnalyzeModal = ({ onClose }) => {
     },
     {
       id: "cold",
-      icon: <S.StyleColdImg src={styleColdIcon} alt="cold style" />,
+      icon: <S.StyleColdImg src="/assets/picture/write-icon/style_cold.svg" alt="cold style" />,
       title: "냉철한 팩트 폭격기",
       desc: "변명없이 한계를 직시해요.\n아프지만 냉철하게 문제점을 분석하고 방향성을 얻습니다.",
       badge: "매운맛",
@@ -110,7 +103,7 @@ const LogAnalyzeModal = ({ onClose }) => {
     <>
       <S.CloseButtonWrapper>
         <S.CloseButton onClick={onClose}>
-          <S.CloseIcon src={closeIcon} alt="close" />
+          <S.CloseIcon src="/assets/picture/write-icon/close.svg" alt="close" />
         </S.CloseButton>
       </S.CloseButtonWrapper>
 
@@ -160,7 +153,7 @@ const LogAnalyzeModal = ({ onClose }) => {
               </S.LogItemContent>
               <S.LogRadio $selected={isSelected}>
                 {isSelected && (
-                  <S.CheckIconImg src={checkIcon} alt="check" />
+                  <S.CheckIconImg src="/assets/picture/write-icon/check.svg" alt="check" />
                 )}
               </S.LogRadio>
             </S.LogItem>
@@ -181,10 +174,10 @@ const LogAnalyzeModal = ({ onClose }) => {
     <>
       <S.HeaderNav>
         <S.BackButton onClick={() => setStep(1)}>
-          <S.BackIcon src={backIcon} alt="back" />
+          <S.BackIcon src="/assets/picture/write-icon/back.svg" alt="back" />
         </S.BackButton>
         <S.CloseButton onClick={onClose}>
-          <S.CloseIcon src={closeIcon} alt="close" />
+          <S.CloseIcon src="/assets/picture/write-icon/close.svg" alt="close" />
         </S.CloseButton>
       </S.HeaderNav>
 

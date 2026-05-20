@@ -5,10 +5,6 @@ import styled from 'styled-components';
 import S, { colorCSS, boxShadow, sizeCSS } from '../../style';
 import CategorySelect from './CategorySelect';
 
-import bold from '../../resources/option-bold.svg';
-import italic from '../../resources/option-italic.svg';
-import picture from '../../resources/option-picture.svg';
-import hyper from '../../resources/option-hyper.svg';
 import { flexCenterRow } from '../../../../styles/common';
 
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react';
@@ -187,10 +183,10 @@ const PostForm = ({
             <EditorToolbar>
               <ToolbarBtn type="button" $isActive={isBoldActive} onClick={() => {
                 editor?.chain().focus().toggleBold().run()
-                }}><ToolbarIcon src={bold} alt="bold" /></ToolbarBtn>
-              <ToolbarBtn type="button" $isActive={isItalicActive} onClick={() => editor?.chain().focus().toggleItalic().run()}><ToolbarIcon src={italic} alt="italic" /></ToolbarBtn>
-              <ToolbarBtn type="button" onClick={handleOnClickPictureButton}><ToolbarIcon src={picture} alt="picture" /></ToolbarBtn>
-              <ToolbarBtn type="button" $isActive={isLinkActive} onClick={handleOnClickLinkButton}><ToolbarIcon src={hyper} alt="hyperlink" /></ToolbarBtn>
+                }}><ToolbarIcon src="/assets/picture/option-bold.svg" alt="bold" /></ToolbarBtn>
+              <ToolbarBtn type="button" $isActive={isItalicActive} onClick={() => editor?.chain().focus().toggleItalic().run()}><ToolbarIcon src="/assets/picture/option-italic.svg" alt="italic" /></ToolbarBtn>
+              <ToolbarBtn type="button" onClick={handleOnClickPictureButton}><ToolbarIcon src="/assets/picture/option-picture.svg" alt="picture" /></ToolbarBtn>
+              <ToolbarBtn type="button" $isActive={isLinkActive} onClick={handleOnClickLinkButton}><ToolbarIcon src="/assets/picture/option-hyper.svg" alt="hyperlink" /></ToolbarBtn>
             </EditorToolbar>
             <EditorContent editor={editor} />
             {/* <EditorTextArea {...register('content')} /> */}

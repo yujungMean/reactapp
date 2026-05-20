@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import S, { colorCSS } from '../../style';
 import { flexBetweenRow } from '../../../../styles/common';
 
-import downImage from '../../resources/down.svg'
 
 const OPTIONS = ['시장/창업', '공부/취업', '인간관계', '건강/루틴', '기타'];
 
@@ -35,7 +34,7 @@ const CategorySelect = ({ defaultValue = null, options = OPTIONS, onChange }) =>
         <S.Span size="h8Regular" color={selected ? "faillog-black" : "faillog_gray9"}>
           {selected ?? '카테고리를 선택해주세요.'}
         </S.Span>
-        <ChevronImg isOpen={isOpen} src={downImage}></ChevronImg>
+        <ChevronImg isOpen={isOpen} src="/assets/picture/down.svg"></ChevronImg>
       </Trigger>
 
 {/* customProps은 dom에 전달하면 안된다 그러기위해 앞에 $를 붙인다. */}

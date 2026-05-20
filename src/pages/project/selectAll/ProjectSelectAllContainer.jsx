@@ -16,7 +16,6 @@ import {
 	h9Regular,
 } from '../../../styles/common';
 import theme from '../../../styles/theme';
-import ArrowUpIcon from '../project_icon/la_arrow-up.svg';
 
 // 모달 및 스토어 Import
 import ProjectCreateModal from '../create/ProjectCreateModal';
@@ -187,7 +186,7 @@ const ProjectSelectAllContainer = () => {
 						<S.SearchBoxWrap>
 							<S.SearchBox>
 								<S.SearchInput placeholder="다양한 성장 과정을 탐색해보세요." />
-								<S.SearchBtn><S.ArrowIcon src={ArrowUpIcon} alt="search" /></S.SearchBtn>
+								<S.SearchBtn><S.ArrowIcon src="/assets/picture/project-icon/la_arrow-up.svg" alt="search" /></S.SearchBtn>
 							</S.SearchBox>
 						</S.SearchBoxWrap>
 					</S.SearchRow>

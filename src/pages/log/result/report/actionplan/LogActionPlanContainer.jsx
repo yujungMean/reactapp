@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { useTheme } from 'styled-components';
-import heartActiveIcon from '../../result_icon/heart_active.svg';
-import heartInactiveIcon from '../../result_icon/heart_inactive.svg';
-import planTargetIcon from './actionplan_icon/plan_target.svg';
-import planEnvIcon from './actionplan_icon/plan_env.svg';
-import planPartnerIcon from './actionplan_icon/plan_partner.svg';
-import planChecklistIcon from './actionplan_icon/plan_checklist.svg';
 import { S } from './LogActionPlanContainerStyles';
 
 const LogActionPlanContainer = () => {
@@ -38,28 +32,28 @@ const LogActionPlanContainer = () => {
                     title: "목표 크기 줄이기",
                     color: "transparent",
                     content: "처음부터 거창한 목표를 세우기보다, 당장 실천 가능한 아주 작은 단위로 목표를 쪼개어 시작해보세요. 작은 성공의 경험이 큰 변화를 만듭니다.",
-                    iconSrc: planTargetIcon
+                    iconSrc: "/assets/picture/actionplan-icon/plan_target.svg"
                 },
                 {
                     id: 2,
                     title: "환경 또는 공간에 변화 주기",
                     color: "transparent",
                     content: "집중이 잘 되지 않는 환경이라면 장소를 옮기거나, 주변 물건을 정리하여 시각적 자극을 줄여보세요. 낯선 공간이 새로운 영감을 줍니다.",
-                    iconSrc: planEnvIcon
+                    iconSrc: "/assets/picture/actionplan-icon/plan_env.svg"
                 },
                 {
                     id: 3,
                     title: "동료에게 피드백 요청하기",
                     color: "transparent",
                     content: "실패의 원인을 혼자 찾기 어려울 때는 주변 동료나 멘토에게 솔직한 피드백을 구해보세요. 다른 사람의 시선에서 본 나의 행동 패턴이 예상치 못한 해결책을 제시해 줄 수 있습니다.",
-                    iconSrc: planPartnerIcon
+                    iconSrc: "/assets/picture/actionplan-icon/plan_partner.svg"
                 },
                 {
                     id: 4,
                     title: "체크리스트 설정 및 관리하기",
                     color: "transparent",
                     content: "매일 해야 할 일들을 명확하게 체크리스트로 작성하고 관리해보세요. 해야 할 일이 시각적으로 확인되면 막연한 부담감이 줄어들고, 하나씩 완료해 나가는 과정에서 확실한 성취감을 느낄 수 있습니다.",
-                    iconSrc: planChecklistIcon
+                    iconSrc: "/assets/picture/actionplan-icon/plan_checklist.svg"
                 }
             ]
         },
@@ -107,7 +101,7 @@ const LogActionPlanContainer = () => {
                 </S.AuthorInfo>
                 <S.LikeButton onClick={handleLike}>
                     <S.HeartIcon>
-                        <img src={liked ? heartActiveIcon : heartInactiveIcon} alt="heart" />
+                        <img src={liked ? "/assets/picture/result-icon/heart_active.svg" : "/assets/picture/result-icon/heart_inactive.svg"} alt="heart" />
                     </S.HeartIcon>
                     <span>{likeCount}</span>
                 </S.LikeButton>

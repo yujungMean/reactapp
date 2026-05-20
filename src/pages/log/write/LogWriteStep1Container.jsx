@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import uploadIcon from './write_icon/upload.svg';
-import deleteIcon from './write_icon/delete.svg';
 import { S } from './LogWriteStep1ContainerStyles';
 
 const VisionIconComponent = ({ className }) => (
@@ -174,7 +172,7 @@ const LogWriteStep1Container = () => {
             <S.ThumbnailRow>
               <S.UploadButtonArea onClick={() => fileInputRef.current?.click()}>
                 <S.UploadIcon>
-                  <S.UploadIconImg src={uploadIcon} alt="upload" />
+                  <S.UploadIconImg src="/assets/picture/write-icon/upload.svg" alt="upload" />
                 </S.UploadIcon>
                 <S.UploadText>클릭해서 사진 업로드 (JPG, PNG / 최대 5MB)</S.UploadText>
               </S.UploadButtonArea>
@@ -193,7 +191,7 @@ const LogWriteStep1Container = () => {
                     <S.PreviewFileName>{thumbnail.name}</S.PreviewFileName>
                   </S.FileNameContainer>
                   <S.DeleteIcon onClick={handleDeleteImage}>
-                    <S.DeleteImg src={deleteIcon} alt="delete" />
+                    <S.DeleteImg src="/assets/picture/write-icon/delete.svg" alt="delete" />
                   </S.DeleteIcon>
                 </S.PreviewWrapper>
               )}

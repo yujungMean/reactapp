@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { boxShadow, colorCSS } from '../style';
 import PostHeader from './components/PostHeader';
-import icon04 from '../resources/icon04.png';
 import Content from './components/Content';
 import ImagesContainer from './components/ImagesContainer';
 import AuthorInfo from './components/AuthorInfo';
@@ -18,7 +17,7 @@ import { ReportContext } from './components/ReportContext';
 const replyList = [
     {
         isOwner: false,
-        profileImg: icon04,
+        profileImg: "/assets/picture/icon04.png",
         createdAt: '3분 전',
         author: '해랑이',
         content: '진짜 공감됩니다. 저도 집에서는 잘 되는데 시험장만 가면 아는 것도 막히더라고요.',
@@ -27,14 +26,14 @@ const replyList = [
         rereplyList: [
             {
                 isOwner: false,
-                profileImg: icon04,
+                profileImg: "/assets/picture/icon04.png",
                 author: '취준마스터',
                 content: '저도 완전히 같았어요. 환경 적응이 생각보다 훨씬 중요하더라고요.',
                 createdAt: '2분전',
             },
             {
                 isOwner: true,
-                profileImg: icon04,
+                profileImg: "/assets/picture/icon04.png",
                 author: '해랑이',
                 content: '맞아요. 특히 첫 시험은 긴장감 자체가 너무 낯설더라고요.',
                 createdAt: '방금',
@@ -43,7 +42,7 @@ const replyList = [
     },
     {
         isOwner: true,
-        profileImg: icon04,
+        profileImg: "/assets/picture/icon04.png",
         createdAt: '10분 전',
         author: '취준마스터',
         content: '저도 비슷한 경험이 있어요. 환경을 바꾸고 나서 확실히 집중력이 달라졌습니다. 사실 처음에는 환경 탓이 아니라 제 의지력 문제인 줄 알았어요. 그런데 막상 도서관에서 공부해보니 집에서와는 집중력 자체가 달랐어요. 주변 소음이 오히려 도움이 되는 경우도 있더라고요. 화이트 노이즈 효과인지 뭔지는 모르겠지만 확실히 효율이 올라갔습니다. 이걸 진작 알았더라면 좋았을 텐데 싶었어요.',
@@ -52,7 +51,7 @@ const replyList = [
         rereplyList: [
             {
                 isOwner: false,
-                profileImg: icon04,
+                profileImg: "/assets/picture/icon04.png",
                 author: '해랑이',
                 content: '도서관 효과 진짜인 것 같아요. 저도 카페 가면 이상하게 더 잘 되더라고요. 집에서는 침대가 자꾸 눈에 밟혀서요.',
                 createdAt: '7분 전',
@@ -61,7 +60,7 @@ const replyList = [
     },
     {
         isOwner: false,
-        profileImg: icon04,
+        profileImg: "/assets/picture/icon04.png",
         createdAt: '22분 전',
         author: '노력왕',
         content: '공부 환경이 이렇게까지 중요할 줄은 몰랐는데 이 글 보고 진짜 공감 많이 됐어요. 저는 원래 방에서만 공부했는데 어느 순간부터 방 자체가 쉬는 공간으로 인식이 되어버린 건지 책상 앞에 앉아도 머리가 공부 모드로 안 전환되더라고요. 결국 독서실 끊었는데 정말 신세계였습니다. 장소가 바뀌면 뇌도 바뀌는 것 같아요. 심리적인 공간 분리가 이렇게 중요한 거였구나 싶었어요. 다들 한번이라도 환경 바꿔보는 걸 강추합니다.',
@@ -93,7 +92,7 @@ const replyList = [
     },
     {
         isOwner: false,
-        profileImg: icon04,
+        profileImg: "/assets/picture/icon04.png",
         createdAt: '35분 전',
         author: '시험준비생',
         content: '기출만 푸는 게 정답인 줄 알았는데 실전에서 응용 문제 하나에 멘탈 터진 경험이 있어요. 그 이후로 공부법을 완전히 바꿨습니다. 기출은 유형 파악용으로만 쓰고, 실제로는 개념을 완전히 이해하는 데 더 집중했어요. 시간이 더 오래 걸리지만 실전에서 처음 보는 문제도 논리적으로 풀어낼 수 있게 됐어요. 점수도 그때부터 꾸준히 올랐고요. 기출 회독수보다 이해도가 훨씬 중요하다는 걸 뼈저리게 배웠습니다.',
@@ -123,7 +122,7 @@ const aiPostList = [
         date: '2026년 03월 03일',
         category: 0,
         title: '시험 직전 불안이 심해질 때 내가 했던 복기 루틴 3가지를 소개합니다',
-        profile: icon04,
+        profile: "/assets/picture/icon04.png",
         author: '필기마스터',
         views: 45,
         likes: 35,
@@ -133,7 +132,7 @@ const aiPostList = [
         date: '2026년 03월 03일',
         category: 0,
         title: '도서관 루틴으로 바꾸고 나서 집중력이 유지된 기록',
-        profile: icon04,
+        profile: "/assets/picture/icon04.png",
         author: '필기마스터',
         views: 45,
         likes: 35,
@@ -143,7 +142,7 @@ const aiPostList = [
         date: '2026년 03월 03일',
         category: 1,
         title: '공부 환경을 바꾸고 나서 성적이 오른 실제 경험담',
-        profile: icon04,
+        profile: "/assets/picture/icon04.png",
         author: '필기마스터',
         views: 45,
         likes: 35,
@@ -153,7 +152,7 @@ const aiPostList = [
         date: '2026년 03월 03일',
         category: 2,
         title: '기출 회독보다 개념 이해가 먼저다 – 내 공부법 변화기',
-        profile: icon04,
+        profile: "/assets/picture/icon04.png",
         author: '필기마스터',
         views: 45,
         likes: 35,
@@ -164,7 +163,7 @@ const aiPostList = [
 const postData = {
     category: 0,
     title: '기출만 파다가 실전에서 백지 된 썰. 공부 환경부터 바꾸고 나서니 변화가 생긴 썰',
-    profile: icon04,
+    profile: "/assets/picture/icon04.png",
     author: '취준마스터',
     views: 4579,
     date: '2026-03-05',

@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import myStyle from '../../styles/CommunitySearchOrderStyle';
 import S from '../../style';
 
-import downImage from '../../resources/down.svg'
 
 const OPTIONS = ['제목', '제목+내용', '내용', '작성자', '댓글'];
 
@@ -31,7 +30,7 @@ const CommunitySearchOrderComponent = ({ defaultValue = '제목', onChange }) =>
     <myStyle.Wrapper ref={wrapperRef}>
       <myStyle.Trigger onClick={() => setIsOpen((prev) => !prev)}>
         <S.Span size="h8Regular" color="faillog-black">{selected}</S.Span>
-        <myStyle.ChevronImg isOpen={isOpen} src={downImage}></myStyle.ChevronImg>
+        <myStyle.ChevronImg isOpen={isOpen} src="/assets/picture/down.svg"></myStyle.ChevronImg>
       </myStyle.Trigger>
 
 {/* customProps은 dom에 전달하면 안된다 그러기위해 앞에 $를 붙인다. */}

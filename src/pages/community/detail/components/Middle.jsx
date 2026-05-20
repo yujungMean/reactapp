@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-import like from '../../resources/like.svg'
-import likeFill2 from '../../resources/like-fill2.svg'
-import menuIcon from '../../resources/menuIcon.svg'
 
 import S, { colorCSS, hoverBorder } from '../../style.js'
 import { flexCenterRow } from '../../../../styles/common.js';
@@ -26,13 +23,13 @@ const Middle = ({ id, isOwner = false, likeCount = 0, isLiked = false, postId, p
 
       <RightGroup>
         <LikeBtn>
-          <LikeIcon src={isLiked ? likeFill2 : like} alt="좋아요" />
+          <LikeIcon src={isLiked ? "/assets/picture/like-fill2.svg" : "/assets/picture/like.svg"} alt="좋아요" />
           <S.Span size="h9Bold">{likeCount}</S.Span>
         </LikeBtn>
 
         <MenuContainer>
           <MenuBtn onClick={() => setMenuOpen(prev => !prev)}>
-            <img src={menuIcon} width={20} height={20} alt="메뉴" />
+            <img src="/assets/picture/menuIcon.svg" width={20} height={20} alt="메뉴" />
           </MenuBtn>
 
           {menuOpen && (

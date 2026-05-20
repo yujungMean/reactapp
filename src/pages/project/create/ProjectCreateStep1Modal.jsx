@@ -10,7 +10,6 @@ import {
 	h9Bold 
 } from '../../../styles/common';
 import theme from '../../../styles/theme';
-import CheckIconSrc from './create_icon/check-small.svg';
 
 const ProjectCreateStep1Modal = ({ onClose, onNext }) => {
 	const [selected, setSelected] = useState('ai');
@@ -44,7 +43,7 @@ const ProjectCreateStep1Modal = ({ onClose, onNext }) => {
 						</div>
 						<S.RadioCircle $active={selected === 'ai'}>
 							{selected === 'ai' && (
-								<S.CheckIcon src={CheckIconSrc} alt="check" />
+								<S.CheckIcon src="/assets/picture/project-create-icon/check-small.svg" alt="check" />
 							)}
 						</S.RadioCircle>
 					</S.OptionCard>
@@ -58,7 +57,7 @@ const ProjectCreateStep1Modal = ({ onClose, onNext }) => {
 						</div>
 						<S.RadioCircle $active={selected === 'direct'}>
 							{selected === 'direct' && (
-								<S.CheckIcon src={CheckIconSrc} alt="check" />
+								<S.CheckIcon src="/assets/picture/project-create-icon/check-small.svg" alt="check" />
 							)}
 						</S.RadioCircle>
 					</S.OptionCard>

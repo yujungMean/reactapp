@@ -2,39 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import S from './LogOtherListStyle';
 
-import viewIcon from './otherLog_icon/hugeicons--view.svg';
-import heartIcon from './otherLog_icon/ph--heart-light.svg';
-
-import Thumb1 from './otherLog_thumbNail/image 277.png';
-import Thumb2 from './otherLog_thumbNail/image 340.png';
-import Thumb3 from './otherLog_thumbNail/image 343.png';
-import Thumb4 from './otherLog_thumbNail/image 352.png';
-import Thumb5 from './otherLog_thumbNail/image 342.png';
-import Thumb6 from './otherLog_thumbNail/image 351.png';
-import Thumb7 from './otherLog_thumbNail/image 350.png';
-import Thumb8 from './otherLog_thumbNail/image 348.png';
-import Thumb9 from './otherLog_thumbNail/image 354.png';
-
-import Profile1 from './otherLog_profile/image 347.png';
-import Profile2 from './otherLog_profile/IMAGE.png';
-import Profile3 from './otherLog_profile/image 309.png';
-import Profile4 from './otherLog_profile/image 338.png';
-import Profile5 from './otherLog_profile/image 346.png';
-import Profile6 from './otherLog_profile/image 347.png';
-import Profile7 from './otherLog_profile/image 337.png';
-import Profile8 from './otherLog_profile/image 349.png';
-import Profile9 from './otherLog_profile/image 337.png';
-
 const THUMBNAIL_MAP = {
-    9: Thumb1, 8: Thumb2, 7: Thumb3,
-    6: Thumb4, 5: Thumb5, 4: Thumb6,
-    3: Thumb7, 2: Thumb8, 1: Thumb9,
+    9: "/assets/picture/log-other-thumbnail/image 277.png", 8: "/assets/picture/log-other-thumbnail/image 340.png", 7: "/assets/picture/log-other-thumbnail/image 343.png",
+    6: "/assets/picture/log-other-thumbnail/image 352.png", 5: "/assets/picture/log-other-thumbnail/image 342.png", 4: "/assets/picture/log-other-thumbnail/image 351.png",
+    3: "/assets/picture/log-other-thumbnail/image 350.png", 2: "/assets/picture/log-other-thumbnail/image 348.png", 1: "/assets/picture/log-other-thumbnail/image 354.png",
 };
 
 const PROFILE_MAP = {
-    9: Profile1, 8: Profile2, 7: Profile3,
-    6: Profile4, 5: Profile5, 4: Profile6,
-    3: Profile7, 2: Profile8, 1: Profile9,
+    9: "/assets/picture/log-other-profile/image 347.png", 8: "/assets/picture/log-other-profile/IMAGE.png", 7: "/assets/picture/log-other-profile/image 309.png",
+    6: "/assets/picture/log-other-profile/image 338.png", 5: "/assets/picture/log-other-profile/image 346.png", 4: "/assets/picture/log-other-profile/image 347.png",
+    3: "/assets/picture/log-other-profile/image 337.png", 2: "/assets/picture/log-other-profile/image 349.png", 1: "/assets/picture/log-other-profile/image 337.png",
 };
 
 const CATEGORY_VARIANT = {
@@ -138,11 +115,11 @@ const LogOtherList = ({ keyword, category, sort }) => {
                                         </S.Profile>
                                         <S.Stats>
                                             <S.Stat>
-                                                <img src={viewIcon} alt="views" width="16" height="16" />
+                                                <img src="/assets/picture/log-other-icon/hugeicons--view.svg" alt="views" width="16" height="16" />
                                                 {log.readCount}
                                             </S.Stat>
                                             <S.Stat>
-                                                <img src={heartIcon} alt="likes" width="16" height="16" />
+                                                <img src="/assets/picture/log-other-icon/ph--heart-light.svg" alt="likes" width="16" height="16" />
                                                 {log.likeCount}
                                             </S.Stat>
                                         </S.Stats>

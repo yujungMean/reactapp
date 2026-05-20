@@ -1,8 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import S from '../styles/RecentLogStyles';
-import failLogIcon from '../resources/fail-log-card.png';
-import defaultProfile from '../../../../components/resources/default-profile.svg';
 import { formatRelativeTime } from '../../../../utils/relativeTime';
 
 const RecentLogsComponent = ({ logs = [] }) => {
@@ -25,7 +23,7 @@ const RecentLogsComponent = ({ logs = [] }) => {
                   <h4>{log.title || "제목 없는 페일로그"}</h4>
 
                   <div className="AuthorArea">
-                    <img className="ProfileIcon" src={log.profileImg || defaultProfile} alt="profile" />
+                    <img className="ProfileIcon" src={log.profileImg || "/assets/picture/default-profile.svg"} alt="profile" />
                     <span>@{log.author || "익명 개발자"}</span>
                   </div>
 
@@ -36,7 +34,7 @@ const RecentLogsComponent = ({ logs = [] }) => {
                 </div>
 
                 <div className="CardMainImage">
-                  <img src={failLogIcon} alt="" />
+                  <img src="/assets/picture/mypage-faillog/fail-log-card.png" alt="" />
                 </div>
               </S.RecentContent>
             </S.RecentCard>

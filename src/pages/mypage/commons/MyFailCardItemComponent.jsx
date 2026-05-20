@@ -1,8 +1,6 @@
 import React from 'react';
 import { formatRelativeTime } from '../../../utils/relativeTime';
 import S from './styles/MyFailCardItemStyles';
-import likeIcon from '../../../components/resources/like.svg';
-import likeFillIcon from '../../../components/resources/like-fill2.svg';
 
 const MyFailCardItemComponent = ({ log = {}, isSelected = false, iconSrc, onClick }) => {
   if (!log) return null;
@@ -30,7 +28,7 @@ const MyFailCardItemComponent = ({ log = {}, isSelected = false, iconSrc, onClic
             {log?.likeCount !== undefined && (
               <div className="LikeArea">
                 <img
-                  src={log?.isLiked ? likeFillIcon : likeIcon}
+                  src={log?.isLiked ? "/assets/picture/like-fill2.svg" : "/assets/picture/like.svg"}
                   alt="좋아요"
                   style={{ width: '14px', height: '14px' }}
                 />

@@ -4,9 +4,6 @@ import S, { colorCSS } from '../../style';
 import getCategoryInfo from '../../GetCategoryInfo';
 import { flexCenterRow } from '../../../../styles/common';
 
-import eye from '../../resources/eye.svg';
-import callendar from '../../resources/callendar.svg';
-import clock from '../../resources/clock.svg';
 
 const PostHeader = ({ category, title, profile, author, views, date, timeAgo }) => {
   const { name, textColor, bgColor } = getCategoryInfo(category);
@@ -27,15 +24,15 @@ const PostHeader = ({ category, title, profile, author, views, date, timeAgo }) 
         </AuthorWrap>
         <MetaWrap>
           <MetaItem>
-            <img src={eye} width={16} height={12} alt="views" />
+            <img src="/assets/picture/eye.svg" width={16} height={12} alt="views" />
             <S.Span size="h10Bold" color="faillog_gray9">{views}</S.Span>
           </MetaItem>
           <MetaItem>
-            <img src={callendar} width={16} height={16} alt="date" />
+            <img src="/assets/picture/callendar.svg" width={16} height={16} alt="date" />
             <S.Span size="h10Bold" color="faillog_gray9">{date}</S.Span>
           </MetaItem>
           <MetaItem>
-            <img src={clock} width={16} height={16} alt="time" />
+            <img src="/assets/picture/clock.svg" width={16} height={16} alt="time" />
             <S.Span size="h10Bold" color="faillog_gray9">{timeAgo}</S.Span>
           </MetaItem>
         </MetaWrap>

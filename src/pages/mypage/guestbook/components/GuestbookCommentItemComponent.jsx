@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import S from '../styles/MyGuestbookStyles';
 import GuestbookInputComponent from './GuestbookInputComponent';
-import likeIcon from '../../../../components/resources/like.svg';
-import likeFillIcon from '../../../../components/resources/like-fill2.svg';
-import defaultProfile from '../../../../components/resources/default-profile.svg';
 import { formatRelativeTime } from '../../../../utils/relativeTime';
 
 /* 3줄 초과 시 "자세히 보기 / 접기" 토글 텍스트 컴포넌트 */
@@ -90,7 +87,7 @@ const GuestbookCommentItemComponent = ({
         <S.CommentHeaderLeft>
           <S.Avatar>
             <img
-              src={comment.profileImg || defaultProfile}
+              src={comment.profileImg || "/assets/picture/default-profile.svg"}
               alt="profile"
               style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
             />
@@ -149,7 +146,7 @@ const GuestbookCommentItemComponent = ({
               onClick={() => onLike(comment.id)}
             >
               <img
-                src={comment.liked ? likeFillIcon : likeIcon}
+                src={comment.liked ? "/assets/picture/like-fill2.svg" : "/assets/picture/like.svg"}
                 alt="좋아요"
                 style={{ width: '16px', height: '16px' }}
               />
@@ -175,7 +172,7 @@ const GuestbookCommentItemComponent = ({
                   <S.CommentHeaderLeft>
                     <S.ReplyAvatar>
                       <img
-                        src={reply.profileImg || defaultProfile}
+                        src={reply.profileImg || "/assets/picture/default-profile.svg"}
                         alt="profile"
                         style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
                       />
@@ -233,7 +230,7 @@ const GuestbookCommentItemComponent = ({
                         onClick={() => onLike(comment.id, reply.id)}
                       >
                         <img
-                          src={reply.liked ? likeFillIcon : likeIcon}
+                          src={reply.liked ? "/assets/picture/like-fill2.svg" : "/assets/picture/like.svg"}
                           alt="좋아요"
                           style={{ width: '16px', height: '16px' }}
                         />

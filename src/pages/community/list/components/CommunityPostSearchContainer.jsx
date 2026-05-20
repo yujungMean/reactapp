@@ -1,7 +1,6 @@
 import React from 'react';
 import myStyle from '../../styles/CommunitySearchContainerStyle'
 import S from '../../style';
-import dogImage from '../../resources/community_header.svg'
 import CommunitySearchComponent from './CommunitySearchComponent';
 import CommunityCategoryContainer from './CommunityCategoryContainer';
 import CommunitySearchOrder2Container from './CommunitySearchOrder2Container';
@@ -15,7 +14,7 @@ const CommunityPostSearchContainer = () => {
           <myStyle.header>
             <myStyle.headerTitle>
               <S.Span size={"h1Extrabold"} color={"faillog-black"}>FIND</S.Span>
-              <img src={dogImage} width={"216px"} height={"144px"}></img>
+              <img src="/assets/picture/community_header.svg" width={"216px"} height={"144px"}></img>
               <S.Span size={"h1Extrabold"} color={"faillog-black"}>POST YOU WANT</S.Span>
             </myStyle.headerTitle>
             <myStyle.headerSub>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import CommS from '../../profile/styles/CommunityStyles';
-import failLogIcon from '../resources/fail-log-card.png';
 import MyFailCardItemComponent from '../../commons/MyFailCardItemComponent';
 
 const MyFailLogCardComponent = ({ filteredLogs, selectedDeleteIds = [] }) => {
@@ -25,7 +24,7 @@ const MyFailLogCardComponent = ({ filteredLogs, selectedDeleteIds = [] }) => {
             key={log.id}
             log={log}
             index={index}
-            iconSrc={failLogIcon}
+            iconSrc="/assets/picture/mypage-faillog/fail-log-card.png"
             isSelected={isSelected}
             onClick={() => navigate(`/logs/view/${log.id}`)}
           />

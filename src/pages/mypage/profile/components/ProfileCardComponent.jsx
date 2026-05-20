@@ -1,7 +1,5 @@
 import React, { useRef, useState } from 'react';
 import S from '../styles/MyProfileStyle';
-import defaltProfileImage from '../resouces/default.png';
-import cameraIcon from '../../../../components/resources/camera.svg';
 import PopupComponent from '../../../../components/commons/PopupComponent';
 
 const ProfileCardComponent = ({
@@ -16,7 +14,7 @@ const ProfileCardComponent = ({
   const [tempNickname, setTempNickname] = useState(memberNickname || '');
   const [showImageAlert, setShowImageAlert] = useState(false);
   const fileInputRef = useRef(null);
-  const profileSrc = memberProfileImageUrl || defaltProfileImage;
+  const profileSrc = memberProfileImageUrl || "/assets/picture/mypage-profile/default.png";
 
   // 카메라 버튼 클릭 시
   const handleImageButtonClick = () => {
@@ -74,7 +72,7 @@ const ProfileCardComponent = ({
           onClick={handleImageButtonClick}
           type="button"
         >
-          <img src={cameraIcon} alt="프로필 사진 변경" style={{ width: '16px', height: '16px' }} />
+          <img src="/assets/picture/camera.svg" alt="프로필 사진 변경" style={{ width: '16px', height: '16px' }} />
         </button>
       </div>
 

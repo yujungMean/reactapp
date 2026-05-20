@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import aiImage from '../../resources/ai_image.svg';
 import S from '../../style';
 import AiPost from '../../list/components/AiPost.jsx';
 
@@ -11,7 +10,7 @@ const AiPostContainer = ({ aiPostList = [] }) => {
     <Wrapper>
       <TitleRow>
         <S.Span size="h7Bold">추천 글</S.Span>
-        <img src={aiImage} alt="AI" />
+        <img src="/assets/picture/ai_image.svg" alt="AI" />
       </TitleRow>
 
       <PostList>
