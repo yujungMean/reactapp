@@ -91,9 +91,11 @@ S.Nickname = styled.span`
 S.FailTextBox = styled.div`
     background: #f1f0f6;
     border-radius: 15px;
-    min-height: 88px;
+    height: 88px;
     padding: 14px 16px;
     width: 100%;
+    display: flex; 
+    align-items: center;
 `;
 
 S.FailText = styled.p`
@@ -102,6 +104,11 @@ S.FailText = styled.p`
     color: #7c6faa;
     line-height: 1.6;
     margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 S.SolLabel = styled.div`
@@ -136,8 +143,11 @@ S.SolIcon = styled.img`
 S.SolSummaryBox = styled.div`
     background: #eeeaff;
     border-radius: 15px;
+    height: 88px;
     padding: 14px 16px;
     width: 100%;
+    display: flex;
+    align-items: center;
 `;
 
 S.SolSummary = styled.p`
@@ -146,6 +156,11 @@ S.SolSummary = styled.p`
     color: #4419ff;
     line-height: 1.6;
     margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 S.NavButtons = styled.div`

@@ -1,7 +1,13 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import theme from '../../../styles/theme';
 
 const S = {};
+
+const glow = keyframes`
+    0%   { filter: drop-shadow(0 0 3px rgba(171, 71, 255, 0.6)); opacity: 1; }
+    50%  { filter: drop-shadow(0 0 10px rgba(2, 125, 240, 1)) drop-shadow(0 0 20px rgba(171, 71, 255, 0.9)); opacity: 0.85; }
+    100% { filter: drop-shadow(0 0 3px rgba(171, 71, 255, 0.6)); opacity: 1; }
+`;
 
 S.Wrapper = styled.div`
     width: 100%;
@@ -10,15 +16,14 @@ S.Wrapper = styled.div`
 `;
 
 S.Inner = styled.div`
-    max-width: 1320px;  /* 1200px → 1320px */
+    max-width: 1320px;
     margin: 0 auto;
-    padding: 0 20px;    /* 0 60px → 0 20px */
+    padding: 0 20px;
     display: flex;
     flex-direction: column;
     gap: 100px;
 `;
 
-/* ── 검색창 그라데이션 테두리 래퍼 */
 S.SearchBoxWrap = styled.div`
     width: 872px;
     height: 60px;
@@ -45,6 +50,7 @@ S.SearchIcon = styled.img`
     width: 20px;
     height: 20px;
     flex-shrink: 0;
+    animation: ${glow} 2.4s ease-in-out infinite;
 `;
 
 S.SearchInput = styled.input`
@@ -81,7 +87,6 @@ S.ArrowIcon = styled.img`
     filter: brightness(0) invert(1);
 `;
 
-/* ── 카테고리 */
 S.CategoryRow = styled.div`
     width: 100%;
     display: flex;
@@ -111,7 +116,6 @@ S.CategoryBtn = styled.button`
     }
 `;
 
-/* ── 정렬 드롭다운 */
 S.SortWrap = styled.div`
     position: relative;
 `;
