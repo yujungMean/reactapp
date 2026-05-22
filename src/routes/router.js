@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../pages/layout/RootLayout";
+import PrivateRoute from "./PrivateRoute";
 import LogMainContainer from "../pages/log/LogMainContainer";
 import MainContainer from "../pages/main/MainContainer";
 import LogResultContainer from "../pages/log/result/LogResultContainer";
@@ -34,6 +35,7 @@ import PerformanceResult from "../pages/chronology/PerformanceResult";
 import ProjectMainContainer from "../pages/project/ProjectMainContainer";
 import ProjectSelectAllContainer from "../pages/project/selectAll/ProjectSelectAllContainer";
 import ProjectDetailContainer from "../pages/project/detail/ProjectDetailContainer";
+import ProjectPublicDetailContainer from "../pages/project/detail/ProjectPublicDetailContainer";
 import VisionMainContainer from "../pages/vision/VisionMainContainer";
 
 const router = createBrowserRouter([
@@ -45,121 +47,105 @@ const router = createBrowserRouter([
         path: "",
         element: <MainContainer />  
       },
+      // 공개 경로
       {
         path: "fail-logs",
         element: <LogOtherContainer />
       },
       {
-        path: "logs",
-        element: <LogMainContainer />,
-        children: [
-          {
-            path: "new",
-            element: <LogWriteContainer />,
-            children: [
-              {
-                path: "step1",
-                element: <LogWriteStep1Container />
-              },
-              {
-                path: "step2",
-                element: <LogWriteStep2Container />
-              },
-            ]
-          },
-          {
-            path: "result/:id",
-            element: <LogResultContainer />,
-            children: [
-              {
-                path: "detail",
-                element: <LogDetailContainer />
-              },
-              {
-                path: "report",
-                element: <LogReportContainer />,
-                children: [
-                  {
-                    path: "patterns",
-                    element: <LogPatternsContainer />
-                  },
-                  {
-                    path: "action-plan",
-                    element: <LogActionPlanContainer />
-                  }
-                ]
-              },
-            ]
-          },
-        ]
-      },
-      {
         path: "community",
         element: <CommunityContainer />,
         children: [
-          {
-            path: "",
-            element: <CommunityListContainer />
-          },
+          { path: "", element: <CommunityListContainer /> },
         ]
-      },
-      {
-        path: "community/new",
-        element: <CommunityCreateContainer />
       },
       {
         path: "community/detail/:id",
         element: <CommunityDetailContainer />
       },
       {
-        path: "community/edit/:id",
-        element: <CommunityEditContainer />
-      },
-      {
         element: <AccountLayout />,
         children: [
-          {
-            path: "join",
-            element: <JoinContainer />
-          },
-          {
-            path: "login",
-            element: <LoginContainer />
-          },
-          {
-            path: "reset-password",
-            element: <ResetPassWordContainer />
-          },
-          {
-            path: "find-id",
-            element: <FindIdContainer />
-          },
-          {
-            path: "delete",
-            element: <DeleteAccountContainer />
-          }
+          { path: "join",           element: <JoinContainer /> },
+          { path: "login",          element: <LoginContainer /> },
+          { path: "reset-password", element: <ResetPassWordContainer /> },
+          { path: "find-id",        element: <FindIdContainer /> },
         ]
       },
+
+      // 보호 경로 (로그인 필요)
       {
-        path: "my-page",
-        element: <MyPageContainer />,
+        element: <PrivateRoute />,
         children: [
           {
-            path: "profile",
-            element: <MyProfileContainer />
+            path: "logs",
+            element: <LogMainContainer />,
+            children: [
+              {
+                path: "new",
+                element: <LogWriteContainer />,
+                children: [
+                  { path: "step1", element: <LogWriteStep1Container /> },
+                  { path: "step2", element: <LogWriteStep2Container /> },
+                ]
+              },
+              {
+                path: "result/:id",
+                element: <LogResultContainer />,
+                children: [
+                  { path: "detail", element: <LogDetailContainer /> },
+                  {
+                    path: "report",
+                    element: <LogReportContainer />,
+                    children: [
+                      { path: "patterns",    element: <LogPatternsContainer /> },
+                      { path: "action-plan", element: <LogActionPlanContainer /> },
+                    ]
+                  },
+                ]
+              },
+            ]
+          },
+          { path: "community/new",      element: <CommunityCreateContainer /> },
+          { path: "community/edit/:id", element: <CommunityEditContainer /> },
+          {
+            element: <AccountLayout />,
+            children: [
+              { path: "delete", element: <DeleteAccountContainer /> },
+            ]
           },
           {
-            path: "fail-logs",
-            element: <MyFailLogsContainer />
+            path: "my-page",
+            element: <MyPageContainer />,
+            children: [
+              { path: "profile",   element: <MyProfileContainer /> },
+              { path: "fail-logs", element: <MyFailLogsContainer /> },
+              { path: "likes",     element: <MyLikesContainer /> },
+              { path: "guestbook", element: <MyGuestbookContainer /> },
+            ]
           },
           {
-            path: "likes",
-            element: <MyLikesContainer />
+            path: "chronology",
+            element: <ChronologyMainContainer />,
+            children: [
+              { path: "",         element: <ChronologyMain /> },
+              { path: "analysis", element: <PerformanceAnalysis /> },
+              { path: "result",   element: <PerformanceResult /> },
+            ]
           },
           {
-            path: "guestbook",
-            element: <MyGuestbookContainer />
-          }
+            path: "projects",
+            element: <ProjectMainContainer />,
+            children: [
+              { path: "",   element: <ProjectSelectAllContainer /> },
+              { path: ":id", element: <ProjectDetailContainer /> },
+            ]
+          },
+          {
+            path: "vision",
+            element: <VisionMainContainer />,
+            children: []
+          },
         ]
       },
       {
@@ -175,16 +161,21 @@ const router = createBrowserRouter([
         path: "projects",
         element: <ProjectMainContainer />,
         children: [
-          {
+        {
             path: "",
             element: <ProjectSelectAllContainer />
-          },
-          {
+        },
+        {
             path: ":id",
             element: <ProjectDetailContainer />
-          }
-        ]
-      },
+        },
+        {
+            // 다른 사람 프로젝트 상세 (읽기 전용)
+            path: "public/:id",
+            element: <ProjectPublicDetailContainer />
+        }
+            ]
+        },
       {
         path: "vision",
         element: <VisionMainContainer />,
