@@ -50,7 +50,7 @@ const ProjectSelectAllContainer = () => {
 
     // ── 프로젝트 검색 ──
     const handleSearch = async (keyword) => {
-        // 검색어가 없으면 전체 목록으로 복구
+        setCurrentPage(1); // 검색 시 1페이지로 초기화
         if (!keyword) {
             fetchOtherProjects();
             return;
@@ -120,10 +120,12 @@ const ProjectSelectAllContainer = () => {
                 <S.Inner>
                     <ProjectOtherSearch onSearch={handleSearch} />
                     <ProjectOtherList
-                        projects={otherProjects}  // MOCK → 실제 데이터로 교체
+                        projects={otherProjects.slice((currentPage - 1) * 9, currentPage * 9)}
                         currentPage={currentPage}
-                        onPageChange={setCurrentPage}
-                        maxPage={Math.ceil(otherProjects.length / 6)}  // 동적으로 변경
+                        onPageChange={(page) => {
+                            setCurrentPage(page);
+                        }}
+                        maxPage={Math.ceil(otherProjects.length / 9)}
                     />
                 </S.Inner>
             </S.CommunitySection>
