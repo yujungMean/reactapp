@@ -35,6 +35,7 @@ import PerformanceResult from "../pages/chronology/PerformanceResult";
 import ProjectMainContainer from "../pages/project/ProjectMainContainer";
 import ProjectSelectAllContainer from "../pages/project/selectAll/ProjectSelectAllContainer";
 import ProjectDetailContainer from "../pages/project/detail/ProjectDetailContainer";
+import ProjectPublicDetailContainer from "../pages/project/detail/ProjectPublicDetailContainer";
 import VisionMainContainer from "../pages/vision/VisionMainContainer";
 
 const router = createBrowserRouter([
@@ -146,6 +147,39 @@ const router = createBrowserRouter([
             children: []
           },
         ]
+      },
+      {
+        path: "chronology",
+        element: <ChronologyMainContainer />,
+        children: [
+          { path: "", element: <ChronologyMain /> },
+          { path: "analysis", element: <PerformanceAnalysis /> },
+          { path: "result", element: <PerformanceResult /> },
+        ]
+      },
+      {
+        path: "projects",
+        element: <ProjectMainContainer />,
+        children: [
+        {
+            path: "",
+            element: <ProjectSelectAllContainer />
+        },
+        {
+            path: ":id",
+            element: <ProjectDetailContainer />
+        },
+        {
+            // 다른 사람 프로젝트 상세 (읽기 전용)
+            path: "public/:id",
+            element: <ProjectPublicDetailContainer />
+        }
+            ]
+        },
+      {
+        path: "vision",
+        element: <VisionMainContainer />,
+        children: []
       }
     ]
   },
