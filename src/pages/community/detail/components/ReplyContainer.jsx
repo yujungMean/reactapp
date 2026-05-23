@@ -38,7 +38,7 @@ const ReplyContainer = ({ replyList = [], postId, loginId, onReplyAdded }) => {
       {replyList.length > 0 && (
         <ReplyListArea>
           {replyList.map((item, i) => (
-            <Reply key={i} {...item} />
+            <Reply key={i} {...item} onReplyAdded={onReplyAdded} />
           ))}
         </ReplyListArea>
       )}

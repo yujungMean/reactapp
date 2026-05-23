@@ -45,6 +45,7 @@ const EXAMPLE = {
 // profileImg: 프로필 이미지, createdAt: 작성일
 // author: 작성자, content: 내용, isLiked: 좋아요 여부, likeCount: 좋아요 수
 // rereplyList: 대댓글 배열 (Rereply props 객체 배열)
+// onReplyAdded: 대댓글 등록 후 페이지 갱신 콜백
 const Reply = ({
   loginId,
   memberId,
@@ -56,6 +57,7 @@ const Reply = ({
   isLiked = EXAMPLE.isLiked,
   likeCount = EXAMPLE.likeCount,
   rereplyList = EXAMPLE.rereplyList,
+  onReplyAdded,
 }) => {
   const isOwner = loginId != null && loginId === memberId;
   const { openMenuId, setOpenMenuId } = useMenuContext();
@@ -70,6 +72,21 @@ const Reply = ({
   const [count, setCount] = useState(likeCount);
 
   
+
+  const handleRereplySubmit = async (text) => {
+    if (!text.trim()) return;
+    const res = await fetch('http://localhost:10000/api/posts/write-rereply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ replyId, memberId: loginId, rereplyContent: text }),
+    });
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success) {
+      setReplyOpen(false);
+      onReplyAdded?.();
+    }
+  };
 
   const handleLike = async () => {
 
@@ -156,7 +173,7 @@ console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
             {rereplyList.map((item, i) => (
               <Rereply key={i} {...item} />
             ))}
-            {replyOpen && <ReplySubmit subject={"답글"} onSubmit={() => {}} />}
+            {replyOpen && <ReplySubmit subject={"답글"} onSubmit={handleRereplySubmit} />}
           </RereplyListArea>
         </SectionArea>
       )}
