@@ -17,10 +17,13 @@ S.CommunityGrid = styled.div`
     column-gap: 24px;
     row-gap: 50px;
     margin-bottom: 50px;
+    align-items: start;
 `;
-
 S.CardWrapper = styled.div`
     position: relative;
+    height: 180px;
+    overflow: hidden;
+    min-width: 0;
 `;
 
 S.Card = styled.div`

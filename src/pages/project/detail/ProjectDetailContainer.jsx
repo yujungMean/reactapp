@@ -40,14 +40,15 @@ const ProjectDetailContainer = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [aiSuggestions, setAiSuggestions] = useState([]);
-    const [checklist, setChecklist] = useState([]);  // ← 추가
+    const [checklist, setChecklist] = useState([]);
+    const [suggestions, setSuggestions] = useState([]);  // 추가
 
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [suggestion, setSuggestion] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
     const [newItem, setNewItem] = useState({ title: '', memo: '', priority: null });
 
-    // ── 프로젝트 상세 조회 + 체크리스트 목록 조회 ──
+    // ── 프로젝트 상세 조회 + 체크리스트 + 제안 목록 조회 ──
     const fetchProject = async () => {
         try {
             setIsLoading(true);
@@ -55,9 +56,13 @@ const ProjectDetailContainer = () => {
             setProject(response.data.data);
             setAiSuggestions(response.data.data?.aiSuggestions || []);
 
-            // 체크리스트 목록도 함께 조회
+            // 체크리스트 목록 조회
             const checklistResponse = await axios.get(`/api/checklist/list/${projectId}`);
             setChecklist(checklistResponse.data.data || []);
+
+            // 내 프로젝트에 달린 제안 목록 조회
+            const suggestionResponse = await axios.get(`/api/suggestion/list/${projectId}`);
+            setSuggestions(suggestionResponse.data.data || []);
         } catch (err) {
             setError('프로젝트를 불러오는데 실패했습니다.');
         } finally {
@@ -146,7 +151,7 @@ const ProjectDetailContainer = () => {
             try {
                 await axios.put('/api/checklist/update', {
                     id,
-                    checklistTitle: updatedTitle || item.checklistTitle,  // ← title 반영
+                    checklistTitle: updatedTitle || item.checklistTitle,
                     checklistMemo: updatedMemo,
                     checklistPriority: item.checklistPriority,
                     checklistCompleted: item.checklistCompleted,
@@ -281,7 +286,12 @@ const ProjectDetailContainer = () => {
                 <ProjectDetailSuggestion
                     suggestion={suggestion}
                     setSuggestion={setSuggestion}
-                    suggestions={[]}
+                    suggestions={suggestions.map(s => ({
+                        id: s.id,
+                        text: s.suggestionTitle,
+                        user: `회원 ${s.memberId}`,
+                        avatar: null,
+                    }))}
                     onSubmit={() => {}}
                     onAddFromSuggestion={handleOpenAddModalFromSuggestion}
                 />
