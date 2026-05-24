@@ -120,7 +120,7 @@ const Rereply = ({
               maxLength={500}
             />
             <EditActionRow>
-              <S.Span size="h11Regular" color="faillog_gray8">
+              <S.Span size="h11Regular" color={editText.length >= 500 ? 'faillog-red' : 'faillog_gray8'}>
                 {editText.length} / 500
               </S.Span>
               <EditBtnGroup>

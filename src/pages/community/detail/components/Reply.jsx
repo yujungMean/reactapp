@@ -6,7 +6,7 @@ import likeFill2Img from '../../resources/like-fill2.svg';
 import menuIcon from '../../resources/menuIcon.svg';
 
 import S, { colorCSS, sizeCSS } from '../../style.js';
-import { flexCenterRow } from '../../../../styles/common.js';
+import { flexBetweenRow, flexCenterRow } from '../../../../styles/common.js';
 import Rereply from './Rereply.jsx';
 import ReplySubmit from './ReplySubmit.jsx';
 import { useMenuContext } from './MenuContext.js';
@@ -72,8 +72,16 @@ const Reply = ({
   const [liked, setLiked] = useState(isLiked);
   const [count, setCount] = useState(likeCount);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editText, setEditText] = useState(content);
 
-  
+  const handleEditClick = () => {
+    setOpenMenuId(null);
+    setEditText(content);
+    setEditMode(true);
+  };
+
+  const handleEditCancel = () => setEditMode(false);
 
   const handleDeleteConfirm = async () => {
     setDeletePopupOpen(false);
@@ -150,9 +158,14 @@ console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
           {menuOpen && (
             <Dropdown>
               {isOwner ? (
-                <DropdownItem onClick={() => { setOpenMenuId(null); setDeletePopupOpen(true); }}>
-                  <S.Span size="h9Regular">삭제하기</S.Span>
-                </DropdownItem>
+                <>
+                  <DropdownItem onClick={handleEditClick}>
+                    <S.Span size="h9Regular">수정하기</S.Span>
+                  </DropdownItem>
+                  <DropdownItem onClick={() => { setOpenMenuId(null); setDeletePopupOpen(true); }}>
+                    <S.Span size="h9Regular">삭제하기</S.Span>
+                  </DropdownItem>
+                </>
               ) : (
                 <DropdownItem onClick={() => { openReport('댓글', undefined, profileImg, author, content); setOpenMenuId(null); }}>
                   <S.Span size="h9Regular">신고하기</S.Span>
@@ -164,15 +177,38 @@ console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
       </TopRow>
 
       <ContentArea>
-        <ContentText>
-          {displayText}
-          {isOverflow && !expanded && '... '}
-          {isOverflow && (
-            <InlineToggle onClick={() => setExpanded(prev => !prev)}>
-              {expanded ? ' (접기)' : '(자세히보기)'}
-            </InlineToggle>
-          )}
-        </ContentText>
+        {editMode ? (
+          <>
+            <EditTextArea
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+              maxLength={500}
+            />
+            <EditActionRow>
+              <S.Span size="h11Regular" color={editText.length >= 500 ? 'faillog-red' : 'faillog_gray8'}>
+                {editText.length} / 500
+              </S.Span>
+              <EditBtnGroup>
+                <CancelEditBtn onClick={handleEditCancel}>
+                  <S.Span size="h10Bold">취소</S.Span>
+                </CancelEditBtn>
+                <SaveEditBtn>
+                  <S.Span size="h10Bold" color="faillog_white">저장</S.Span>
+                </SaveEditBtn>
+              </EditBtnGroup>
+            </EditActionRow>
+          </>
+        ) : (
+          <ContentText>
+            {displayText}
+            {isOverflow && !expanded && '... '}
+            {isOverflow && (
+              <InlineToggle onClick={() => setExpanded(prev => !prev)}>
+                {expanded ? ' (접기)' : '(자세히보기)'}
+              </InlineToggle>
+            )}
+          </ContentText>
+        )}
       </ContentArea>
 
       <ActionRow>
@@ -319,6 +355,53 @@ const RereplyListArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+`
+
+const EditTextArea = styled.textarea`
+  width: 100%;
+  min-height: 80px;
+  padding: 10px 12px;
+  background: ${colorCSS["faillog_gray1"]};
+  border: 1px solid ${colorCSS["faillog_gray3"]};
+  border-radius: 10px;
+  resize: none;
+  overflow-y: auto;
+  ${sizeCSS["h9Regular"]}
+  color: ${colorCSS["faillog-black"]};
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: ${colorCSS["faillog_purple"]};
+  }
+`
+
+const EditActionRow = styled.div`
+  ${flexBetweenRow}
+  margin-top: 8px;
+`
+
+const EditBtnGroup = styled.div`
+  display: flex;
+  gap: 8px;
+`
+
+const CancelEditBtn = styled.button`
+  height: 32px;
+  padding: 0 14px;
+  background: none;
+  border: 1px solid ${colorCSS["faillog_gray4"]};
+  border-radius: 8px;
+  cursor: pointer;
+`
+
+const SaveEditBtn = styled.button`
+  height: 32px;
+  padding: 0 14px;
+  background: ${colorCSS["faillog_purple"]};
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 `
 
 export default Reply;
