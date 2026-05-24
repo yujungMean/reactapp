@@ -6,11 +6,12 @@ import likeFill2Img from '../../resources/like-fill2.svg';
 import menuIcon from '../../resources/menuIcon.svg';
 
 import S, { colorCSS, sizeCSS } from '../../style.js';
-import { flexCenterRow } from '../../../../styles/common.js';
+import { flexBetweenRow, flexCenterRow } from '../../../../styles/common.js';
 import Rereply from './Rereply.jsx';
 import ReplySubmit from './ReplySubmit.jsx';
 import { useMenuContext } from './MenuContext.js';
 import { useReportContext } from './ReportContext.js';
+import PopupComponent from '../../../../components/commons/PopupComponent';
 
 const LIMIT = 230;
 
@@ -41,11 +42,15 @@ const EXAMPLE = {
   ],
 };
 
-// isOwner: 본인 댓글 여부, profileImg: 프로필 이미지, createdAt: 작성일
+// loginId: 로그인 유저 id, memberId: 댓글 작성자 id, replyId: 댓글 id
+// profileImg: 프로필 이미지, createdAt: 작성일
 // author: 작성자, content: 내용, isLiked: 좋아요 여부, likeCount: 좋아요 수
 // rereplyList: 대댓글 배열 (Rereply props 객체 배열)
+// onReplyAdded: 대댓글 등록 후 페이지 갱신 콜백
 const Reply = ({
-  isOwner = EXAMPLE.isOwner,
+  loginId,
+  memberId,
+  replyId,
   profileImg = EXAMPLE.profileImg,
   createdAt = EXAMPLE.createdAt,
   author = EXAMPLE.author,
@@ -53,21 +58,106 @@ const Reply = ({
   isLiked = EXAMPLE.isLiked,
   likeCount = EXAMPLE.likeCount,
   rereplyList = EXAMPLE.rereplyList,
+  onReplyAdded,
 }) => {
+  const isOwner = loginId != null && loginId === memberId;
   const { openMenuId, setOpenMenuId } = useMenuContext();
   const { openReport } = useReportContext();
   const menuId = useRef(`reply-${Math.random()}`).current;
   const menuOpen = openMenuId === menuId;
   const toggleMenu = () => setOpenMenuId(menuOpen ? null : menuId);
 
+  const [currentContent, setCurrentContent] = useState(content);
   const [expanded, setExpanded] = useState(false);
   const [replyOpen, setReplyOpen] = useState(false);
+  const [liked, setLiked] = useState(isLiked);
+  const [count, setCount] = useState(likeCount);
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editText, setEditText] = useState(content);
 
-  const isOverflow = content.length > LIMIT;
-  const displayText = isOverflow && !expanded ? content.slice(0, LIMIT) : content;
+  const handleEditClick = () => {
+    setOpenMenuId(null);
+    setEditText(currentContent);
+    setEditMode(true);
+  };
+
+  const handleEditCancel = () => setEditMode(false);
+
+  const handleEditSave = async () => {
+    if (!editText.trim()) return;
+    const res = await fetch('http://localhost:10000/api/posts/update-reply', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: replyId, replyContent: editText }),
+    });
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success) {
+      setCurrentContent(editText);
+      setEditMode(false);
+    }
+  };
+
+  const handleDeleteConfirm = async () => {
+    setDeletePopupOpen(false);
+    const res = await fetch(`http://localhost:10000/api/posts/delete-reply/${replyId}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success) onReplyAdded?.();
+  };
+
+  const handleRereplySubmit = async (text) => {
+    if (!text.trim()) return;
+    const res = await fetch('http://localhost:10000/api/posts/write-rereply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ replyId, memberId: loginId, rereplyContent: text }),
+    });
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success) {
+      setReplyOpen(false);
+      onReplyAdded?.();
+    }
+  };
+
+  const handleLike = async () => {
+
+console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
+
+    const url = liked
+      ? 'http://localhost:10000/api/posts/cancel-like-reply'
+      : 'http://localhost:10000/api/posts/like-reply';
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ memberId: loginId, replyId }),
+    });
+
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success) {
+      setLiked(json.data.isLiked === 1);
+      setCount(json.data.likeCount);
+    }
+  };
+
+  const isOverflow = currentContent.length > LIMIT;
+  const displayText = isOverflow && !expanded ? currentContent.slice(0, LIMIT) : currentContent;
   const showSection = rereplyList.length > 0 || replyOpen;
 
   return (
+    <>
+    <PopupComponent
+      isOpen={deletePopupOpen}
+      message="댓글을 삭제하시겠습니까?"
+      onConfirm={handleDeleteConfirm}
+      onCancel={() => setDeletePopupOpen(false)}
+    />
     <Wrapper>
       <TopRow>
         <ProfileGroup>
@@ -84,9 +174,14 @@ const Reply = ({
           {menuOpen && (
             <Dropdown>
               {isOwner ? (
-                <DropdownItem onClick={() => setOpenMenuId(null)}>
-                  <S.Span size="h9Regular">삭제하기</S.Span>
-                </DropdownItem>
+                <>
+                  <DropdownItem onClick={handleEditClick}>
+                    <S.Span size="h9Regular">수정하기</S.Span>
+                  </DropdownItem>
+                  <DropdownItem onClick={() => { setOpenMenuId(null); setDeletePopupOpen(true); }}>
+                    <S.Span size="h9Regular">삭제하기</S.Span>
+                  </DropdownItem>
+                </>
               ) : (
                 <DropdownItem onClick={() => { openReport('댓글', undefined, profileImg, author, content); setOpenMenuId(null); }}>
                   <S.Span size="h9Regular">신고하기</S.Span>
@@ -98,21 +193,44 @@ const Reply = ({
       </TopRow>
 
       <ContentArea>
-        <ContentText>
-          {displayText}
-          {isOverflow && !expanded && '... '}
-          {isOverflow && (
-            <InlineToggle onClick={() => setExpanded(prev => !prev)}>
-              {expanded ? ' (접기)' : '(자세히보기)'}
-            </InlineToggle>
-          )}
-        </ContentText>
+        {editMode ? (
+          <>
+            <EditTextArea
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+              maxLength={500}
+            />
+            <EditActionRow>
+              <S.Span size="h11Regular" color={editText.length >= 500 ? 'faillog-red' : 'faillog_gray8'}>
+                {editText.length} / 500
+              </S.Span>
+              <EditBtnGroup>
+                <CancelEditBtn onClick={handleEditCancel}>
+                  <S.Span size="h10Bold">취소</S.Span>
+                </CancelEditBtn>
+                <SaveEditBtn onClick={handleEditSave}>
+                  <S.Span size="h10Bold" color="faillog_white">저장</S.Span>
+                </SaveEditBtn>
+              </EditBtnGroup>
+            </EditActionRow>
+          </>
+        ) : (
+          <ContentText>
+            {displayText}
+            {isOverflow && !expanded && '... '}
+            {isOverflow && (
+              <InlineToggle onClick={() => setExpanded(prev => !prev)}>
+                {expanded ? ' (접기)' : '(자세히보기)'}
+              </InlineToggle>
+            )}
+          </ContentText>
+        )}
       </ContentArea>
 
       <ActionRow>
-        <LikeGroup>
-          <img src={isLiked ? likeFill2Img : likeImg} width={16} height={16} alt="좋아요" />
-          <S.Span size="h10Bold">{likeCount}</S.Span>
+        <LikeGroup onClick={handleLike}>
+          <img src={liked ? likeFill2Img : likeImg} width={16} height={16} alt="좋아요" />
+          <S.Span size="h10Bold">{count}</S.Span>
         </LikeGroup>
         <ReplyBtn onClick={() => setReplyOpen(prev => !prev)}>
           <S.Span size="h10Bold">답글</S.Span>
@@ -124,13 +242,14 @@ const Reply = ({
           <Divider />
           <RereplyListArea>
             {rereplyList.map((item, i) => (
-              <Rereply key={i} {...item} />
+              <Rereply key={i} {...item} onReplyAdded={onReplyAdded} />
             ))}
-            {replyOpen && <ReplySubmit subject={"답글"} onSubmit={() => {}} />}
+            {replyOpen && <ReplySubmit subject={"답글"} onSubmit={handleRereplySubmit} />}
           </RereplyListArea>
         </SectionArea>
       )}
     </Wrapper>
+    </>
   );
 };
 
@@ -252,6 +371,53 @@ const RereplyListArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+`
+
+const EditTextArea = styled.textarea`
+  width: 100%;
+  min-height: 80px;
+  padding: 10px 12px;
+  background: ${colorCSS["faillog_gray1"]};
+  border: 1px solid ${colorCSS["faillog_gray3"]};
+  border-radius: 10px;
+  resize: none;
+  overflow-y: auto;
+  ${sizeCSS["h9Regular"]}
+  color: ${colorCSS["faillog-black"]};
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: ${colorCSS["faillog_purple"]};
+  }
+`
+
+const EditActionRow = styled.div`
+  ${flexBetweenRow}
+  margin-top: 8px;
+`
+
+const EditBtnGroup = styled.div`
+  display: flex;
+  gap: 8px;
+`
+
+const CancelEditBtn = styled.button`
+  height: 32px;
+  padding: 0 14px;
+  background: none;
+  border: 1px solid ${colorCSS["faillog_gray4"]};
+  border-radius: 8px;
+  cursor: pointer;
+`
+
+const SaveEditBtn = styled.button`
+  height: 32px;
+  padding: 0 14px;
+  background: ${colorCSS["faillog_purple"]};
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 `
 
 export default Reply;

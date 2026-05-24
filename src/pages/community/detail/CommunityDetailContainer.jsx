@@ -13,18 +13,23 @@ import BeforeAfterPost from './components/BeforeAfterPost';
 import AiPostContainer from './components/AiPostContainer';
 import ReportPopup from './components/ReportPopup';
 import { ReportContext } from './components/ReportContext';
+import { formatRelativeTime } from '../../../utils/relativeTime';
+import PopupComponent from '../../../components/commons/PopupComponent';
 
 // TODO: 로그인 구현 후 auth context에서 가져올 것
 const CURRENT_MEMBER_ID = 1;
 
 const formatTimeAgo = (dateStr) => {
     if (!dateStr) return '';
-    const date = new Date(dateStr.replace(' ', 'T'));
+    // const date = new Date(dateStr.replace(' ', 'T'));
+    const date = new Date(dateStr);
     const diff = Math.floor((Date.now() - date.getTime()) / 1000);
     if (diff < 60) return '방금';
     if (diff < 3600) return `${Math.floor(diff / 60)}분 전`;
     if (diff < 86400) return `${Math.floor(diff / 3600)}시간 전`;
-    return `${Math.floor(diff / 86400)}일 전`;
+    if (diff < 2592000) return `${Math.floor(diff / 86400)}일 전`;
+    if (diff < 31536000) return `${Math.floor(diff / 2592000)}개월 전`;
+    return `${Math.floor(diff / 31536000)}년 전`;
 };
 
 const CommunityDetailContainer = () => {
@@ -33,6 +38,7 @@ const CommunityDetailContainer = () => {
     const [pageData, setPageData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -56,7 +62,7 @@ const CommunityDetailContainer = () => {
             }
         };
         fetchPost();
-    }, [id]);
+    }, [id, refreshKey]);
 
     const openReport = (type, reportId, profileImg, author, content) => {
         setReportState({ type, id: reportId, profileImg, author, content });
@@ -66,7 +72,7 @@ const CommunityDetailContainer = () => {
     if (loading) return <StatusText>불러오는 중...</StatusText>;
     if (error || !pageData) return <StatusText>{error ?? '게시글을 찾을 수 없습니다.'}</StatusText>;
 
-    const { post, replies, postPictures, beforePost, afterPost, postAiList,
+    const { post, replies, beforePost, afterPost, postAiList,
         memberPostCount, memberLogCount, memberReplyCount } = pageData;
 
     // API categoryId는 1-indexed, getCategoryInfo는 0-indexed
@@ -76,27 +82,79 @@ const CommunityDetailContainer = () => {
     const dateStr = post.postCreatedAt?.slice(0, 10) ?? '';
     const timeAgo = formatTimeAgo(post.postCreatedAt);
 
-    const images = (postPictures ?? []).map((url) => ({
+    // post.postContent에있는 이미지들의 주소들을 images에저장
+    const doc = new DOMParser().parseFromString(post.postContent, 'text/html');
+    const docImageUrls = Array.from(doc.querySelectorAll('img')).map(img => img.getAttribute('src'));
+
+    const images = (docImageUrls ?? []).map((url) => ({
         src: url,
         name: url.split('/').pop().split('?')[0],
     }));
 
     const replyList = (replies ?? []).map((r) => ({
-        isOwner: r.memberId === CURRENT_MEMBER_ID,
+        loginId: CURRENT_MEMBER_ID,
+        memberId: r.memberId,
+        replyId: r.id,
         profileImg: r.memberProfileImageUrl ?? icon04,
         createdAt: formatTimeAgo(r.replyCreatedAt),
         author: r.memberNickname,
         content: r.replyContent,
-        isLiked: false,
+        isLiked: r.isLiked === 1,
         likeCount: r.likeCount ?? 0,
         rereplyList: (r.replies ?? []).map((rr) => ({
-            isOwner: rr.memberId === CURRENT_MEMBER_ID,
+            loginId: CURRENT_MEMBER_ID,
+            memberId: rr.memberId,
+            rereplyId: rr.id,
             profileImg: rr.memberProfileImageUrl ?? icon04,
             author: rr.memberNickname,
             content: rr.rereplyContent,
             createdAt: formatTimeAgo(rr.rereplyCreatedAt),
         })),
     }));
+
+    //임시(ai post list 더미데이터)
+    const aiPostList = [
+    {
+        date: '2026년 03월 03일',
+        category: 0,
+        title: '시험 직전 불안이 심해질 때 내가 했던 복기 루틴 3가지를 소개합니다',
+        profile: icon04,
+        author: '필기마스터',
+        views: 45,
+        likes: 35,
+        comments: 6,
+    },
+    {
+        date: '2026년 03월 03일',
+        category: 0,
+        title: '도서관 루틴으로 바꾸고 나서 집중력이 유지된 기록',
+        profile: icon04,
+        author: '필기마스터',
+        views: 45,
+        likes: 35,
+        comments: 6,
+    },
+    {
+        date: '2026년 03월 03일',
+        category: 1,
+        title: '공부 환경을 바꾸고 나서 성적이 오른 실제 경험담',
+        profile: icon04,
+        author: '필기마스터',
+        views: 45,
+        likes: 35,
+        comments: 6,
+    },
+    {
+        date: '2026년 03월 03일',
+        category: 2,
+        title: '기출 회독보다 개념 이해가 먼저다 – 내 공부법 변화기',
+        profile: icon04,
+        author: '필기마스터',
+        views: 45,
+        likes: 35,
+        comments: 6,
+    },
+];
 
     return (
     <ReportContext.Provider value={{ openReport }}>
@@ -129,15 +187,22 @@ const CommunityDetailContainer = () => {
             <Divider />
 
             <Middle
+                loginId={CURRENT_MEMBER_ID}
                 isOwner={post.memberId === CURRENT_MEMBER_ID}
-                isLiked={post.isLike === 1}
+                isLiked={post.isLiked === 1}
                 likeCount={post.likeCount}
+                postId={post.id}
                 postAuthor={post.memberNickname}
                 postProfileImg={profileImg}
                 postContent={post.postTitle}
             />
 
-            <ReplyContainer replyList={replyList} />
+            <ReplyContainer
+                replyList={replyList}
+                postId={post.id}
+                loginId={CURRENT_MEMBER_ID}
+                onReplyAdded={() => setRefreshKey(k => k + 1)}
+            />
 
             <BeforeAfterPost
                 prevTitle={beforePost?.postTitle}
@@ -146,7 +211,8 @@ const CommunityDetailContainer = () => {
                 nextId={afterPost?.id}
             />
 
-            <AiPostContainer aiPostList={postAiList ?? []} />
+            {/* <AiPostContainer aiPostList={postAiList ?? []} /> */}
+            <AiPostContainer aiPostList={aiPostList} />
         </Wrapper>
     </Container>
     {reportState && (

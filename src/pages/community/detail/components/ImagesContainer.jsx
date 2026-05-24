@@ -13,6 +13,8 @@ const DUMMY_IMAGES = [
 ];
 
 const ImagesContainer = ({ images = DUMMY_IMAGES }) => {
+  if (!images || images.length === 0) return null;
+
   return (
     <Wrapper>
       <S.Span size="h7Bold" isvisible="true">첨부이미지 목록</S.Span>
@@ -27,7 +29,7 @@ const ImagesContainer = ({ images = DUMMY_IMAGES }) => {
 
 const Wrapper = styled.div`
   width: 1320px;
-  padding: 71px 24px 41px 24px;
+  padding: 57px 24px 41px 24px;
   display: flex;
   flex-direction: column;
 `;

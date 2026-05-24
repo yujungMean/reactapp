@@ -6,9 +6,22 @@ import ReplySubmit from './ReplySubmit.jsx';
 import Reply from './Reply.jsx';
 import { MenuContext } from './MenuContext.js';
 
-// replyList: Reply.jsx EXAMPLE 형식의 댓글 배열, onSubmit: 댓글 등록 이벤트
-const ReplyContainer = ({ replyList = [], onSubmit }) => {
+// replyList: Reply.jsx EXAMPLE 형식의 댓글 배열
+// postId: 게시글 id, loginId: 로그인 유저 id, onReplyAdded: 댓글 등록 후 갱신 콜백
+const ReplyContainer = ({ replyList = [], postId, loginId, onReplyAdded }) => {
   const [openMenuId, setOpenMenuId] = useState(null);
+
+  const handleSubmit = async (text) => {
+    if (!text.trim()) return;
+    const res = await fetch('http://localhost:10000/api/posts/write-reply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ postId, memberId: loginId, replyContent: text }),
+    });
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success) onReplyAdded?.();
+  };
 
   return (
     <MenuContext.Provider value={{ openMenuId, setOpenMenuId }}>
@@ -19,13 +32,13 @@ const ReplyContainer = ({ replyList = [], onSubmit }) => {
       </TitleRow>
 
       <ReplySubmitBox>
-        <ReplySubmit onSubmit={onSubmit} />
+        <ReplySubmit onSubmit={handleSubmit} />
       </ReplySubmitBox>
 
       {replyList.length > 0 && (
         <ReplyListArea>
           {replyList.map((item, i) => (
-            <Reply key={i} {...item} />
+            <Reply key={i} {...item} onReplyAdded={onReplyAdded} />
           ))}
         </ReplyListArea>
       )}

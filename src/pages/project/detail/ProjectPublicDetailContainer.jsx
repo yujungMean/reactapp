@@ -7,9 +7,9 @@ import S from './ProjectDetailContainerStyle';
 // 컴포넌트 Import
 import ProjectDetailAction from './ProjectDetailAction';
 import ProjectDetailChecklist from './ProjectDetailChecklist';
+import ProjectDetailSuggestion from './ProjectDetailSuggestion';  // 추가
 import ShareIcon from '../project_icon/icon-park-outline_share.svg';
 
-// AI 뱃지 컴포넌트
 const AiBadge = () => (
     <S.AiBadge>
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -26,9 +26,6 @@ const AiBadge = () => (
     </S.AiBadge>
 );
 
-// ─────────────────────────────────────────
-// MAIN COMPONENT (읽기 전용 - 다른 사람 프로젝트 상세)
-// ─────────────────────────────────────────
 const ProjectPublicDetailContainer = () => {
     const { id: projectId } = useParams();
 
@@ -37,8 +34,12 @@ const ProjectPublicDetailContainer = () => {
     const [error, setError] = useState(null);
     const [aiSuggestions, setAiSuggestions] = useState([]);
     const [checklist, setChecklist] = useState([]);
+    const [suggestion, setSuggestion] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [newItem, setNewItem] = useState({ title: '', memo: '', priority: null });
 
-    // ── 다른 사람 프로젝트 상세 조회 ──
+    // 프로젝트 상세 + 체크리스트 + 제안 목록 조회
     const fetchProject = async () => {
         try {
             setIsLoading(true);
@@ -46,9 +47,12 @@ const ProjectPublicDetailContainer = () => {
             setProject(response.data.data);
             setAiSuggestions(response.data.data?.aiSuggestions || []);
 
-            // 체크리스트 목록도 함께 조회
             const checklistResponse = await axios.get(`/api/checklist/list/${projectId}`);
             setChecklist(checklistResponse.data.data || []);
+
+            // 제안 목록 조회 추가
+            const suggestionResponse = await axios.get(`/api/suggestion/list/${projectId}`);
+            setSuggestions(suggestionResponse.data.data || []);
         } catch (err) {
             setError('프로젝트를 불러오는데 실패했습니다.');
         } finally {
@@ -56,7 +60,31 @@ const ProjectPublicDetailContainer = () => {
         }
     };
 
-    // ── 내 프로젝트로 복사 ──
+    // 제안 작성
+    const handleSuggestionSubmit = async () => {
+        if (!suggestion.trim()) return;
+        try {
+            await axios.post('/api/suggestion/create', {
+                projectId: Number(projectId),
+                checklistId: checklist[0]?.id || null,  // 첫 번째 체크리스트에 연결
+                suggestionTitle: suggestion,
+            });
+            setSuggestion('');
+            // 제안 목록 새로고침
+            const response = await axios.get(`/api/suggestion/list/${projectId}`);
+            setSuggestions(response.data.data || []);
+        } catch (err) {
+            alert('제안 등록에 실패했습니다.');
+        }
+    };
+
+    // 제안의 + 버튼 클릭 시 모달 열기 (제안 내용 자동 입력)
+    const handleAddFromSuggestion = (text) => {
+        setNewItem({ title: text, memo: '', priority: null });
+        setShowAddModal(true);
+    };
+
+    // 내 프로젝트로 복사
     const handleCopy = async () => {
         if (!window.confirm('이 프로젝트를 내 프로젝트로 추가하시겠습니까?')) return;
         try {
@@ -71,7 +99,6 @@ const ProjectPublicDetailContainer = () => {
         if (projectId) fetchProject();
     }, [projectId]);
 
-    // ── D+day 계산 ──
     const getDDay = (startDate) => {
         if (!startDate) return 'D-Day';
         const start = new Date(startDate);
@@ -80,7 +107,6 @@ const ProjectPublicDetailContainer = () => {
         return diff >= 0 ? `D+${diff}` : `D${diff}`;
     };
 
-    // ── 진행률 계산 (시작일~종료일 기준) ──
     const getProgressPercent = (startDate, endDate) => {
         if (!startDate || !endDate) return 0;
         const start = new Date(startDate);
@@ -92,7 +118,6 @@ const ProjectPublicDetailContainer = () => {
         return Math.min(100, Math.max(0, Math.round((elapsed / total) * 100)));
     };
 
-    // ── 로딩 / 에러 처리 ──
     if (isLoading) return <S.PageWrapper><S.Inner><p>불러오는 중...</p></S.Inner></S.PageWrapper>;
     if (error)     return <S.PageWrapper><S.Inner><p>{error}</p></S.Inner></S.PageWrapper>;
     if (!project)  return null;
@@ -102,24 +127,20 @@ const ProjectPublicDetailContainer = () => {
     return (
         <S.PageWrapper>
             <S.Inner>
-                {/* ── PAGE TITLE ── */}
                 <S.PageTop>
                     <S.PageTitle>PROJECT</S.PageTitle>
                     <S.TopBtnRow>
-                        {/* 작성자 닉네임 표시 */}
                         <span style={{ color: theme.GRAYSCALE[10], fontSize: '14px' }}>
                             {project.memberNickname}님의 프로젝트
                         </span>
                     </S.TopBtnRow>
                 </S.PageTop>
 
-                {/* ── VISION ── */}
                 <S.Section>
                     <S.SectionLabel>VISION</S.SectionLabel>
                     <S.VisionText>{project.visionTitle || '-'}</S.VisionText>
                 </S.Section>
 
-                {/* ── AI 추천 프로젝트 CARD ── */}
                 <S.ProjectCard>
                     <S.ProjectCardInner>
                         <S.ProjectCardMeta>
@@ -137,17 +158,13 @@ const ProjectPublicDetailContainer = () => {
                             <S.DDay>{project.progressDay || getDDay(project.projectStartDate)}</S.DDay>
                         </S.ProgressRow>
                     </S.ProjectCardInner>
-
-                    {/* 내 프로젝트 추가 버튼 - 수정 버튼과 같은 위치 */}
                     <S.ProjectEditBtn onClick={handleCopy} title="내 프로젝트에 추가">
                         <img src={ShareIcon} alt="내 프로젝트 추가" width="16" height="16" />
                     </S.ProjectEditBtn>
                 </S.ProjectCard>
 
-                {/* ── 행동 추천 (읽기 전용) ── */}
                 <ProjectDetailAction actions={aiSuggestions} />
 
-                {/* ── 체크리스트 (읽기 전용) ── */}
                 <ProjectDetailChecklist
                     checklist={checklist.map(item => ({
                         id: item.id,
@@ -155,18 +172,31 @@ const ProjectPublicDetailContainer = () => {
                         memo: item.checklistMemo,
                         priority: item.checklistPriority,
                         status: item.checklistCompleted === 'Y' ? 'success'
-                              : item.checklistFailed === 'Y' ? 'fail'
-                              : null,
+                            : item.checklistFailed === 'Y' ? 'fail'
+                            : null,
                     }))}
-                    // 읽기 전용 - 수정/삭제/추가 기능 비활성화
                     onToggle={() => {}}
                     onStatusChange={() => {}}
-                    showAddModal={false}
-                    setShowAddModal={() => {}}
-                    newItem={{ title: '', memo: '', priority: null }}
-                    setNewItem={() => {}}
+                    showAddModal={showAddModal}
+                    setShowAddModal={setShowAddModal}
+                    newItem={newItem}
+                    setNewItem={setNewItem}
                     onAddItem={() => {}}
                     readOnly={true}
+                />
+
+                {/* Suggestion 추가 */}
+                <ProjectDetailSuggestion
+                    suggestion={suggestion}
+                    setSuggestion={setSuggestion}
+                    suggestions={suggestions.map(s => ({
+                        id: s.id,
+                        text: s.suggestionTitle,
+                        user: `회원 ${s.memberId}`,
+                        avatar: null,
+                    }))}
+                    onSubmit={handleSuggestionSubmit}
+                    onAddFromSuggestion={handleAddFromSuggestion}
                 />
             </S.Inner>
         </S.PageWrapper>

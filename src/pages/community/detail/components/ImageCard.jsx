@@ -5,22 +5,25 @@ import S, { colorCSS } from '../../style';
 const ImageCard = ({ src, name }) => {
   
   const handleDownload = async () => {
-    try {
-      const response = await fetch(`${src}?not-from-cache-please`, { mode: 'cors' });
-      if (!response.ok) throw new Error('fetch failed');
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = name;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    } catch {
-      // CORS 등으로 blob 다운로드 불가 시 새 탭에서 열기
-      window.open(src, '_blank', 'noopener,noreferrer');
-    }
+
+    window.open(src, '_blank', 'noopener,noreferrer');
+
+    // try {
+    //   const response = await fetch(`${src}?not-from-cache-please`, { mode: 'cors' });
+    //   if (!response.ok) throw new Error('fetch failed');
+    //   const blob = await response.blob();
+    //   const url = window.URL.createObjectURL(blob);
+    //   const a = document.createElement('a');
+    //   a.href = url;
+    //   a.download = name;
+    //   document.body.appendChild(a);
+    //   a.click();
+    //   document.body.removeChild(a);
+    //   window.URL.revokeObjectURL(url);
+    // } catch {
+    //   // CORS 등으로 blob 다운로드 불가 시 새 탭에서 열기
+    //   window.open(src, '_blank', 'noopener,noreferrer');
+    // }
   };
 
   return (

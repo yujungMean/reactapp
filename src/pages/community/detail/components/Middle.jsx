@@ -12,11 +12,35 @@ import { useReportContext } from './ReportContext.js';
 
 // 게시글 상세 중앙(목록으로, 좋아요버튼, 메뉴버튼)
 // isOwner: 본인 게시글 여부, likeCount: 좋아요 수, isLiked: 좋아요 선택 여부
-// postId, postAuthor, postProfileImg, postContent: 신고 팝업용 게시글 정보
-const Middle = ({ id, isOwner = false, likeCount = 0, isLiked = false, postId, postAuthor, postProfileImg, postContent }) => {
+// loginId: 로그인 유저 id, postId, postAuthor, postProfileImg, postContent: 신고 팝업용 게시글 정보
+const Middle = ({ loginId, isOwner = false, likeCount = 0, isLiked = false, memberId, postId, postAuthor, postProfileImg, postContent }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [liked, setLiked] = useState(isLiked);
+  const [count, setCount] = useState(likeCount);
   const navigate = useNavigate();
   const { openReport } = useReportContext();
+
+  const handleLike = async () => {
+
+    //로그인이 안됬을 때 return
+
+    const url = liked
+      ? 'http://localhost:10000/api/posts/cancel-like'
+      : 'http://localhost:10000/api/posts/apply-like';
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ memberId : loginId, postId }),
+    });
+
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success) {
+      setLiked(json.data.isLiked === 1);
+      setCount(json.data.likeCount);
+    }
+  };
 
   return (
     <Wrapper>
@@ -25,9 +49,9 @@ const Middle = ({ id, isOwner = false, likeCount = 0, isLiked = false, postId, p
       </ListBtn>
 
       <RightGroup>
-        <LikeBtn>
-          <LikeIcon src={isLiked ? likeFill2 : like} alt="좋아요" />
-          <S.Span size="h9Bold">{likeCount}</S.Span>
+        <LikeBtn onClick={handleLike}>
+          <LikeIcon src={liked ? likeFill2 : like} alt="좋아요" />
+          <S.Span size="h9Bold">{count}</S.Span>
         </LikeBtn>
 
         <MenuContainer>
@@ -39,12 +63,9 @@ const Middle = ({ id, isOwner = false, likeCount = 0, isLiked = false, postId, p
             <Dropdown>
               {isOwner ? (
                 <>
-                  <DropdownItem onClick={() => { openReport('게시글', postId, postProfileImg, postAuthor, postContent); setMenuOpen(false); }}>
-                    <S.Span size="h7Regular">신고하기</S.Span>
-                  </DropdownItem>
                   <DropdownItem onClick={() => {
                       setMenuOpen(false)
-                      navigate(`/community/edit/${id}`)
+                      navigate(`/community/edit/${postId}`)
                     }}>
                     <S.Span size="h7Regular">수정하기</S.Span>
                   </DropdownItem>
@@ -53,9 +74,9 @@ const Middle = ({ id, isOwner = false, likeCount = 0, isLiked = false, postId, p
                   </DropdownItem>
                 </>
               ) : (
-                <DropdownItem onClick={() => setMenuOpen(false)}>
-                  <S.Span size="h7Regular">신고하기</S.Span>
-                </DropdownItem>
+                  <DropdownItem onClick={() => { openReport('게시글', postId, postProfileImg, postAuthor, postContent); setMenuOpen(false); }}>
+                    <S.Span size="h7Regular">신고하기</S.Span>
+                  </DropdownItem>
               )}
             </Dropdown>
           )}
