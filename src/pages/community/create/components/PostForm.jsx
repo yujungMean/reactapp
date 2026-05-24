@@ -20,7 +20,7 @@ import Text from '@tiptap/extension-text';
 
 import '../../css/PostForm.css'
 
-const CATEGORY_OPTIONS = ['공부/취업', '시장/창업', '인간관계', '건강/루틴', '기타'];
+const CATEGORY_OPTIONS = ['공부/취업', '사업/창업', '인간관계', '건강/루틴', '기타'];
 
 const PostForm = ({
   isCreate = true,
@@ -73,7 +73,8 @@ const PostForm = ({
       Paragraph,
       Text
     ],
-    content: '<img src="https://storage.ghost.io/c/ef/c4/efc4de12-d333-4292-a2f4-7c017c0cced8/content/images/size/w2000/2025/11/Gemini_Generated_Image_5fdg255fdg255fdg.png" width="590" containerstyle="width: 590px;" wrapperstyle="display: flex; margin: 0px;"><p>익숙한 내 방에서만 공부하던 게 독이었습니다. 실전에서는 낯선 환경과 작은 소음에도 쉽게 흔들렸고, 알고 있던 것도 제대로 꺼내지 못했습니다. 그래서 공부량을 더 늘리는 대신 환경부터 바꾸기로 했습니다.</p><p></p><p>집이 아닌 도서관, 카페, 스터디카페를 번갈아 이용했고 처음엔 불편했지만 점점 낯선 공간에서도 집중을 유지하는 시간이 길어졌습니다. 이전에는 긴장하면 손이 굳고 머리가 멍해 졌는데, 이제는 다시 흐름을 잡는 연습이 되기 시작했습니다.</p><img src="https://img.freepik.com/free-photo/stack-notebooks-cup-with-pencils_23-2147711407.jpg?semt=ais_hybrid&amp;w=740&amp;q=80" width="627" containerstyle="width: 627px; margin: 0px auto 0px 0px;" wrapperstyle="display: flex; margin: 0px;"><p>공부 루틴도 바꿨습니다. 예전에는 오래 앉아 있는 것 자체에 의미를 뒀지만, 지금은 30분 집중 후 짧게 쉬는 방식으로 구조를 바꿨습니다. 틀린 문제는 그냥 넘어가지 않고 왜 틀렸는 지를 적으면서 실수의 패턴을 추적했습니다.</p><p></p><p>결국 실전은 많이 아는 것보다 흔들려도 다시 꺼낼 수 있는 힘이 더 중요하다는 걸 느꼈습니다. 환경을 바꾸고, 루틴을 바꾸고, 실수의 원인을 적기 시작한 뒤부터 실전에서의 안정감 이 달라졌습니다.</p> ',
+    content: defaultContent,
+    // <img src="https://storage.ghost.io/c/ef/c4/efc4de12-d333-4292-a2f4-7c017c0cced8/content/images/size/w2000/2025/11/Gemini_Generated_Image_5fdg255fdg255fdg.png" width="590" containerstyle="width: 590px;" wrapperstyle="display: flex; margin: 0px;"><p>익숙한 내 방에서만 공부하던 게 독이었습니다. 실전에서는 낯선 환경과 작은 소음에도 쉽게 흔들렸고, 알고 있던 것도 제대로 꺼내지 못했습니다. 그래서 공부량을 더 늘리는 대신 환경부터 바꾸기로 했습니다.</p><p></p><p>집이 아닌 도서관, 카페, 스터디카페를 번갈아 이용했고 처음엔 불편했지만 점점 낯선 공간에서도 집중을 유지하는 시간이 길어졌습니다. 이전에는 긴장하면 손이 굳고 머리가 멍해 졌는데, 이제는 다시 흐름을 잡는 연습이 되기 시작했습니다.</p><img src="https://img.freepik.com/free-photo/stack-notebooks-cup-with-pencils_23-2147711407.jpg?semt=ais_hybrid&amp;w=740&amp;q=80" width="627" containerstyle="width: 627px; margin: 0px auto 0px 0px;" wrapperstyle="display: flex; margin: 0px;"><p>공부 루틴도 바꿨습니다. 예전에는 오래 앉아 있는 것 자체에 의미를 뒀지만, 지금은 30분 집중 후 짧게 쉬는 방식으로 구조를 바꿨습니다. 틀린 문제는 그냥 넘어가지 않고 왜 틀렸는 지를 적으면서 실수의 패턴을 추적했습니다.</p><p></p><p>결국 실전은 많이 아는 것보다 흔들려도 다시 꺼낼 수 있는 힘이 더 중요하다는 걸 느꼈습니다. 환경을 바꾸고, 루틴을 바꾸고, 실수의 원인을 적기 시작한 뒤부터 실전에서의 안정감 이 달라졌습니다.</p> 
   })
 
   //에디터 상태값변경 (리랜더링)
