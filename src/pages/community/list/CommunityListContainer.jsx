@@ -18,12 +18,15 @@ myStyle.pageWrapper = styled.div`
     ${flexCenterRow}
 `
 
+//api에서 받은 content는 html태그로되어있다.
+//게시글 내용에 html태그를 보이면 안되므로 html태그를 제거하고 내용만 보이도록 변환
 const stripHtml = (html) => {
     if (!html) return '';
     const doc = new DOMParser().parseFromString(html, 'text/html');
     return doc.body.textContent || '';
 };
 
+//게시글 내용의 첫 img태그의 경로가 썸네일 이미지로 보이도록 구현
 const extractFirstImage = (html) => {
     if (!html) return null;
     const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -61,6 +64,7 @@ const CommunityListContainer = () => {
             author: p.memberNickname,
             views: p.postReadCount,
             likes: p.likeCount,
+            isLiked: p.isLiked === 1,
             comments: p.replyCount,
             thumbnail: extractFirstImage(p.postContent),
         }));

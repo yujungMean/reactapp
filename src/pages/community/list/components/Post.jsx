@@ -137,6 +137,7 @@ const Post = ({
   author,
   views,
   likes,
+  isLiked = false,
   comments,
   isHrHidden
 }) => {
@@ -170,7 +171,7 @@ const Post = ({
                   <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{views}</S.Span>
                 </StatItem>
                 <StatItem>
-                  <img src={heart} width={14} height={14}></img>
+                  <img src={isLiked ? likeFill : heart} width={14} height={14}></img>
                   <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{likes}</S.Span>
                 </StatItem>
                 <StatItem>

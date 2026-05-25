@@ -32,6 +32,7 @@ const Posts = ({postData, search = ''}) => {
             author={post.author}
             views={post.views}
             likes={post.likes}
+            isLiked={post.isLiked}
             comments={post.comments}
             thumbnail={post.thumbnail ? post.thumbnail : imageEmpty}
             isHrHidden={(postData.length-1) === i}
