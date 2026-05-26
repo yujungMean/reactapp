@@ -4,10 +4,9 @@ import axios from '../../../api/axiosInstance';
 import theme from '../../../styles/theme';
 import S from './ProjectDetailContainerStyle';
 
-// 컴포넌트 Import
 import ProjectDetailAction from './ProjectDetailAction';
 import ProjectDetailChecklist from './ProjectDetailChecklist';
-import ProjectDetailSuggestion from './ProjectDetailSuggestion';  // 추가
+import ProjectDetailSuggestion from './ProjectDetailSuggestion';
 import ShareIcon from '../project_icon/icon-park-outline_share.svg';
 
 const AiBadge = () => (
@@ -38,8 +37,8 @@ const ProjectPublicDetailContainer = () => {
     const [suggestions, setSuggestions] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [newItem, setNewItem] = useState({ title: '', memo: '', priority: null });
+    const [currentMemberId, setCurrentMemberId] = useState(null); // ✅ 추가
 
-    // 프로젝트 상세 + 체크리스트 + 제안 목록 조회
     const fetchProject = async () => {
         try {
             setIsLoading(true);
@@ -50,9 +49,17 @@ const ProjectPublicDetailContainer = () => {
             const checklistResponse = await axios.get(`/api/checklist/list/${projectId}`);
             setChecklist(checklistResponse.data.data || []);
 
-            // 제안 목록 조회 추가
             const suggestionResponse = await axios.get(`/api/suggestion/list/${projectId}`);
             setSuggestions(suggestionResponse.data.data || []);
+
+            // ✅ 현재 로그인한 유저 정보 조회
+            try {
+                const meResponse = await axios.get('/private/member/me');
+                setCurrentMemberId(meResponse.data.data?.id);
+            } catch {
+                setCurrentMemberId(null); // 비로그인 상태
+            }
+
         } catch (err) {
             setError('프로젝트를 불러오는데 실패했습니다.');
         } finally {
@@ -60,17 +67,15 @@ const ProjectPublicDetailContainer = () => {
         }
     };
 
-    // 제안 작성
     const handleSuggestionSubmit = async () => {
         if (!suggestion.trim()) return;
         try {
             await axios.post('/api/suggestion/create', {
                 projectId: Number(projectId),
-                checklistId: checklist[0]?.id || null,  // 첫 번째 체크리스트에 연결
+                checklistId: checklist[0]?.id || null,
                 suggestionTitle: suggestion,
             });
             setSuggestion('');
-            // 제안 목록 새로고침
             const response = await axios.get(`/api/suggestion/list/${projectId}`);
             setSuggestions(response.data.data || []);
         } catch (err) {
@@ -78,13 +83,11 @@ const ProjectPublicDetailContainer = () => {
         }
     };
 
-    // 제안의 + 버튼 클릭 시 모달 열기 (제안 내용 자동 입력)
     const handleAddFromSuggestion = (text) => {
         setNewItem({ title: text, memo: '', priority: null });
         setShowAddModal(true);
     };
 
-    // 내 프로젝트로 복사
     const handleCopy = async () => {
         if (!window.confirm('이 프로젝트를 내 프로젝트로 추가하시겠습니까?')) return;
         try {
@@ -185,18 +188,13 @@ const ProjectPublicDetailContainer = () => {
                     readOnly={true}
                 />
 
-                {/* Suggestion 추가 */}
                 <ProjectDetailSuggestion
                     suggestion={suggestion}
                     setSuggestion={setSuggestion}
-                    suggestions={suggestions.map(s => ({
-                        id: s.id,
-                        text: s.suggestionTitle,
-                        user: `회원 ${s.memberId}`,
-                        avatar: null,
-                    }))}
+                    suggestions={suggestions}
                     onSubmit={handleSuggestionSubmit}
                     onAddFromSuggestion={handleAddFromSuggestion}
+                    isOwner={currentMemberId === project?.memberId} // ✅ 추가
                 />
             </S.Inner>
         </S.PageWrapper>

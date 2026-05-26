@@ -63,6 +63,7 @@ const ProjectDetailContainer = () => {
             // 내 프로젝트에 달린 제안 목록 조회
             const suggestionResponse = await axios.get(`/api/suggestion/list/${projectId}`);
             setSuggestions(suggestionResponse.data.data || []);
+
         } catch (err) {
             setError('프로젝트를 불러오는데 실패했습니다.');
         } finally {
@@ -286,14 +287,10 @@ const ProjectDetailContainer = () => {
                 <ProjectDetailSuggestion
                     suggestion={suggestion}
                     setSuggestion={setSuggestion}
-                    suggestions={suggestions.map(s => ({
-                        id: s.id,
-                        text: s.suggestionTitle,
-                        user: `회원 ${s.memberId}`,
-                        avatar: null,
-                    }))}
+                    suggestions={suggestions}
                     onSubmit={() => {}}
                     onAddFromSuggestion={handleOpenAddModalFromSuggestion}
+                    isOwner={true}
                 />
             </S.Inner>
         </S.PageWrapper>

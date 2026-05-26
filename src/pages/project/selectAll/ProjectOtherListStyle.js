@@ -22,7 +22,6 @@ S.CommunityGrid = styled.div`
 S.CardWrapper = styled.div`
     position: relative;
     height: 180px;
-    overflow: hidden;
     min-width: 0;
 `;
 
@@ -80,11 +79,8 @@ S.OwnerAvatar = styled.div`
     height: 32px;
     flex-shrink: 0;
     border-radius: 50%;
-    border: 2px solid ${({ $color }) => $color};
-    color: ${({ $color }) => $color};
-    font-size: ${theme.FONT_SIZE.h11};
-    font-weight: 700;
-    background: ${theme.PALETTE.white};
+    background: linear-gradient(135deg, #027df0, #ab47ff);
+    overflow: hidden;
 `;
 
 S.OwnerName = styled.span`

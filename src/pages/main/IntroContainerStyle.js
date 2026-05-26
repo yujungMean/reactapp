@@ -7,6 +7,17 @@ const scrollDotAnim = keyframes`
     100% { opacity: 1; transform: translateY(0); }
 `;
 
+const fadeUpAnim = keyframes`
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+`;
+
 const gradientText = `
     background: linear-gradient(90deg, #027df0, #ab47ff);
     -webkit-background-clip: text;
@@ -187,6 +198,12 @@ S.Section2Left = styled.div`
     flex-direction: column;
     justify-content: center;
     box-shadow: -10px 25px 30px 0px rgba(0, 0, 0, 0.07);
+    opacity: 0;
+    transform: translateY(40px);
+
+    &[data-visible='true'] {
+        animation: ${fadeUpAnim} 0.6s ease forwards;
+    }
 `;
 
 S.Section2BadgeWrap = styled.div`
@@ -226,6 +243,13 @@ S.StatCard = styled.div`
     justify-content: center;
     gap: 4px;
     box-shadow: -10px 25px 30px 0px rgba(0, 0, 0, 0.07);
+    opacity: 0;
+    transform: translateY(40px);
+    animation-delay: ${({ $delay }) => $delay || '0s'};
+
+    &[data-visible='true'] {
+        animation: ${fadeUpAnim} 0.6s ease forwards;
+    }
 `;
 
 S.StatCardIcon = styled.div`
@@ -298,6 +322,14 @@ S.Section3Wrapper = styled.section`
         line-height: 1.4;
         margin: 0;
         letter-spacing: -0.5px;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+
+        &[data-visible='true'] {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 `;
 
@@ -322,6 +354,13 @@ S.MethodCard = styled.div`
     text-align: center;
     gap: 12px;
     box-shadow: -10px 25px 30px 0px rgba(0, 0, 0, 0.07);
+    opacity: 0;
+    transform: translateY(40px);
+    animation-delay: ${({ $delay }) => $delay || '0s'};
+
+    &[data-visible='true'] {
+        animation: ${fadeUpAnim} 0.6s ease forwards;
+    }
 `;
 
 S.MethodCardIcon = styled.div`
@@ -392,6 +431,14 @@ S.Section4Wrapper = styled.section`
         font-weight: ${theme.FONT_WEIGHT.bold};
         color: ${theme.PALETTE.black};
         text-align: center;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+
+        &[data-visible='true'] {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 `;
 
@@ -403,6 +450,14 @@ S.Section4BadgeWrap = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+
+    &[data-visible='true'] {
+        opacity: 1;
+        transform: translateY(0);
+    }
 `;
 
 S.Section4Badge = styled.span`
@@ -473,6 +528,13 @@ S.StepCard = styled.div`
     flex-direction: column;
     gap: 12px;
     box-shadow: -10px 25px 30px 0px rgba(0, 0, 0, 0.07);
+    opacity: 0;
+    transform: translateY(40px);
+    animation-delay: ${({ $delay }) => $delay || '0s'};
+
+    &[data-visible='true'] {
+        animation: ${fadeUpAnim} 0.6s ease forwards;
+    }
 `;
 
 S.StepCardTop = styled.div`
@@ -573,6 +635,14 @@ S.Section5Wrapper = styled.section`
         margin: 0;
         line-height: 1.4;
         letter-spacing: -0.5px;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+
+        &[data-visible='true'] {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .intro-section5-sub {
@@ -587,6 +657,14 @@ S.Section5Badges = styled.div`
     display: flex;
     flex-direction: row;
     gap: 24px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+
+    &[data-visible='true'] {
+        opacity: 1;
+        transform: translateY(0);
+    }
 `;
 
 S.Section5Badge = styled.div`
@@ -626,6 +704,13 @@ S.LogCard = styled.div`
     flex-direction: column;
     gap: 12px;
     box-shadow: -10px 25px 30px 0px rgba(0, 0, 0, 0.07);
+    opacity: 0;
+    transform: translateY(40px);
+    animation-delay: ${({ $delay }) => $delay || '0s'};
+
+    &[data-visible='true'] {
+        animation: ${fadeUpAnim} 0.6s ease forwards;
+    }
 `;
 
 S.LogCategory = styled.span`

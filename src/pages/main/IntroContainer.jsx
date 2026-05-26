@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import repeatIcon from './intro_icon/repeat_238888.svg';
 import washTimeIcon from './intro_icon/wash-time_103937.svg';
@@ -20,15 +20,15 @@ import S from './IntroContainerStyle';
 /* ──────────────────────────────────────────
    섹션 2 — 오른쪽 카드 3개
 ────────────────────────────────────────── */
-const StatCard = ({ icon, $variant, stat, label }) => (
-    <S.StatCard>
+const StatCard = React.forwardRef(({ icon, $variant, stat, label, $delay }, ref) => (
+    <S.StatCard ref={ref} $delay={$delay}>
         <S.StatCardIcon $variant={$variant}>
             <img src={icon} alt={label} />
         </S.StatCardIcon>
         <S.StatCardStat $variant={$variant}>{stat}</S.StatCardStat>
         <S.StatCardLabel>{label}</S.StatCardLabel>
     </S.StatCard>
-);
+));
 
 const STAT_CARDS = [
     {
@@ -54,15 +54,15 @@ const STAT_CARDS = [
 /* ──────────────────────────────────────────
    섹션 3 — 3가지 방법 카드
 ────────────────────────────────────────── */
-const MethodCard = ({ icon, $variant, title, desc }) => (
-    <S.MethodCard>
+const MethodCard = React.forwardRef(({ icon, $variant, title, desc, $delay }, ref) => (
+    <S.MethodCard ref={ref} $delay={$delay}>
         <S.MethodCardIcon $variant={$variant}>
             <img src={icon} alt={title} />
         </S.MethodCardIcon>
         <S.MethodCardTitle>{title}</S.MethodCardTitle>
         <S.MethodCardDesc>{desc}</S.MethodCardDesc>
     </S.MethodCard>
-);
+));
 
 const METHOD_CARDS = [
     {
@@ -88,7 +88,7 @@ const METHOD_CARDS = [
 /* ──────────────────────────────────────────
    섹션 4 — 타임라인 Step 카드
 ────────────────────────────────────────── */
-const StepCard = ({ step, icon, name, desc, tags, side }) => {
+const StepCard = React.forwardRef(({ step, icon, name, desc, tags, side, $delay }, ref) => {
     const isLeft = side === 'left';
 
     const cardTop = isLeft ? (
@@ -108,7 +108,7 @@ const StepCard = ({ step, icon, name, desc, tags, side }) => {
     );
 
     const card = (
-        <S.StepCard>
+        <S.StepCard ref={ref} $delay={$delay}>
             {cardTop}
             <S.StepCardName $side={side}>{name}</S.StepCardName>
             <S.StepCardDesc $side={side}>{desc}</S.StepCardDesc>
@@ -139,7 +139,7 @@ const StepCard = ({ step, icon, name, desc, tags, side }) => {
             )}
         </S.StepRow>
     );
-};
+});
 
 const STEP_CARDS = [
     {
@@ -179,8 +179,8 @@ const STEP_CARDS = [
 /* ──────────────────────────────────────────
    섹션 5 — 로그 카드
 ────────────────────────────────────────── */
-const LogCard = ({ $variant, category, title, desc, nickname, avatar, views, likes }) => (
-    <S.LogCard>
+const LogCard = React.forwardRef(({ $variant, category, title, desc, nickname, avatar, views, likes, $delay }, ref) => (
+    <S.LogCard ref={ref} $delay={$delay}>
         <S.LogCategory $variant={$variant}>{category}</S.LogCategory>
         <S.LogCardTitle>{title}</S.LogCardTitle>
         <S.LogCardDesc>{desc}</S.LogCardDesc>
@@ -203,7 +203,7 @@ const LogCard = ({ $variant, category, title, desc, nickname, avatar, views, lik
             </S.LogStats>
         </S.LogCardBottom>
     </S.LogCard>
-);
+));
 
 const LOG_CARDS = [
     {
@@ -243,6 +243,26 @@ const LOG_CARDS = [
 ────────────────────────────────────────── */
 const IntroContainer = () => {
     const navigate = useNavigate();
+    const animRefs = useRef([]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.dataset.visible = 'true';
+                    }
+                });
+            },
+            { threshold: 0.15 }
+        );
+
+        animRefs.current.forEach((el) => {
+            if (el) observer.observe(el);
+        });
+
+        return () => observer.disconnect();
+    }, []);
 
     return (
         <S.Wrap>
@@ -283,7 +303,7 @@ const IntroContainer = () => {
             {/* 2번째 섹터 */}
             <S.Section2Wrapper>
                 <div className="intro-section2">
-                    <S.Section2Left>
+                    <S.Section2Left ref={(el) => (animRefs.current[0] = el)}>
                         <S.Section2BadgeWrap>
                             <S.Section2Badge>실패 기록</S.Section2Badge>
                         </S.Section2BadgeWrap>
@@ -309,8 +329,13 @@ const IntroContainer = () => {
                     </S.Section2Left>
 
                     <S.Section2Right>
-                        {STAT_CARDS.map((card) => (
-                            <StatCard key={card.stat} {...card} />
+                        {STAT_CARDS.map((card, i) => (
+                            <StatCard
+                                key={card.stat}
+                                {...card}
+                                ref={(el) => (animRefs.current[i + 1] = el)}
+                                $delay={`${i * 0.15}s`}
+                            />
                         ))}
                     </S.Section2Right>
                 </div>
@@ -320,7 +345,10 @@ const IntroContainer = () => {
             <S.Section3Wrapper>
                 <div className="intro-section3">
                     <div className="intro-section3-header">
-                        <h2 className="intro-section3-title">
+                        <h2
+                            className="intro-section3-title"
+                            ref={(el) => (animRefs.current[4] = el)}
+                        >
                             실패를 데이터로,
                             <br />
                             성장으로 연결하는 <S.ColorGradient>3가지 방법</S.ColorGradient>
@@ -328,8 +356,13 @@ const IntroContainer = () => {
                     </div>
 
                     <S.Section3Cards>
-                        {METHOD_CARDS.map((card) => (
-                            <MethodCard key={card.title} {...card} />
+                        {METHOD_CARDS.map((card, i) => (
+                            <MethodCard
+                                key={card.title}
+                                {...card}
+                                ref={(el) => (animRefs.current[i + 5] = el)}
+                                $delay={`${i * 0.15}s`}
+                            />
                         ))}
                     </S.Section3Cards>
                 </div>
@@ -339,18 +372,26 @@ const IntroContainer = () => {
             <S.Section4Wrapper>
                 <div className="intro-section4">
                     <div className="intro-section4-header">
-                        <S.Section4BadgeWrap>
-                            <S.Section4Badge>사용 방법</S.Section4Badge>
-                        </S.Section4BadgeWrap>
-                        <h2 className="intro-section4-title">
+                        <S.Section4BadgeWrap ref={(el) => (animRefs.current[18] = el)}>
+                        <S.Section4Badge>사용 방법</S.Section4Badge>
+                    </S.Section4BadgeWrap>
+                        <h2
+                            className="intro-section4-title"
+                            ref={(el) => (animRefs.current[8] = el)}
+                        >
                             4단계로 완성하는 <S.ColorGradient>실패분석</S.ColorGradient>
                         </h2>
                     </div>
 
                     <S.StepByStep>
                         <S.TimelineLine />
-                        {STEP_CARDS.map((card) => (
-                            <StepCard key={card.step} {...card} />
+                        {STEP_CARDS.map((card, i) => (
+                            <StepCard
+                                key={card.step}
+                                {...card}
+                                ref={(el) => (animRefs.current[i + 9] = el)}
+                                $delay={`${i * 0.15}s`}
+                            />
                         ))}
                     </S.StepByStep>
                 </div>
@@ -360,7 +401,10 @@ const IntroContainer = () => {
             <S.Section5Wrapper>
                 <div className="intro-section5">
                     <div className="intro-section5-header">
-                        <h2 className="intro-section5-title">
+                        <h2
+                            className="intro-section5-title"
+                            ref={(el) => (animRefs.current[13] = el)}
+                        >
                             혼자가 아닌,
                             <br />
                             <S.ColorGradient>함께 만드는 성장</S.ColorGradient>
@@ -368,7 +412,7 @@ const IntroContainer = () => {
                         <p className="intro-section5-sub">다양한 분야의 실패 사례를 경험하세요.</p>
                     </div>
 
-                    <S.Section5Badges>
+                    <S.Section5Badges ref={(el) => (animRefs.current[17] = el)}>
                         <S.Section5Badge>
                             <span>다양한 로그</span>
                         </S.Section5Badge>
@@ -376,6 +420,17 @@ const IntroContainer = () => {
                             <span>커뮤니티</span>
                         </S.Section5Badge>
                     </S.Section5Badges>
+
+                    <S.Section5Cards>
+                        {LOG_CARDS.map((card, i) => (
+                            <LogCard
+                                key={card.category}
+                                {...card}
+                                ref={(el) => (animRefs.current[i + 14] = el)}
+                                $delay={`${i * 0.15}s`}
+                            />
+                        ))}
+                    </S.Section5Cards>
 
                     <S.Section5Cards>
                         {LOG_CARDS.map((card) => (

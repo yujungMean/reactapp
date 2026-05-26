@@ -92,26 +92,29 @@ S.SuggestionInput = styled.textarea`
 `;
 
 S.SuggestionSubmitBtn = styled.button`
-	${flexCenterRow}
-	gap: 8px;
-	width: 400px;
-	height: 40px;
-	margin-top: 20px;
-	border-radius: 10px;
-	border: 1px solid ${theme.GRAYSCALE[4]};
-	background: ${theme.PALETTE.white};
-	color: ${theme.PALETTE.third.main};
-	${h8Bold}
-	transition: all 0.15s;
-	&:hover {
-		border: 1px solid ${theme.PALETTE.third.main};
-		background: ${theme.PALETTE.white};
-	}
-	&:active {
-		background: ${theme.PALETTE.third.main};
-		color: ${theme.PALETTE.white};
-		border-color: ${theme.PALETTE.third.main};
-	}
+    ${flexCenterRow}
+    gap: 8px;
+    width: 400px;
+    height: 40px;
+    margin-top: 20px;
+    border-radius: 10px;
+    border: 1px solid ${theme.GRAYSCALE[4]};
+    background: ${theme.PALETTE.white};
+    color: ${theme.PALETTE.third.main};
+    ${h8Bold}
+    transition: all 0.15s;
+    &:hover {
+        border: 1px solid ${theme.PALETTE.third.main};
+        background: ${theme.PALETTE.white};
+    }
+    &:active {
+        background: ${theme.PALETTE.third.main};
+        color: ${theme.PALETTE.white};
+        border-color: ${theme.PALETTE.third.main};
+        img {
+            filter: brightness(0) invert(1);
+        }
+    }
 `;
 
 S.SuggestionRight = styled.div`
@@ -136,19 +139,19 @@ S.SuggestionItem = styled.div`
 `;
 
 S.SuggestionAvatarWrap = styled.div`
-	width: 52px;
-	height: 52px;
-	border-radius: 50%;
-	background: ${theme.PALETTE.third.light};
-	${flexCenter}
-	flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #027df0, #ab47ff);
+    ${flexCenter}
+    flex-shrink: 0;
 `;
 
 S.SuggestionAvatarImg = styled.img`
-	width: 48px;
-	height: 48px;
-	border-radius: 50%;
-	object-fit: cover;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
 `;
 
 S.SuggestionItemContent = styled.div`
@@ -187,6 +190,38 @@ S.AddListBtn = styled.button`
 		color: ${theme.PALETTE.white};
 		border-color: ${theme.PALETTE.third.main};
 	}
+`;
+
+S.OwnerGuideWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    text-align: center;
+`;
+
+S.OwnerGuideIcon = styled.div`
+    font-size: 28px;
+`;
+
+S.OwnerGuideTitle = styled.p`
+    ${h6Bold}
+    color: ${theme.PALETTE.black};
+    margin: 0;
+`;
+
+S.OwnerGuideDesc = styled.p`
+    ${h8Regular}
+    color: ${theme.GRAYSCALE[10]};
+    margin: 0;
+    line-height: 1.6;
+`;
+
+S.PaperPlaneIcon = styled.img`
+    width: 20px;
+    height: 20px;
 `;
 
 export default S;

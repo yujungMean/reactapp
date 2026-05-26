@@ -31,9 +31,6 @@ const LogPopularSolution = () => {
     const handlePrev = () => setIndex(i => Math.max(0, i - 1));
     const handleNext = () => setIndex(i => Math.min(Math.max(0, cards.length - VISIBLE), i + 1));
 
-    // 데이터가 없으면 섹션 자체를 숨김
-    if (cards.length === 0) return null;
-
     return (
         <S.Wrapper>
             <S.Inner>

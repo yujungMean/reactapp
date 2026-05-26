@@ -102,7 +102,11 @@ S.Vision = styled.p`
     color: ${theme.GRAYSCALE[10]};
     margin: 0;
     line-height: 1.5;
-    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;   // 1줄로 제한
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 S.CardBottom = styled.div`

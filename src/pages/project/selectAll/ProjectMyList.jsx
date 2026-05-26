@@ -16,8 +16,12 @@ const ProjectCard = ({ project, onClick }) => (
                 <S.CardContent>
                     <S.CardTop>
                         <S.OwnerRow>
-                            <S.OwnerAvatar $color={project.ownerColor || theme.PALETTE.third.main}>
-                                {project.ownerInitial || '나'}
+                            <S.OwnerAvatar>
+                                <img
+                                    src={project.memberProfileImageUrl || '/default-profile.png'}
+                                    alt="프로필"
+                                    style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover' }}
+                                />
                             </S.OwnerAvatar>
                             <S.OwnerName>{project.owner || '나의 프로젝트'}</S.OwnerName>
                         </S.OwnerRow>

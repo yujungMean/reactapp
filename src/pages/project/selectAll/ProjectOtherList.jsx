@@ -37,8 +37,12 @@ const ProjectCard = ({ project, index }) => {
                 <S.CardContent>
                     <S.CardTop>
                         <S.OwnerRow>
-                            <S.OwnerAvatar $color={accentColor}>
-                                {getInitial(project.memberNickname)}
+                            <S.OwnerAvatar>
+                                <img
+                                    src={project.memberProfileImageUrl || '/default-profile.png'}
+                                    alt="프로필"
+                                    style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover' }}
+                                />
                             </S.OwnerAvatar>
                             <S.OwnerName>{project.memberNickname || '알 수 없음'}</S.OwnerName>
                         </S.OwnerRow>
