@@ -184,6 +184,50 @@ S.StatHighlight = styled.span`
   font-weight: 700;
 `;
 
+S.AiCard = styled.div`
+  background: linear-gradient(135deg, #f5f0ff 0%, #ede8ff 100%);
+  border: 1px solid ${colorCSS.faillog_purple}33;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 32px;
+`;
+
+S.AiCardHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+`;
+
+S.AiCardIcon = styled.span`
+  font-size: 22px;
+`;
+
+S.AiCardTitle = styled.p`
+  ${h8Bold}
+  color: ${colorCSS.faillog_purple};
+`;
+
+S.AiCardText = styled.p`
+  ${h9Regular}
+  color: ${colorCSS["faillog-black"]};
+  line-height: 1.8;
+  white-space: pre-line;
+`;
+
+S.AiCardSkeleton = styled.div`
+  height: 64px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #e8e0ff 25%, #d8ccff 50%, #e8e0ff 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+`;
+
 S.BackButton = styled.button`
   background: none;
   border: 1.5px solid ${colorCSS.faillog_gray2};

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useOutletContext, useNavigate } from 'react-router-dom';
-import S from './styles/PerformanceAnalysisStyle';
+import PerformanceAnalysisComponent from './PerformanceAnalysisComponent';
+import useAuthStore from '../../store/authStore';
 
 const LOADING_STEPS = [
   '지각 변별 분석 중',
@@ -16,8 +17,10 @@ const TOTAL_DURATION = 10000;
 const PerformanceAnalysis = () => {
   const { vision, analysis } = useOutletContext();
   const navigate = useNavigate();
+  const { user } = useAuthStore();
+  const nickname = user?.memberNickname || analysis.nickname;
 
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress]           = useState(0);
   const [completedSteps, setCompletedSteps] = useState([]);
 
   useEffect(() => {
@@ -26,29 +29,21 @@ const PerformanceAnalysis = () => {
 
     const progressInterval = setInterval(() => {
       const elapsed = Date.now() - startTime;
-      const ratio = Math.min(elapsed / TOTAL_DURATION, 1);
-      const base = Math.floor(ratio * 100);
-      const jitter = Math.floor(Math.random() * 8) - 3;
-      const next = Math.min(100, Math.max(lastProgress, base + jitter));
-      lastProgress = next;
+      const ratio   = Math.min(elapsed / TOTAL_DURATION, 1);
+      const base    = Math.floor(ratio * 100);
+      const jitter  = Math.floor(Math.random() * 8) - 3;
+      const next    = Math.min(100, Math.max(lastProgress, base + jitter));
+      lastProgress  = next;
       setProgress(next);
-
-      if (ratio >= 1) {
-        clearInterval(progressInterval);
-        setProgress(100);
-      }
+      if (ratio >= 1) { clearInterval(progressInterval); setProgress(100); }
     }, 200);
 
     const stepInterval = TOTAL_DURATION / (LOADING_STEPS.length + 1);
     const stepTimers = LOADING_STEPS.map((_, i) =>
-      setTimeout(() => {
-        setCompletedSteps((prev) => [...prev, i]);
-      }, stepInterval * (i + 1))
+      setTimeout(() => setCompletedSteps((prev) => [...prev, i]), stepInterval * (i + 1))
     );
 
-    const doneTimer = setTimeout(() => {
-      navigate('../result');
-    }, TOTAL_DURATION + 400);
+    const doneTimer = setTimeout(() => navigate('../result'), TOTAL_DURATION + 400);
 
     return () => {
       clearInterval(progressInterval);
@@ -58,44 +53,13 @@ const PerformanceAnalysis = () => {
   }, [navigate]);
 
   return (
-    <S.Wrapper>
-      <S.Header>
-        <S.PageTitle>TIME LINE</S.PageTitle>
-        <S.PageSubtitle>목표에 도달하기까지 실패와 성장의 흐름을 한눈에 확인하세요.</S.PageSubtitle>
-      </S.Header>
-
-      <S.VisionCard>
-        <S.VisionLabel>VISION</S.VisionLabel>
-        <S.VisionTitle>{vision.title}</S.VisionTitle>
-      </S.VisionCard>
-
-      <S.AnalysisBox>
-        <S.AnalysisTitle>
-          <S.Nickname>{analysis.nickname}</S.Nickname> 님의 목표 달성률 분석 중...
-        </S.AnalysisTitle>
-
-        <S.GaugeSection>
-          <S.GaugeLabel>
-            <span>분석 진행률</span>
-            <S.GaugePercent>{progress}%</S.GaugePercent>
-          </S.GaugeLabel>
-          <S.GaugeTrack>
-            <S.GaugeFill style={{ width: `${progress}%` }} />
-          </S.GaugeTrack>
-        </S.GaugeSection>
-
-        <S.StepList>
-          {LOADING_STEPS.map((step, i) => (
-            <S.StepItem key={i} $done={completedSteps.includes(i)}>
-              <S.StepIcon $done={completedSteps.includes(i)}>
-                {completedSteps.includes(i) ? '✓' : <S.Spinner />}
-              </S.StepIcon>
-              <S.StepText $done={completedSteps.includes(i)}>{step}</S.StepText>
-            </S.StepItem>
-          ))}
-        </S.StepList>
-      </S.AnalysisBox>
-    </S.Wrapper>
+    <PerformanceAnalysisComponent
+      vision={vision}
+      analysis={{ ...analysis, nickname }}
+      progress={progress}
+      completedSteps={completedSteps}
+      loadingSteps={LOADING_STEPS}
+    />
   );
 };
 

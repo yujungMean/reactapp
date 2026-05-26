@@ -54,7 +54,6 @@ export const MOCK_ANALYSIS = {
     { text: '일을 3개 단위로 나눠서 시간 배분하기', count: 5 },
   ],
   avgDays: 197,
-  aiUsageRate: 23,
   projectCount: 15,
 };
 

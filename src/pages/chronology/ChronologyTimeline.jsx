@@ -15,6 +15,7 @@ const ChronologyTimeline = ({
   onAddTimeline,
   onUpdateImage,
   onAddAllTimeline,
+  onVisionFirstClick,
 }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [showVisionDropdown, setShowVisionDropdown] = useState(false);
@@ -122,7 +123,10 @@ const ChronologyTimeline = ({
       </S.Header>
 
       <S.VisionWrapper>
-        <S.VisionCard onClick={() => setShowVisionDropdown((v) => !v)}>
+        <S.VisionCard onClick={() => {
+          if (onVisionFirstClick) onVisionFirstClick();
+          setShowVisionDropdown((v) => !v);
+        }}>
           <S.VisionLabel>VISION</S.VisionLabel>
           <S.VisionTitleRow>
             <S.VisionTitle>{selectedProject.title}</S.VisionTitle>
