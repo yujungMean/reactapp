@@ -15,7 +15,7 @@ myStyle.wrapper = styled.div`
     ${boxShadow["boxBasic"]}
 `
 
-const Posts = ({postData}) => {
+const Posts = ({postData, search = ''}) => {
 
   return (
     <div>
@@ -24,6 +24,7 @@ const Posts = ({postData}) => {
         postData.map((post, i) => (
           <Post
             key={post.id}
+            id={post.id}
             category={post.category}
             title={post.title}
             content={post.content}
@@ -32,12 +33,13 @@ const Posts = ({postData}) => {
             author={post.author}
             views={post.views}
             likes={post.likes}
+            isLiked={post.isLiked}
             comments={post.comments}
             thumbnail={post.thumbnail ? post.thumbnail : imageEmpty}
             isHrHidden={(postData.length-1) === i}
           />
         )) 
-        : <PostListEmptyContainer></PostListEmptyContainer>
+        : <PostListEmptyContainer search={search} />
       }
       </myStyle.wrapper>
     </div>

@@ -20,16 +20,21 @@ CommunityBestPostStyle.BestPost = styled.div`
   overflow: hidden;
   ${flexBetweenRow}
   ${boxShadow["boxBasic"]}
+  cursor: pointer;
+  transition: all 0.2s ease;
 
-  transform: scale(1);
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  }
 `
 
 CommunityBestPostStyle.BestPostLeftLine = styled.div`
   position: absolute;
   left: 0px;
-  bottom: 93px;
+  bottom: 124px;
   width: 6px;
-  height: 420px;
+  height: 343px;
   border-radius: 100px;
   background-color: ${colorCSS["faillog_purple"]};
 `
@@ -49,7 +54,7 @@ CommunityBestPostStyle.BestPostImgWrapDiv = styled.div`
 
 CommunityBestPostStyle.BestPostMainDiv = styled.div`
   margin-left: 110px;
-  margin-top: 91px;
+  margin-top: 131px;
   width: 536px;
   height: 420px;
   /* background-color: red; */

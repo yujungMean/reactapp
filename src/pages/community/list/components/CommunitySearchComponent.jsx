@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import myStyle from '../../styles/CommunitySearchStyle'
 import SearchComponent from './SearchComponent';
 import CommunitySearchOrderComponent from './CommunitySearchOrderComponent';
@@ -8,7 +8,8 @@ import { shallow } from 'zustand/shallow';
 const CommunitySearchComponent = () => {
   
   const {setContent, setOrder1, setPage} = useSearchStore();
-  let select = 0;
+  const [select, setSelect] = useState(0);
+  
 
   const handleSubmit = (data) => {
     setContent(data)
@@ -21,19 +22,20 @@ const CommunitySearchComponent = () => {
   const handleOnChangeDropDown = (option) => {
     switch(option) {
       case "제목":
-        select = 0;
+        // select = 0;
+        setSelect(0);
         break;
       case "제목+내용":
-        select = 1;
+        setSelect(1);
         break;
       case "내용":
-        select = 2;
+        setSelect(2);
         break;
       case "작성자":
-        select = 3;
+        setSelect(3);
         break;
       case "댓글":
-        select = 4;
+        setSelect(4);
         break;
     }
 

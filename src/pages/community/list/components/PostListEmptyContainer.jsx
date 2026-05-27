@@ -4,8 +4,7 @@ import { flexCenterRow } from '../../../../styles/common';
 import S from '../../style';
 import file from '../../resources/file.svg';
 
-const PostListEmptyContainer = ({ search }) => {
-  search = "sss"
+const PostListEmptyContainer = ({ search = '' }) => {
   return (
     <Wrapper>
       <Inner>

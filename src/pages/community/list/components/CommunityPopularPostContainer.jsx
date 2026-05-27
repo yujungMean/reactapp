@@ -104,6 +104,21 @@ const CommunityPopularPostContainer = ({ posts }) => {
     timerRef.current = setInterval(() => slide('next'), 5000);
   };
 
+  const dragRef = useRef({ startX: 0, isDragging: false });
+
+  const onDragStart = (x) => {
+    dragRef.current.startX = x;
+    dragRef.current.isDragging = true;
+  };
+
+  const onDragEnd = (x) => {
+    if (!dragRef.current.isDragging) return;
+    dragRef.current.isDragging = false;
+    const diff = x - dragRef.current.startX;
+    if (Math.abs(diff) < 50) return;
+    handleNav(diff < 0 ? 'next' : 'prev');
+  };
+
   useEffect(() => {
     timerRef.current = setInterval(() => slide('next'), 5000);
     return () => clearInterval(timerRef.current);
@@ -125,7 +140,14 @@ const CommunityPopularPostContainer = ({ posts }) => {
         </myStyle.header>
       </myStyle.headerWrap>
 
-      <myStyle.CarouselWrapper>
+      <myStyle.CarouselWrapper
+        style={{ userSelect: 'none', cursor: 'grab' }}
+        onMouseDown={(e) => onDragStart(e.clientX)}
+        onMouseUp={(e) => onDragEnd(e.clientX)}
+        onMouseLeave={() => { dragRef.current.isDragging = false; }}
+        onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
+        onTouchEnd={(e) => onDragEnd(e.changedTouches[0].clientX)}
+      >
         <myStyle.Track ref={trackRef}>
           {Array.from({ length: 9 }, (_, i) => {
             const post = getPost(i - 4);

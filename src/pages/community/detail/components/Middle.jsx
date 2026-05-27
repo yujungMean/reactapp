@@ -9,6 +9,7 @@ import menuIcon from '../../resources/menuIcon.svg'
 import S, { colorCSS, hoverBorder } from '../../style.js'
 import { flexCenterRow } from '../../../../styles/common.js';
 import { useReportContext } from './ReportContext.js';
+import PopupComponent from '../../../../components/commons/PopupComponent';
 
 // 게시글 상세 중앙(목록으로, 좋아요버튼, 메뉴버튼)
 // isOwner: 본인 게시글 여부, likeCount: 좋아요 수, isLiked: 좋아요 선택 여부
@@ -17,8 +18,19 @@ const Middle = ({ loginId, isOwner = false, likeCount = 0, isLiked = false, memb
   const [menuOpen, setMenuOpen] = useState(false);
   const [liked, setLiked] = useState(isLiked);
   const [count, setCount] = useState(likeCount);
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
   const navigate = useNavigate();
   const { openReport } = useReportContext();
+
+  const handleDeleteConfirm = async () => {
+    setDeletePopupOpen(false);
+    const res = await fetch(`http://localhost:10000/api/posts/delete/${postId}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success) navigate('/community');
+  };
 
   const handleLike = async () => {
 
@@ -43,6 +55,13 @@ const Middle = ({ loginId, isOwner = false, likeCount = 0, isLiked = false, memb
   };
 
   return (
+    <>
+    <PopupComponent
+      isOpen={deletePopupOpen}
+      message="게시글을 삭제하시겠습니까?"
+      onConfirm={handleDeleteConfirm}
+      onCancel={() => setDeletePopupOpen(false)}
+    />
     <Wrapper>
       <ListBtn onClick={() => navigate('/community')}>
         <S.Span size="h10Bold">목록으로</S.Span>
@@ -69,7 +88,7 @@ const Middle = ({ loginId, isOwner = false, likeCount = 0, isLiked = false, memb
                     }}>
                     <S.Span size="h7Regular">수정하기</S.Span>
                   </DropdownItem>
-                  <DropdownItem onClick={() => setMenuOpen(false)}>
+                  <DropdownItem onClick={() => { setMenuOpen(false); setDeletePopupOpen(true); }}>
                     <S.Span size="h7Regular">삭제하기</S.Span>
                   </DropdownItem>
                 </>
@@ -83,6 +102,7 @@ const Middle = ({ loginId, isOwner = false, likeCount = 0, isLiked = false, memb
         </MenuContainer>
       </RightGroup>
     </Wrapper>
+    </>
   );
 };
 

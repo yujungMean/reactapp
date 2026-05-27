@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { h11Bold, h8Extrabold, h9Regular, h10Regular, h11Regular, flexCenterRow } from '../../../../styles/common';
 import S, { colorCSS } from '../../style';
@@ -11,7 +12,8 @@ import getCategoryInfo from '../../GetCategoryInfo';
 
 const Wrapper = styled.div`
   width: 984px;
-  padding: 27px
+  padding: 27px;
+  cursor: pointer;
 `;
 
 const Card = styled.div`
@@ -20,9 +22,20 @@ const Card = styled.div`
   align-items: flex-start;
 `;
 
-const Thumbnail = styled.img`
+const ThumbnailWrapper = styled.div`
   width: 324px;
   height: 184px;
+  /* object-fit: cover; */
+  border-radius: 15px 0px 15px 0px;
+  /* background-color: ${colorCSS["faillog_gray9"]}; */
+  overflow: hidden;
+  ${flexCenterRow}
+  /* flex-shrink: 0; */
+`;
+
+const Thumbnail = styled.img`
+  width: 324px;
+  height: auto;
   /* object-fit: cover; */
   border-radius: 15px 0px 15px 0px
 
@@ -128,6 +141,7 @@ const Divider = styled.hr`
 `;
 
 const Post = ({
+  id,
   category,
   title,
   content,
@@ -137,17 +151,21 @@ const Post = ({
   author,
   views,
   likes,
+  isLiked = false,
   comments,
   isHrHidden
 }) => {
 
+  const navigate = useNavigate();
   const {name, textColor ,bgColor} = getCategoryInfo(category)
 
   return (
     <div>
-      <Wrapper>
+      <Wrapper onClick={() => navigate(`/community/detail/${id}`)}>
         <Card>
-          <Thumbnail src={thumbnail} alt={title} />
+          <ThumbnailWrapper>
+            <Thumbnail src={thumbnail} alt={title} />
+          </ThumbnailWrapper>
           <Info>
             <TopRow>
               <CategoryBadge bgcolor={bgColor}>
@@ -170,7 +188,7 @@ const Post = ({
                   <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{views}</S.Span>
                 </StatItem>
                 <StatItem>
-                  <img src={heart} width={14} height={14}></img>
+                  <img src={isLiked ? likeFill : heart} width={14} height={14}></img>
                   <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{likes}</S.Span>
                 </StatItem>
                 <StatItem>

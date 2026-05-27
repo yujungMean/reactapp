@@ -33,6 +33,7 @@ const Wrapper = styled.div`
   padding-left: 25px;
   padding-right: 25px;
   width: 1320px;
+  min-height: 700px;
 
   padding-bottom: 25px; //11px
   display: flex;

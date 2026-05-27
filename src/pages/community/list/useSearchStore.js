@@ -16,7 +16,8 @@ const useSearchStore = create(combine(
     setOrder2: (num) => set((state) => ({order2: num})),
     setCategory: (num) => set((state) => ({category: num})),
     setContent: (data) => set((state) => ({content: data})),
-    setPage: (num) => set((state) => ({page: num}))
+    setPage: (num) => set((state) => ({page: num})),
+    resetSearch: () => set({ order1: 0, order2: 0, category: 0, content: "", page: 1 })
   })
 ))
 

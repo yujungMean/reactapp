@@ -43,7 +43,7 @@ const CommunityBestPost = ({
   return (
     <div>
         <myStyle.BestPostWrap>
-            <myStyle.BestPost>
+            <myStyle.BestPost onClick={() => navigate(`/community/detail/${id}`)}>
                 <myStyle.BestPostLeftLine></myStyle.BestPostLeftLine>
                 <myStyle.BestPostMainWrapDiv>
                     <myStyle.BestPostMainDiv>
@@ -81,12 +81,12 @@ const CommunityBestPost = ({
                             </myStyle.PostInfo>
                           </myStyle.UserInfo>
                         </myStyle.BestPostMainInfo>
-                        <myStyle.BestPostMainButton>
+                        {/* <myStyle.BestPostMainButton>
                           <myStyle.GoPostInfoButton onClick={() => navigate("detail/"+id)}>
                               <S.Span size={"h8ExBold8"} color={"faillog_purple"}>게시글 상세보기</S.Span>
                               <S.Span size={"h8ExBold8"} color={"faillog_purple"}>→</S.Span>
                           </myStyle.GoPostInfoButton>
-                        </myStyle.BestPostMainButton>
+                        </myStyle.BestPostMainButton> */}
                     </myStyle.BestPostMainDiv>
                 </myStyle.BestPostMainWrapDiv>
 
