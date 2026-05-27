@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import { colorCSS, shadowCSS } from "../style";
 import {
-  h3Extrabold, h6Bold, h7Bold, h8Bold,
+  h3Extrabold, h6Bold, h7Bold, h7Regular, h8Bold,
   h9Bold, h9Regular, h10Regular,
 } from "../../../styles/common";
 
@@ -182,6 +182,75 @@ S.StatBullet = styled.div`
 S.StatHighlight = styled.span`
   color: ${colorCSS["faillog-red"]};
   font-weight: 700;
+`;
+
+S.AiCard = styled.div`
+  background: linear-gradient(135deg, #f5f0ff 0%, #ede8ff 100%);
+  border: 1px solid ${colorCSS.faillog_purple}33;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 32px;
+`;
+
+S.AiCardHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+`;
+
+S.AiCardIcon = styled.span`
+  font-size: 22px;
+`;
+
+S.AiCardTitle = styled.p`
+  ${h8Bold}
+  color: ${colorCSS.faillog_purple};
+`;
+
+S.AiCardText = styled.p`
+  ${h7Regular}
+  color: ${colorCSS["faillog-black"]};
+  line-height: 1.8;
+  white-space: pre-line;
+`;
+
+S.AiCardLoading = styled.p`
+  ${h9Regular}
+  color: ${colorCSS.faillog_purple};
+  font-style: italic;
+  text-align: center;
+  margin-top: 10px;
+`;
+
+S.AiCardSkeleton = styled.div`
+  height: 64px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #e8e0ff 25%, #d8ccff 50%, #e8e0ff 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+`;
+
+S.AiProgressBarWrap = styled.div`
+  width: 100%;
+  height: 8px;
+  background: #e8e0ff;
+  border-radius: 100px;
+  margin-top: 14px;
+  overflow: hidden;
+`;
+
+S.AiProgressBar = styled.div`
+  height: 100%;
+  width: ${({ $percent }) => $percent}%;
+  background: linear-gradient(90deg, ${colorCSS.faillog_purple}, #ab47ff);
+  border-radius: 100px;
+  transition: width 0.4s ease;
 `;
 
 S.BackButton = styled.button`

@@ -4,6 +4,7 @@ import S from '../styles/JoinContainerStyle';
 import TermsModal from './TermsModal';
 
 const TIMER_SECONDS = 300;
+const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[!@#])[\da-zA-Z!@#]{8,}$/;
 
 const JoinContainer = () => {
   const navigate = useNavigate();
@@ -352,7 +353,10 @@ const JoinContainer = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <S.HintMsg>반드시 특수 문자 이상 입력하는 것을 권장합니다.</S.HintMsg>
+      <S.HintMsg>소문자, 숫자, 특수문자(!@#)를 각 하나씩 포함한 8자리 이상</S.HintMsg>
+      {password && !passwordRegex.test(password) && (
+        <S.ValidationMsg>비밀번호 형식이 올바르지 않습니다.</S.ValidationMsg>
+      )}
 
       <S.FieldLabel style={{ marginTop: 16 }}>비밀번호 확인</S.FieldLabel>
       <S.Input
@@ -366,8 +370,8 @@ const JoinContainer = () => {
       )}
 
       <S.PrimaryButton
-        onClick={() => { if (password && password === passwordConfirm) setStep(5); }}
-        $disabled={!password || password !== passwordConfirm}
+        onClick={() => { if (passwordRegex.test(password) && password === passwordConfirm) setStep(5); }}
+        $disabled={!passwordRegex.test(password) || password !== passwordConfirm}
         style={{ marginTop: 24 }}
       >
         다음 단계로

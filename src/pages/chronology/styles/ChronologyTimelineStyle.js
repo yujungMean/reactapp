@@ -91,7 +91,9 @@ S.VisionDropdown = styled.div`
   position: absolute;
   left: calc(100% + 8px);
   top: 0;
+  width: max-content;
   min-width: 280px;
+  max-width: 480px;
   border: 1px solid ${colorCSS.faillog_gray2};
   border-radius: 10px;
   overflow: hidden;
@@ -106,6 +108,7 @@ S.VisionDropdownItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   padding: 16px 20px;
   background: ${({ $active }) => ($active ? colorCSS.faillog_light_purple : colorCSS.faillog_white)};
   cursor: pointer;
@@ -300,11 +303,37 @@ S.CardBody = styled.div`
   background: ${colorCSS.faillog_white};
 `;
 
+S.CardTitle = styled.p`
+  ${h7Bold}
+  color: ${colorCSS["faillog-black"]};
+  margin-bottom: 4px;
+`;
+
+S.CardDateRange = styled.p`
+  ${h10Regular}
+  color: ${colorCSS.faillog_gray8};
+  margin-bottom: 8px;
+  text-align: right;
+`;
+
 S.CardDesc = styled.p`
   ${h9Bold}
   color: ${colorCSS["faillog-black"]};
   margin-bottom: 12px;
   line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+
+  &::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: ${colorCSS.faillog_purple};
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
 `;
 
 S.BulletGrid = styled.div`
@@ -332,6 +361,13 @@ S.BulletItem = styled.p`
 
 S.AddSection = styled.div`
   margin-bottom: 32px;
+`;
+
+S.DuplicateError = styled.p`
+  ${h10Regular}
+  color: #e53e3e;
+  margin-top: 8px;
+  padding-left: 4px;
 `;
 
 S.AddButton = styled.button`
@@ -398,6 +434,69 @@ S.ProjectToggleDate = styled.p`
 S.DDay = styled.p`
   ${h8Bold}
   color: ${({ $active }) => ($active ? colorCSS.faillog_purple : colorCSS.faillog_gray10)};
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: fit-content;
+`;
+
+S.BulletLabel = styled.p`
+  ${h10Bold}
+  color: ${colorCSS.faillog_gray8};
+  margin-bottom: 6px;
+  margin-top: 4px;
+`;
+
+S.ActionSection = styled.div`
+  padding: 10px 12px 12px;
+  background: ${colorCSS.faillog_gray1};
+  border-top: 1px solid ${colorCSS.faillog_gray2};
+`;
+
+S.ActionSectionTitle = styled.p`
+  ${h10Bold}
+  color: ${colorCSS.faillog_gray8};
+  margin-bottom: 6px;
+`;
+
+S.ActionGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+`;
+
+S.ActionItem = styled.div`
+  background: ${colorCSS.faillog_white};
+  border-radius: 6px;
+  padding: 7px 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+S.ActionItemTitle = styled.p`
+  ${h10Bold}
+  color: ${colorCSS["faillog-black"]};
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.4;
+
+  &::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: ${colorCSS.faillog_purple};
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+`;
+
+S.ActionItemDesc = styled.p`
+  ${h10Regular}
+  color: ${colorCSS.faillog_gray8};
+  line-height: 1.4;
+  padding-left: 13px;
 `;
 
 S.AnalysisButton = styled.button`
