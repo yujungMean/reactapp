@@ -9,7 +9,7 @@ const RootLayout = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:10000/private/auth/logout', {
+      await fetch('/private/auth/logout', {
         method: 'POST',
         credentials: 'include',
       });
@@ -20,7 +20,7 @@ const RootLayout = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:10000/private/member/me', { credentials: 'include' })
+    fetch('/private/member/me', { credentials: 'include' })
       .then((res) => res.ok ? res.json() : null)
       .then((json) => {
         if (json?.success && json?.data) {

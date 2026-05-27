@@ -8,9 +8,20 @@ const FindIdContainer = () => {
   const [phone, setPhone] = useState('');
   const [result, setResult] = useState(null);
 
-  const handleFindId = () => {
-    // TODO: 아이디 찾기 API
-    setResult('user****@example.com');
+  const handleFindId = async () => {
+    if (!name || !phone) return;
+    try {
+      const res = await fetch('http://localhost:10000/public/auth/email/find', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ memberName: name, memberPhone: phone }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || '일치하는 정보가 없습니다.');
+      setResult(data.data.memberEmail);
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   return (

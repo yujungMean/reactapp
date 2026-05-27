@@ -15,6 +15,7 @@ const ChronologyTimeline = ({
   onAddTimeline,
   onUpdateImage,
   onAddAllTimeline,
+  onVisionFirstClick,
 }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [showVisionDropdown, setShowVisionDropdown] = useState(false);
@@ -25,6 +26,7 @@ const ChronologyTimeline = ({
   const dragIndex = useRef(null);
   const [dragOverIndex, setDragOverIndex] = useState(null);
   const [draggingId, setDraggingId] = useState(null);
+  const [duplicateError, setDuplicateError] = useState('');
 
   const handleToggleEditMode = () => {
     setIsEditMode((prev) => !prev);
@@ -125,7 +127,7 @@ const ChronologyTimeline = ({
         <S.VisionCard onClick={() => setShowVisionDropdown((v) => !v)}>
           <S.VisionLabel>VISION</S.VisionLabel>
           <S.VisionTitleRow>
-            <S.VisionTitle>{selectedProject.title}</S.VisionTitle>
+            <S.VisionTitle>{selectedProject.visionTitle || selectedProject.title}</S.VisionTitle>
             <S.VisionChevron $open={showVisionDropdown}>
               <svg width="11" height="4" viewBox="0 0 11 4" fill="none">
                 <path d="M1 0.5L5.5 3.5L10 0.5" stroke="#8D8D8D" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -140,7 +142,11 @@ const ChronologyTimeline = ({
               <S.VisionDropdownItem
                 key={p.id}
                 $active={p.id === selectedProject.id}
-                onClick={() => { onSelectProject(p); setShowVisionDropdown(false); }}
+                onClick={() => {
+                  if (onVisionFirstClick) onVisionFirstClick();
+                  onSelectProject(p);
+                  setShowVisionDropdown(false);
+                }}
               >
                 <S.ProjectToggleInfo>
                   <S.ProjectToggleName>{p.title}</S.ProjectToggleName>
@@ -213,6 +219,10 @@ const ChronologyTimeline = ({
                         </S.CarouselWrapper>
 
                         <S.CardBody>
+                          <S.CardTitle>{item.projectTitle}</S.CardTitle>
+                          {(item.startDate || item.endDate) && (
+                            <S.CardDateRange>{item.startDate} ~ {item.endDate}</S.CardDateRange>
+                          )}
                           <S.CardDesc>{item.description}</S.CardDesc>
                           <S.BulletGrid>
                             {item.bullets.map((b, i) => (
@@ -231,25 +241,38 @@ const ChronologyTimeline = ({
       </S.TimelineSection>
 
       <S.AddSection>
-        <S.AddButton onClick={() => setShowProjectToggle((v) => !v)}>
+        <S.AddButton onClick={() => { setShowProjectToggle((v) => !v); setDuplicateError(''); }}>
           + 새 항목 추가
         </S.AddButton>
 
+        {duplicateError && <S.DuplicateError>{duplicateError}</S.DuplicateError>}
+
         {showProjectToggle && (
           <S.ProjectToggleList>
-            {(addProjects ?? []).map((p) => (
-              <S.ProjectToggleItem
-                key={p.id}
-                $active={false}
-                onClick={() => { onAddTimeline(p); setShowProjectToggle(false); }}
-              >
-                <S.ProjectToggleInfo>
-                  <S.ProjectToggleName>{p.title}</S.ProjectToggleName>
-                  <S.ProjectToggleDate>{p.startDate} ~ {p.endDate}</S.ProjectToggleDate>
-                </S.ProjectToggleInfo>
-                <S.DDay $active={false}>D + {p.dDay}</S.DDay>
-              </S.ProjectToggleItem>
-            ))}
+            {(addProjects ?? []).map((p) => {
+              const alreadyAdded = timeline.some((t) => t.projectId === p.id || t.id === p.id);
+              return (
+                <S.ProjectToggleItem
+                  key={p.id}
+                  $active={alreadyAdded}
+                  onClick={() => {
+                    if (alreadyAdded) {
+                      setDuplicateError('이미 등록된 프로젝트입니다.');
+                      return;
+                    }
+                    setDuplicateError('');
+                    onAddTimeline(p);
+                    setShowProjectToggle(false);
+                  }}
+                >
+                  <S.ProjectToggleInfo>
+                    <S.ProjectToggleName>{p.title}</S.ProjectToggleName>
+                    <S.ProjectToggleDate>{p.startDate} ~ {p.endDate}</S.ProjectToggleDate>
+                  </S.ProjectToggleInfo>
+                  <S.DDay $active={alreadyAdded}>D + {p.dDay}</S.DDay>
+                </S.ProjectToggleItem>
+              );
+            })}
           </S.ProjectToggleList>
         )}
       </S.AddSection>
