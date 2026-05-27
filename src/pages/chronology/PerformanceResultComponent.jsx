@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import S from './styles/PerformanceResultStyle';
 import BellCurveSVG from './BellCurveSVG';
 
 const PerformanceResultComponent = ({ vision, analysis, onBack }) => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (analysis.aiFeedback) {
+      setProgress(100);
+      return;
+    }
+
+    setProgress(0);
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        const remaining = 90 - prev;
+        if (remaining <= 0.1) return prev;
+        return prev + remaining * 0.04;
+      });
+    }, 400);
+
+    return () => clearInterval(interval);
+  }, [analysis.aiFeedback]);
+
   return (
     <S.Wrapper>
       <S.Header>
@@ -32,7 +52,26 @@ const PerformanceResultComponent = ({ vision, analysis, onBack }) => {
         <S.CountHighlight>{analysis.totalChecklists - analysis.avgUserChecklists}</S.CountHighlight>개 많은 체크리스트를 달성 했습니다.
       </S.ChecklistCompare>
 
-      <S.StatsCard>
+      <S.AiCard>
+        <S.AiCardHeader>
+          <S.AiCardIcon>🤖</S.AiCardIcon>
+          <S.AiCardTitle>AI 코치의 한마디</S.AiCardTitle>
+        </S.AiCardHeader>
+        {analysis.aiFeedback
+          ? <S.AiCardText>{analysis.aiFeedback}</S.AiCardText>
+          : (
+            <>
+              <S.AiCardSkeleton />
+              <S.AiProgressBarWrap>
+                <S.AiProgressBar $percent={progress} />
+              </S.AiProgressBarWrap>
+              <S.AiCardLoading>AI코치가 피드백문서를 작성중입니다. {Math.floor(progress)}%</S.AiCardLoading>
+            </>
+          )
+        }
+      </S.AiCard>
+
+      {analysis.aiFeedback && <S.StatsCard>
         <S.StatsSection>
           <S.StatsSectionTitle>🔔 최다 달성 체크리스트</S.StatsSectionTitle>
           <S.StatsLabel>Top 3</S.StatsLabel>
@@ -64,18 +103,7 @@ const PerformanceResultComponent = ({ vision, analysis, onBack }) => {
             <span>이용자들은 평균적으로 <S.StatHighlight>{analysis.projectCount}개</S.StatHighlight> 의 프로젝트를 작성 했습니다.</span>
           </S.StatItem>
         </S.StatsSection>
-      </S.StatsCard>
-
-      <S.AiCard>
-        <S.AiCardHeader>
-          <S.AiCardIcon>🤖</S.AiCardIcon>
-          <S.AiCardTitle>AI 코치의 한마디</S.AiCardTitle>
-        </S.AiCardHeader>
-        {analysis.aiFeedback
-          ? <S.AiCardText>{analysis.aiFeedback}</S.AiCardText>
-          : <S.AiCardSkeleton />
-        }
-      </S.AiCard>
+      </S.StatsCard>}
 
       <S.BackButton onClick={onBack}>← 타임라인으로 돌아가기</S.BackButton>
     </S.Wrapper>

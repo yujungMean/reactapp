@@ -21,6 +21,12 @@ export const MOCK_TIMELINE = [
     projectTitle: '1번 프로젝트',
     description: '인강 시청 50% 단축 & 단원별 기출 풀이 병행해서 하기를 노력. 두번째 줄까지 표시 될거에요',
     bullets: ['실패 분석 보기', '실내 대체계획 추가', '주말 기준 완화', '뭐든 행동 추천'],
+    aiSuggestions: [
+      { title: '구체적인 목표 수립하기', desc: 'SMART 기준에 맞는 구체적이고 측정 가능한 목표를 설정합니다.' },
+      { title: '목표 달성을 위한 계획 수립', desc: '일일, 주간, 월간 계획을 세우고 목표에 도달하기 위한 단계를 설정합니다.' },
+      { title: '학습 진행 상황 주기적으로 체크', desc: '주기적인 진행 상황 점검을 통해 목표 달성 여부를 파악하고 조정합니다.' },
+      { title: '지인이나 전문가와 상담하기', desc: '주변 지인이나 전문가와의 대화를 통해 목표 달성에 대한 조언을 얻습니다.' },
+    ],
     images: ['https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=250&fit=crop'],
   },
   {
@@ -30,6 +36,7 @@ export const MOCK_TIMELINE = [
     projectTitle: '2번 프로젝트',
     description: '인강 시청 50% 단축 & 단원별 기출 풀이 병행해서 하기를 노력. 두번째 줄까지 표시 될거에요',
     bullets: ['실패 분석 보기', '실내 대체계획 추가', '주말 기준 완화', '뭐든 행동 추천'],
+    aiSuggestions: [],
     images: ['https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=250&fit=crop'],
   },
   {
@@ -39,6 +46,7 @@ export const MOCK_TIMELINE = [
     projectTitle: '3번 프로젝트',
     description: '인강 시청 50% 단축 & 단원별 기출 풀이 병행해서 하기를 노력. 두번째 줄까지 표시 될거에요',
     bullets: ['실패 분석 보기', '실내 대체계획 추가', '주말 기준 완화', '뭐든 행동 추천'],
+    aiSuggestions: [],
     images: ['https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=250&fit=crop'],
   },
 ];

@@ -14,6 +14,7 @@ const LoginComponent = () => {
   const [memberPassword, setMemberPassword] = useState('');
   const [keepLogin, setKeepLogin] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loginError, setLoginError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validate = () => {
@@ -28,11 +29,12 @@ const LoginComponent = () => {
   const handleLogin = async () => {
     const errs = validate();
     setErrors(errs);
+    setLoginError('');
     if (Object.keys(errs).length > 0) return;
 
     setIsSubmitting(true);
     try {
-      const res = await fetch('http://localhost:10000/public/auth/login', {
+      const res = await fetch('/public/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -41,14 +43,15 @@ const LoginComponent = () => {
 
       if (!res.ok) {
         const error = await res.json();
-        throw new Error(error?.message);
+        setLoginError(error?.message || '입력한 값이 일치하지 않습니다.');
+        return;
       }
 
-      const meRes = await fetch('http://localhost:10000/private/member/me', {
-        credentials: 'include',
-      });
-
-      if (!meRes.ok) throw new Error('Access Token Expired');
+      const meRes = await fetch('/private/member/me', { credentials: 'include' });
+      if (!meRes.ok) {
+        setLoginError('로그인 처리 중 오류가 발생했습니다.');
+        return;
+      }
 
       const { success, data } = await meRes.json();
       if (success) {
@@ -57,7 +60,7 @@ const LoginComponent = () => {
         navigate('/');
       }
     } catch (err) {
-      alert(err.message);
+      setLoginError('서버와 연결할 수 없습니다.');
     } finally {
       setIsSubmitting(false);
     }
@@ -106,6 +109,8 @@ const LoginComponent = () => {
         />
         <S.CheckLabel htmlFor="keepLogin">로그인 상태 유지</S.CheckLabel>
       </S.CheckRow>
+
+      {loginError && <S.ErrorText>{loginError}</S.ErrorText>}
 
       <S.PrimaryButton onClick={handleLogin} disabled={isSubmitting}>
         로그인

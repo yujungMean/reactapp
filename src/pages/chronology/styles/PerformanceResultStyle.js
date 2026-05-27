@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import { colorCSS, shadowCSS } from "../style";
 import {
-  h3Extrabold, h6Bold, h7Bold, h8Bold,
+  h3Extrabold, h6Bold, h7Bold, h7Regular, h8Bold,
   h9Bold, h9Regular, h10Regular,
 } from "../../../styles/common";
 
@@ -209,10 +209,18 @@ S.AiCardTitle = styled.p`
 `;
 
 S.AiCardText = styled.p`
-  ${h9Regular}
+  ${h7Regular}
   color: ${colorCSS["faillog-black"]};
   line-height: 1.8;
   white-space: pre-line;
+`;
+
+S.AiCardLoading = styled.p`
+  ${h9Regular}
+  color: ${colorCSS.faillog_purple};
+  font-style: italic;
+  text-align: center;
+  margin-top: 10px;
 `;
 
 S.AiCardSkeleton = styled.div`
@@ -226,6 +234,23 @@ S.AiCardSkeleton = styled.div`
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
   }
+`;
+
+S.AiProgressBarWrap = styled.div`
+  width: 100%;
+  height: 8px;
+  background: #e8e0ff;
+  border-radius: 100px;
+  margin-top: 14px;
+  overflow: hidden;
+`;
+
+S.AiProgressBar = styled.div`
+  height: 100%;
+  width: ${({ $percent }) => $percent}%;
+  background: linear-gradient(90deg, ${colorCSS.faillog_purple}, #ab47ff);
+  border-radius: 100px;
+  transition: width 0.4s ease;
 `;
 
 S.BackButton = styled.button`

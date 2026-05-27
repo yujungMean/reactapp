@@ -8,11 +8,15 @@ const toTimelineItem = (p, index = 0) => {
   const date = raw ? new Date(raw.replace(/\./g, '-')) : new Date();
   return {
     id: p.id,
+    projectId: p.id,
     year: String(date.getFullYear()),
     month: `${date.getMonth() + 1}월`,
     projectTitle: p.title,
     description: p.description || p.title,
+    startDate: p.startDate || '',
+    endDate: p.endDate || '',
     bullets: p.bullets || [],
+    aiSuggestions: p.aiSuggestions || [],
     images: [`https://picsum.photos/300/200?random=${p.id ?? index}`],
   };
 };
@@ -95,6 +99,29 @@ const useChronologyData = () => {
     fetchAnalysis();
   }, [vision.id]);
 
+  /* ── AI 피드백 폴링 (3초마다, 완료되면 중단) ── */
+  useEffect(() => {
+    if (!vision.id) return;
+
+    const poll = setInterval(async () => {
+      try {
+        const res = await fetch(
+          `${API_BASE}/api/private/chronology/feedback/${vision.id}`,
+          { credentials: 'include' },
+        );
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.data) {
+            setAnalysis((prev) => ({ ...prev, aiFeedback: json.data }));
+            clearInterval(poll);
+          }
+        }
+      } catch (_) {}
+    }, 3000);
+
+    return () => clearInterval(poll);
+  }, [vision.id]);
+
   /* ── 비전 최초 클릭 시 전체 프로젝트 타임라인 자동 등록 ── */
   const handleVisionFirstClick = () => {
     if (timelineInitialized.current || projects.length === 0) return;
@@ -137,11 +164,15 @@ const useChronologyData = () => {
       ...prev,
       {
         id:           seed,
+        projectId:    project.id,
         year:         String(now.getFullYear()),
         month:        `${now.getMonth() + 1}월`,
         projectTitle: project.title,
         description:  project.description || project.title,
+        startDate:    project.startDate || '',
+        endDate:      project.endDate || '',
         bullets:      project.bullets || [],
+        aiSuggestions: project.aiSuggestions || [],
         images:       [`https://picsum.photos/300/200?random=${seed}`],
       },
     ]);
@@ -152,11 +183,15 @@ const useChronologyData = () => {
     const now = new Date();
     const newItems = (projectList || []).map((p, i) => ({
       id:           Date.now() + i,
+      projectId:    p.id,
       year:         String(now.getFullYear()),
       month:        `${now.getMonth() + 1}월`,
       projectTitle: p.title,
       description:  p.description || p.title,
+      startDate:    p.startDate || '',
+      endDate:      p.endDate || '',
       bullets:      p.bullets || [],
+      aiSuggestions: p.aiSuggestions || [],
       images:       [`https://picsum.photos/300/200?random=${Date.now() + i}`],
     }));
     setTimeline((prev) => [...prev, ...newItems]);

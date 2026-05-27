@@ -14,14 +14,24 @@ const LOADING_STEPS = [
 
 const TOTAL_DURATION = 10000;
 
+const MAX_WAIT = 90000;
+
 const PerformanceAnalysis = () => {
   const { vision, analysis } = useOutletContext();
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const nickname = user?.memberNickname || analysis.nickname;
 
-  const [progress, setProgress]           = useState(0);
+  const [progress, setProgress]             = useState(0);
   const [completedSteps, setCompletedSteps] = useState([]);
+  const [animationDone, setAnimationDone]   = useState(false);
+
+  // 애니메이션 완료 + AI 피드백 준비 모두 되면 result로 이동
+  useEffect(() => {
+    if (animationDone && analysis.aiFeedback) {
+      navigate('../result');
+    }
+  }, [animationDone, analysis.aiFeedback, navigate]);
 
   useEffect(() => {
     const startTime = Date.now();
@@ -43,12 +53,17 @@ const PerformanceAnalysis = () => {
       setTimeout(() => setCompletedSteps((prev) => [...prev, i]), stepInterval * (i + 1))
     );
 
-    const doneTimer = setTimeout(() => navigate('../result'), TOTAL_DURATION + 400);
+    // 최소 애니메이션 완료 후 AI 대기 시작
+    const animDoneTimer = setTimeout(() => setAnimationDone(true), TOTAL_DURATION + 400);
+
+    // AI가 끝나지 않아도 최대 90초 후 강제 이동
+    const maxWaitTimer = setTimeout(() => navigate('../result'), MAX_WAIT);
 
     return () => {
       clearInterval(progressInterval);
       stepTimers.forEach(clearTimeout);
-      clearTimeout(doneTimer);
+      clearTimeout(animDoneTimer);
+      clearTimeout(maxWaitTimer);
     };
   }, [navigate]);
 
