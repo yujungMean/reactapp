@@ -11,7 +11,7 @@ const LikesCardItemComponent = ({ log = {}, iconSrc }) => {
   if (!log) return null;
 
   const handleCardClick = () => {
-    navigate(`/logs/view/${log.id}`);
+    navigate(`/logs/result/${log.id}/detail`);
   };
 
   return (

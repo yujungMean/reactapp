@@ -9,6 +9,7 @@ import SearchDropdownComponent from '../../../components/commons/SearchDropdownC
 import GuestbookInputComponent from './components/GuestbookInputComponent';
 import GuestbookCommentItemComponent from './components/GuestbookCommentItemComponent';
 import axiosInstance from '../../../api/axiosInstance';
+import PopupComponent from '../../../components/commons/PopupComponent';
 
 const mapGuestbook = (item) => ({
   id: item.id,
@@ -44,6 +45,9 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
   const [ownerMemberId, setOwnerMemberId] = useState(null);
   const [ownerNickname, setOwnerNickname] = useState('');
 
+  const [authChecked, setAuthChecked] = useState(false);
+  const [loginPopup, setLoginPopup] = useState(false);
+
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [replyTextMap, setReplyTextMap] = useState({});
@@ -67,7 +71,8 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
           }
         }
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setAuthChecked(true));
   }, [isPageOwner]);
 
   // ownerMemberId가 결정되면 방명록 목록 로드
@@ -135,7 +140,12 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
 
   const handleSubmit = () => {
     const trimmed = newComment.trim();
-    if (!trimmed || !loggedInMemberId) return;
+    if (!trimmed) return;
+    if (authChecked && !loggedInMemberId) {
+      setLoginPopup(true);
+      return;
+    }
+    if (!loggedInMemberId) return;
     const ownerId = isPageOwner ? ownerMemberId : (userId ? Number(userId) : null);
     if (!ownerId) return;
     axiosInstance.post('/api/guestbook/write', { ownerMemberId: ownerId, guestbookContent: trimmed, writerMemberId: loggedInMemberId })
@@ -257,6 +267,11 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
 
   return (
     <PageS.MainWrapper>
+      <PopupComponent
+        isOpen={loginPopup}
+        message="방명록은 로그인 된 사용자만 이용하실 수 있습니다."
+        onConfirm={() => setLoginPopup(false)}
+      />
       <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} userId={userId} />
 
       <S.GuestbookSection>

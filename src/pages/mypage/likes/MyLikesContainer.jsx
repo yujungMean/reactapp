@@ -18,7 +18,12 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
   const { mainContent, quickMenus } = getHeroContent(pathname);
   const { content, setContent, setPage } = useSearchStore();
 
-  const [recentLogs] = useState([]);
+  const [recentLogs, setRecentLogs] = useState([]);
+
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem('recentViewedLogs') || '[]');
+    setRecentLogs(stored);
+  }, []);
   const [allLogs, setAllLogs] = useState([]);
 
   const [filteredLogs, setFilteredLogs] = useState([]);
@@ -62,7 +67,7 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
           title={<>아직 마음에 든 페일로그가 없네요.<br /><span>다른 사람들의 페일로그</span>를 살펴볼까요?</>}
           subText="실패를 외면하지 않고 기록할 때, 당신의 강력한 성장 데이터가 됩니다."
           buttonText="피드 보러가기"
-          onButtonClick={() => navigate('/feed')}
+          onButtonClick={() => navigate('/fail-logs')}
           styles={CommS}
         />
       ) : (
