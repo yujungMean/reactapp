@@ -10,6 +10,7 @@ import ProfileCardComponent from './components/ProfileCardComponent';
 import ProfileChartCard from './components/ProfileChartCard';
 import ProfileStreakCard from './components/ProfileStreakCard';
 import AccountDataComponent from './components/AccountDataComponent';
+import PhoneVerifyPopup from './components/PhoneVerifyPopup';
 import MyCommunityContainer from './components/MyCommunityContainer';
 import HeroRotationComponent from '../heroSection/HeroRotationComponents';
 import { getHeroContent } from '../heroSection/HeroData';
@@ -40,6 +41,7 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
   });
 
   const [chartLogs, setChartLogs] = useState(DUMMY_FAIL_LOGS);
+  const [showPhoneVerifyPopup, setShowPhoneVerifyPopup] = useState(false);
 
   useEffect(() => {
     if (!isPageOwner) return;
@@ -54,6 +56,8 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
             memberProfileImageUrl: d.memberPicture || null,
             memberEmail: d.memberEmail || '',
             memberName: d.memberName || '',
+            memberPhone: d.memberPhone || '',
+            memberPhoneVerified: d.memberPhoneVerifiedAt ? 1 : 0,
             socialMemberProvider: d.socialMemberProvider || 'local',
           }));
           setStats((prev) => ({ ...prev, loginStreak: d.memberLoginStreak || 1 }));
@@ -124,9 +128,27 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
     axiosInstance.put('/private/member/password', { currentPassword: currentPw, newPassword: newPw }).catch(console.error);
   };
 
+  const handlePhoneVerifySubmit = (phone) => {
+    axiosInstance.put('/private/member', { memberPhone: phone, verifyPhone: true })
+      .then((res) => {
+        if (res.data?.success) {
+          setMemberInfo((prev) => ({ ...prev, memberPhone: phone, memberPhoneVerified: 1 }));
+        }
+      })
+      .catch(console.error)
+      .finally(() => setShowPhoneVerifyPopup(false));
+  };
+
   const displayNickname = memberInfo.memberNickname || (!isPageOwner ? userId : '');
 
   return (
+    <>
+    <PhoneVerifyPopup
+      isOpen={showPhoneVerifyPopup}
+      memberNickname={memberInfo.memberNickname}
+      onClose={() => setShowPhoneVerifyPopup(false)}
+      onSubmit={handlePhoneVerifySubmit}
+    />
     <PageS.MainWrapper>
       <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} userId={userId} />
 
@@ -169,6 +191,7 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
               memberPhoneVerified={memberInfo.memberPhoneVerified}
               onEmailSubmit={handleEmailChange}
               onPasswordSubmit={handlePasswordChange}
+              onPhoneVerify={() => setShowPhoneVerifyPopup(true)}
               onUnregister={handleUnregister}
               isSocialLogin={isSocialLogin}
             />
@@ -180,6 +203,7 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
         <MyCommunityContainer isPageOwner={isPageOwner} memberNickname={displayNickname} />
       </CommS.CommunitySection>
     </PageS.MainWrapper>
+    </>
   );
 };
 
