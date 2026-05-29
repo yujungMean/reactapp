@@ -53,7 +53,11 @@ const ProfileCardComponent = ({
       <S.ProfileCard>
         <div className="profileImageContainer">
           <div className="profileImageCircle">
-            <img src={profileSrc} alt="프로필" />
+            <img
+                src={profileSrc}
+                alt="프로필"
+                onError={(e) => { e.target.src = defaltProfileImage; }}
+              />
           </div>
 
           {isPageOwner && (
