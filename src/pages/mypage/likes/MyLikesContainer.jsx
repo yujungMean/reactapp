@@ -25,6 +25,7 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
     const stored = JSON.parse(localStorage.getItem('recentViewedLogs') || '[]');
     setRecentLogs(stored);
   }, []);
+  const [ownerNickname, setOwnerNickname] = useState('');
   const [allLogs, setAllLogs] = useState([]);
 
   useEffect(() => {
@@ -50,6 +51,15 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
       })
       .catch(console.error);
   }, [isPageOwner]);
+
+  useEffect(() => {
+    if (isPageOwner || !userId) return;
+    axiosInstance.get(`/api/members/${userId}`)
+      .then((res) => {
+        if (res.data?.success) setOwnerNickname(res.data.data.memberNickname || '');
+      })
+      .catch(console.error);
+  }, [isPageOwner, userId]);
 
   const [filteredLogs, setFilteredLogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,10 +100,13 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
 
       {hasNoCards ? (
         <EmptyStateComponent
-          title={<>아직 마음에 든 페일로그가 없네요.<br /><span>다른 사람들의 페일로그</span>를 살펴볼까요?</>}
+          title={isPageOwner
+            ? <>아직 마음에 든 페일로그가 없네요.<br /><span>다른 사람들의 페일로그</span>를 살펴볼까요?</>
+            : <>아직 <span>{ownerNickname}</span>님의 페일로그가 없어요.</>
+          }
           subText="실패를 외면하지 않고 기록할 때, 당신의 강력한 성장 데이터가 됩니다."
-          buttonText="피드 보러가기"
-          onButtonClick={() => navigate('/fail-logs')}
+          buttonText={isPageOwner ? "피드 보러가기" : undefined}
+          onButtonClick={isPageOwner ? () => navigate('/fail-logs') : undefined}
           styles={CommS}
         />
       ) : (

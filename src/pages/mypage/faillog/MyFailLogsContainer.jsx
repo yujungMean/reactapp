@@ -54,6 +54,16 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
   const [selectedTrashIds, setSelectedTrashIds] = useState([]);
 
   const [draftLogs, setDraftLogs] = useState([]);
+  const [ownerNickname, setOwnerNickname] = useState('');
+
+  useEffect(() => {
+    if (isPageOwner || !userId) return;
+    axiosInstance.get(`/api/members/${userId}`)
+      .then((res) => {
+        if (res.data?.success) setOwnerNickname(res.data.data.memberNickname || '');
+      })
+      .catch(console.error);
+  }, [isPageOwner, userId]);
 
   useEffect(() => {
     if (!isPageOwner) return;
@@ -177,10 +187,13 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
 
       {hasNoCards ? (
         <EmptyStateComponent
-          title={<>아직 기록된 실패가 없네요.<br /><span>첫 번째 페일로그</span>를 적어볼까요?</>}
+          title={isPageOwner
+            ? <>아직 기록된 실패가 없네요.<br /><span>첫 번째 페일로그</span>를 적어볼까요?</>
+            : <>아직 <span>{ownerNickname}</span>님의 페일로그가 없어요.</>
+          }
           subText="실패를 외면하지 않고 기록할 때, 당신의 강력한 성장 데이터가 됩니다."
-          buttonText="시작하기"
-          onButtonClick={() => navigate('/logs/new/step1')}
+          buttonText={isPageOwner ? "시작하기" : undefined}
+          onButtonClick={isPageOwner ? () => navigate('/logs/new/step1') : undefined}
           styles={CommS}
         />
       ) : (

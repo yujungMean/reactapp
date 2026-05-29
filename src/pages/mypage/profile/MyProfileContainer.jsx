@@ -7,8 +7,8 @@ import InfoS from './styles/InfoManagementStyles';
 import CommS from './styles/CommunityStyles';
 
 import ProfileCardComponent from './components/ProfileCardComponent';
-import ProfileChartCard from './components/ProfileChartCard';
-import ProfileStreakCard from './components/ProfileStreakCard';
+import ProfileChartCardComponent from './components/ProfileChartCardComponent';
+import ProfileStreakCardComponent from './components/ProfileStreakCardComponent';
 import AccountDataComponent from './components/AccountDataComponent';
 import PhoneVerifyPopup from './components/PhoneVerifyPopup';
 import MyCommunityContainer from './components/MyCommunityContainer';
@@ -74,9 +74,20 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
       .catch(console.error);
   }, [isPageOwner]);
 
-  // 남의 프로필 방문 시 기록
+  // 남의 프로필 방문 시: 공개 회원 정보 조회 + 방문 기록
   useEffect(() => {
     if (isPageOwner || !userId) return;
+    axiosInstance.get(`/api/members/${userId}`)
+      .then((res) => {
+        if (res.data?.success) {
+          setMemberInfo((prev) => ({
+            ...prev,
+            memberNickname: res.data.data.memberNickname || '',
+            memberProfileImageUrl: res.data.data.memberProfileImageUrl || null,
+          }));
+        }
+      })
+      .catch(console.error);
     axiosInstance.post(`/private/profile/${userId}/visit`).catch(console.error);
   }, [isPageOwner, userId]);
 
@@ -172,8 +183,8 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
             onImageChange={handleImageChange}
             isPageOwner={isPageOwner}
           />
-          <ProfileChartCard logs={chartLogs} />
-          <ProfileStreakCard
+          <ProfileChartCardComponent logs={chartLogs} />
+          <ProfileStreakCardComponent
             communityCount={stats.communityCount}
             logCount={stats.logCount}
             todayVisitors={stats.todayVisitors}

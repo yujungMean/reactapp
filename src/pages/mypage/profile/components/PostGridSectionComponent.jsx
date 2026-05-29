@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import MyCommunityPostCard from "./MyCommunityPostCard"; 
+import MyCommunityPostCardComponent from "./MyCommunityPostCardComponent";
 
 const PostGridSectionComponent = ({ posts = [], selectedIds = [], onSelectOne, onNavigateOne, styles, isPageOwner = true }) => {
   const Grid = styles?.PostGrid || "div";
@@ -11,7 +11,7 @@ const PostGridSectionComponent = ({ posts = [], selectedIds = [], onSelectOne, o
 
         return (
           <div key={post.id}>
-            <MyCommunityPostCard
+            <MyCommunityPostCardComponent
               post={post}
               isSelected={isSelected}
               onSelect={() => onSelectOne?.(post.id)}

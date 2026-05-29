@@ -4,7 +4,7 @@ import likeFillIcon from '../../../../components/resources/like-fill2.svg';
 import postIcon from '../../../../components/resources/post.svg';
 import defaultProfile from '../../../../components/resources/default-profile.svg';
 
-const MyCommunityPostCard = ({ post, isSelected, onSelect, onNavigate, isPageOwner = true }) => {
+const MyCommunityPostCardComponent = ({ post, isSelected, onSelect, onNavigate, isPageOwner = true }) => {
   const { category, title, content, author, date, likes, comments, imageUrl } = post;
 
   return (
@@ -51,4 +51,4 @@ const MyCommunityPostCard = ({ post, isSelected, onSelect, onNavigate, isPageOwn
   );
 };
 
-export default MyCommunityPostCard;
+export default MyCommunityPostCardComponent;

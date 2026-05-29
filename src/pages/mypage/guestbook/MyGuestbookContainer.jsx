@@ -31,6 +31,15 @@ const mapGuestbook = (item) => ({
     createdAt: r.guestbookReplyCreatedAt || '',
     likes: r.likeCount || 0,
     liked: r.isLike === 1,
+    rereplies: (r.rereplies || []).map((rr) => ({
+      id: rr.id,
+      author: rr.writerNickname || '익명',
+      authorId: rr.writerMemberId,
+      profileImg: rr.writerProfileImageUrl || null,
+      content: rr.guestbookRereplyContent || '',
+      createdAt: rr.guestbookRereplyCreatedAt || '',
+      likes: rr.likeCount || 0,
+    })),
   })),
 });
 
@@ -168,30 +177,25 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
     setReplyTextMap((prev) => ({ ...prev, [commentId]: value }));
   };
 
+  const refetchList = () => {
+    const ownerId = isPageOwner ? ownerMemberId : (userId ? Number(userId) : null);
+    if (!ownerId) return Promise.resolve();
+    return axiosInstance.get('/api/guestbook/list', { params: { ownerMemberId: ownerId } })
+      .then((res) => {
+        if (res.data?.success && Array.isArray(res.data.data))
+          setComments(res.data.data.map(mapGuestbook));
+      })
+      .catch(console.error);
+  };
+
   const handleReplySubmit = (commentId) => {
     const replyText = (replyTextMap[commentId] || '').trim();
-    if (!replyText) return;
-    setComments((prev) =>
-      prev.map((c) =>
-        c.id === commentId
-          ? {
-              ...c,
-              replies: [
-                ...c.replies,
-                {
-                  id: Date.now(),
-                  author: loggedInNickname,
-                  authorId: loggedInMemberId,
-                  content: replyText,
-                  createdAt: '방금 전',
-                  likes: 0,
-                  liked: false,
-                },
-              ],
-            }
-          : c,
-      ),
-    );
+    if (!replyText || !loggedInMemberId) return;
+    axiosInstance.post('/api/guestbook/reply/write', {
+      guestbookId: commentId,
+      writerMemberId: loggedInMemberId,
+      guestbookReplyContent: replyText,
+    }).then(refetchList).catch(console.error);
     setReplyTextMap((prev) => ({ ...prev, [commentId]: '' }));
     setReplyOpenId(null);
   };
@@ -246,23 +250,82 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
   };
 
   const handleEditReply = (commentId, replyId, newContent) => {
-    setComments((prev) =>
-      prev.map((c) =>
-        c.id === commentId
-          ? { ...c, replies: c.replies.map((r) => r.id === replyId ? { ...r, content: newContent } : r) }
-          : c,
-      ),
-    );
+    const reply = comments.find((c) => c.id === commentId)?.replies?.find((r) => r.id === replyId);
+    if (!reply) return;
+    axiosInstance.put('/api/guestbook/reply/update', { id: replyId, writerMemberId: reply.authorId, guestbookReplyContent: newContent })
+      .then(() => {
+        setComments((prev) =>
+          prev.map((c) => c.id !== commentId ? c : {
+            ...c, replies: c.replies.map((r) => r.id === replyId ? { ...r, content: newContent } : r),
+          }),
+        );
+      })
+      .catch(console.error);
   };
 
   const handleDeleteReply = (commentId, replyId) => {
-    setComments((prev) =>
-      prev.map((c) =>
-        c.id === commentId
-          ? { ...c, replies: c.replies.filter((r) => r.id !== replyId) }
-          : c,
-      ),
-    );
+    const reply = comments.find((c) => c.id === commentId)?.replies?.find((r) => r.id === replyId);
+    if (!reply) return;
+    axiosInstance.delete('/api/guestbook/reply/delete', { data: { id: replyId, writerMemberId: reply.authorId } })
+      .then(() => {
+        setComments((prev) =>
+          prev.map((c) => c.id !== commentId ? c : {
+            ...c, replies: c.replies.filter((r) => r.id !== replyId),
+          }),
+        );
+      })
+      .catch(console.error);
+  };
+
+  const handleRereplySubmit = (commentId, replyId, content) => {
+    if (!content.trim() || !loggedInMemberId) return;
+    axiosInstance.post('/api/guestbook/rereply/write', {
+      guestbookReplyId: replyId,
+      writerMemberId: loggedInMemberId,
+      guestbookRereplyContent: content.trim(),
+    }).then(refetchList).catch(console.error);
+  };
+
+  const handleEditRereply = (commentId, replyId, rereplyId, newContent) => {
+    const rereply = comments
+      .find((c) => c.id === commentId)?.replies
+      ?.find((r) => r.id === replyId)?.rereplies
+      ?.find((rr) => rr.id === rereplyId);
+    if (!rereply) return;
+    axiosInstance.put('/api/guestbook/rereply/update', { id: rereplyId, writerMemberId: rereply.authorId, guestbookRereplyContent: newContent })
+      .then(() => {
+        setComments((prev) =>
+          prev.map((c) => c.id !== commentId ? c : {
+            ...c,
+            replies: c.replies.map((r) => r.id !== replyId ? r : {
+              ...r,
+              rereplies: r.rereplies.map((rr) => rr.id === rereplyId ? { ...rr, content: newContent } : rr),
+            }),
+          }),
+        );
+      })
+      .catch(console.error);
+  };
+
+  const handleDeleteRereply = (commentId, replyId, rereplyId) => {
+    const rereply = comments
+      .find((c) => c.id === commentId)?.replies
+      ?.find((r) => r.id === replyId)?.rereplies
+      ?.find((rr) => rr.id === rereplyId);
+    if (!rereply) return;
+    axiosInstance.delete('/api/guestbook/rereply/delete', { data: { id: rereplyId, writerMemberId: rereply.authorId } })
+      .then(() => {
+        setComments((prev) =>
+          prev.map((c) => c.id !== commentId ? c : {
+            ...c,
+            replies: c.replies.map((r) => r.id !== replyId ? r : {
+              ...r,
+              rereplies: r.rereplies.filter((rr) => rr.id !== rereplyId),
+            }),
+          }),
+        );
+      })
+      .catch(console.error);
   };
 
   return (
@@ -316,10 +379,14 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
                 activeMenuId={activeMenuId}
                 onMenuToggle={handleMoreMenuToggle}
                 onCloseMenu={handleCloseMenu}
+                currentUserId={loggedInMemberId}
                 onEdit={handleEditComment}
                 onDelete={handleDeleteComment}
                 onEditReply={handleEditReply}
                 onDeleteReply={handleDeleteReply}
+                onRereplySubmit={handleRereplySubmit}
+                onEditRereply={handleEditRereply}
+                onDeleteRereply={handleDeleteRereply}
               />
             ))}
             <div ref={sentinelRef} />

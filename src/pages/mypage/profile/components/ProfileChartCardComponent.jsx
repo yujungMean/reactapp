@@ -17,7 +17,7 @@ const CIRC = 2 * Math.PI * R;
 const INNER_R = R - SW / 2;   // 57
 const OUTER_R = R + SW / 2;   // 79
 
-const ProfileChartCard = ({ logs = [] }) => {
+const ProfileChartCardComponent = ({ logs = [] }) => {
   const wrapperRef = useRef(null);
   const [hovered, setHovered]   = useState(null);
   const [tooltip, setTooltip]   = useState({ x: 0, y: 0 });
@@ -138,4 +138,4 @@ const ProfileChartCard = ({ logs = [] }) => {
   );
 };
 
-export default ProfileChartCard;
+export default ProfileChartCardComponent;
