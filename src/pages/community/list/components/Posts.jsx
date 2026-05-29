@@ -15,6 +15,7 @@ myStyle.wrapper = styled.div`
     ${boxShadow["boxBasic"]}
 `
 
+//게시글 컴포넌트들을 저장하는 컨테이너
 const Posts = ({postData, search = ''}) => {
 
   return (

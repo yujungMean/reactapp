@@ -140,6 +140,7 @@ const Divider = styled.hr`
   border-top: 1px solid ${({ theme }) => theme.GRAYSCALE?.[2] || '#E6E6E6'};
 `;
 
+//게시글 리스트의 게시글 단위 컴포넌트
 const Post = ({
   id,
   category,
