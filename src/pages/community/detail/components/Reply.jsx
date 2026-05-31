@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import likeImg from '../../resources/like.svg';
@@ -61,6 +62,7 @@ const Reply = ({
   onReplyAdded,
 }) => {
   const isOwner = loginId != null && loginId === memberId;
+  const navigate = useNavigate();
   const { openMenuId, setOpenMenuId } = useMenuContext();
   const { openReport } = useReportContext();
   const menuId = useRef(`reply-${Math.random()}`).current;
@@ -110,6 +112,11 @@ const Reply = ({
   };
 
   const handleRereplySubmit = async (text) => {
+    if (loginId === 0) {
+      alert('로그인이 필요한 서비스입니다.');
+      navigate('/login');
+      return;
+    }
     if (!text.trim()) return;
     const res = await fetch('http://localhost:10000/api/posts/write-rereply', {
       method: 'POST',
@@ -125,9 +132,11 @@ const Reply = ({
   };
 
   const handleLike = async () => {
-
-console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
-
+    if (loginId === 0) {
+      alert('로그인이 필요한 서비스입니다.');
+      navigate('/login');
+      return;
+    }
     const url = liked
       ? 'http://localhost:10000/api/posts/cancel-like-reply'
       : 'http://localhost:10000/api/posts/like-reply';

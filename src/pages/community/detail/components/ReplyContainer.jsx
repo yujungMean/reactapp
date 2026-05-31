@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import S, { colorCSS } from '../../style.js';
@@ -10,8 +11,14 @@ import { MenuContext } from './MenuContext.js';
 // postId: 게시글 id, loginId: 로그인 유저 id, onReplyAdded: 댓글 등록 후 갱신 콜백
 const ReplyContainer = ({ replyList = [], postId, loginId, onReplyAdded }) => {
   const [openMenuId, setOpenMenuId] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (text) => {
+    if (loginId === 0) {
+      alert('로그인이 필요한 서비스입니다.');
+      navigate('/login');
+      return;
+    }
     if (!text.trim()) return;
     const res = await fetch('http://localhost:10000/api/posts/write-reply', {
       method: 'POST',

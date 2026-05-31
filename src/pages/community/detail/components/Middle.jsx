@@ -33,9 +33,11 @@ const Middle = ({ loginId, isOwner = false, likeCount = 0, isLiked = false, memb
   };
 
   const handleLike = async () => {
-
-    //로그인이 안됬을 때 return
-
+    if (loginId === 0) {
+      alert('로그인이 필요한 서비스입니다.');
+      navigate('/login');
+      return;
+    }
     const url = liked
       ? 'http://localhost:10000/api/posts/cancel-like'
       : 'http://localhost:10000/api/posts/apply-like';

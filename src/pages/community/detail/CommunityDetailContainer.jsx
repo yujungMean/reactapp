@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { boxShadow, colorCSS } from '../style';
 import PostHeader from './components/PostHeader';
@@ -35,6 +35,7 @@ const formatTimeAgo = (dateStr) => {
 
 const CommunityDetailContainer = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [reportState, setReportState] = useState(null);
     const [pageData, setPageData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -69,6 +70,11 @@ const CommunityDetailContainer = () => {
     }, [id, refreshKey]);
 
     const openReport = (type, reportId, profileImg, author, content) => {
+        if (memberId === 0) {
+            alert('로그인이 필요한 서비스입니다.');
+            navigate('/login');
+            return;
+        }
         setReportState({ type, id: reportId, profileImg, author, content });
     };
     const closeReport = () => setReportState(null);
