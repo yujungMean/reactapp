@@ -75,8 +75,8 @@ S.CardTitle = styled.h3`
 
 S.ChartWrapper = styled.div`
   position: relative;
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  height: 120px;
   margin: 0 auto;
   cursor: pointer;
 
