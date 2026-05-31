@@ -27,7 +27,7 @@ const PostListEmptyContainer = ({ search = '' }) => {
 
 const Wrapper = styled.div`
   width: 984px;
-  height: 1434px;
+  height: 536px;
   ${flexCenterRow}
 `;
 
