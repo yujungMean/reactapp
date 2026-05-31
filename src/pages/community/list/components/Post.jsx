@@ -68,12 +68,6 @@ const CategoryBadge = styled.div`
   border-radius: 15px;
 `;
 
-// 삭제예정
-const DateText = styled.span`
-  ${h10Regular}
-  color: ${({ theme }) => theme.GRAYSCALE?.[8] || '#999999'};
-`;
-
 //삭제예정
 const Title = styled.h2`
   ${h8Extrabold}
@@ -110,16 +104,10 @@ const AuthorWrap = styled.div`
 `;
 
 const AuthorImg = styled.img`
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   /* object-fit: cover; */
-`;
-
-// 삭제예정
-const AuthorName = styled.span`
-  ${h11Regular}
-  color: ${({ theme }) => theme.PALETTE?.black || '#333333'};
 `;
 
 const Stats = styled.div`
@@ -177,25 +165,25 @@ const Post = ({
               </CategoryBadge>
               <S.Span size={"h10Regular"} color={"faillog_gray9"}>{date}</S.Span>
             </TopRow>
-            <S.Span2 size={"h8Extrabold"} color={"faillog-black"} lineclamp={1}>{title}</S.Span2>
-            <S.Span2 size={"h9Regular"} color={"faillog_black"}>{content}</S.Span2>
+            <S.Span2 size={"h7Extrabold"} color={"faillog-black"} lineclamp={1}>{title}</S.Span2>
+            <S.Span2 size={"h8Bold"} color={"faillog_gray9"}>{content}</S.Span2>
             <BottomRow>
               <AuthorWrap>
                 <AuthorImg src={profile || defaultProfile} alt={author} />
-                <AuthorName>{author}</AuthorName>
+                <S.Span size="h10Regular">{author}</S.Span> 
               </AuthorWrap>
               <Stats>
                 <StatItem>
                   <img src={eye} width={12} height={8}></img>
-                  <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{views}</S.Span>
+                  <S.Span size="h9Regular" color="faillog-black" isvisible={true}>{views}</S.Span>
                 </StatItem>
                 <StatItem>
                   <img src={isLiked ? likeFill : heart} width={14} height={14}></img>
-                  <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{likes}</S.Span>
+                  <S.Span size="h9Regular" color="faillog-black" isvisible={true}>{likes}</S.Span>
                 </StatItem>
                 <StatItem>
                   <img src={comment} width={14} height={14}></img>
-                  <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{comments}</S.Span>
+                  <S.Span size="h9Regular" color="faillog-black" isvisible={true}>{comments}</S.Span>
                 </StatItem>
               </Stats>
             </BottomRow>

@@ -188,20 +188,20 @@ const CommunityPopularPostContainer = ({ posts }) => {
                     <myStyle.CardFooter>
                       <myStyle.AuthorInfo>
                         <myStyle.AuthorAvatar src={post.profile || defaultProfile} />
-                        <S.Span size="h10Regular" color="faillog_gray9">{post.author}</S.Span>
+                        <S.Span size="h9Regular" color="faillog_gray9">{post.author}</S.Span>
                       </myStyle.AuthorInfo>
                       <myStyle.Stats>
                         <myStyle.postInfo>
                           <img src={eye} width={12} height={8}></img>
-                          <S.Span size={"h11Regular"} color={"faillog-black"} isvisible={true}>{post.views}</S.Span>
+                          <S.Span size={"h10Regular"} color={"faillog-black"} isvisible={true}>{post.views}</S.Span>
                         </myStyle.postInfo>
                         <myStyle.postInfo>
                           <img src={heart} width={14} height={14}></img>
-                          <S.Span size={"h11Regular"} color={"faillog-black"}>{post.likes}</S.Span>
+                          <S.Span size={"h10Regular"} color={"faillog-black"}>{post.likes}</S.Span>
                         </myStyle.postInfo>
                         <myStyle.postInfo>
                           <img src={comment} width={14} height={14}></img>
-                          <S.Span size={"h11Regular"} color={"faillog-black"}>{post.comments}</S.Span>
+                          <S.Span size={"h10Regular"} color={"faillog-black"}>{post.comments}</S.Span>
                         </myStyle.postInfo>
                       </myStyle.Stats>
                     </myStyle.CardFooter>

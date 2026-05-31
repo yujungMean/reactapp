@@ -153,8 +153,8 @@ S.AuthorInfo = styled.div`
 `
 
 S.AuthorAvatar = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   /* border-radius: 50%; */
   /* background-color: ${colorCSS["faillog_gray1"]};
   border: 1px solid #e0e0e0; */
