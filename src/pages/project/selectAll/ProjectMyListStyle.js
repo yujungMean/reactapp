@@ -20,36 +20,7 @@ S.MyProjectsSection = styled.div`
     padding: 40px 0 80px;
 `;
 
-/* ── 로그 그룹 캐러셀 래퍼 ── */
-S.CarouselOuter = styled.div`
-    position: relative;
-`;
 
-S.ArrowBtn = styled.button`
-    ${flexCenter}
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 1px solid ${theme.GRAYSCALE[3]};
-    background: ${theme.PALETTE.white};
-    color: ${theme.GRAYSCALE[10]};
-    font-size: 40px;
-    z-index: 1;
-    transition: all 0.15s ease;
-    &:first-child { left: -90px; }
-    &:last-child  { right: -90px; }
-    &:hover:not(:disabled) {
-        background: ${theme.GRAYSCALE[1]};
-        border-color: ${theme.GRAYSCALE[6]};
-    }
-    &:disabled {
-        opacity: 0;
-        pointer-events: none;
-    }
-`;
 
 /* ── 로그별 섹션 ── */
 S.LogSection = styled.div`
