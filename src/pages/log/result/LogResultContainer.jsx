@@ -218,7 +218,7 @@ const LogResultContainer = () => {
                   {pages.map((page, pageIdx) => (
                     <S.PageWrapper key={pageIdx} $totalPages={totalPages}>
                       {page.map(log => (
-                        <S.RelatedCard key={log.id} onClick={() => navigate(`/fail-logs/result/${log.id}/detail`)}>
+                        <S.RelatedCard key={log.id} onClick={() => navigate(`/logs/result/${log.id}/detail`)}>
                           <S.RelatedBadge style={{ backgroundColor: getCategoryColor(log.categoryName).bg, color: getCategoryColor(log.categoryName).color }}>
                             {log.categoryName || "기타"}
                           </S.RelatedBadge>
@@ -239,7 +239,7 @@ const LogResultContainer = () => {
                               <span style={{ textDecoration: 'underline' }}>{log.memberNickname || "익명"}</span>
                             </S.RelatedAuthor>
                             <S.RelatedStats>
-                              <span><img src={viewIcon} alt="views" width="12" style={{ marginRight: 4 }} />{log.logReadCount || 0}</span>
+                              <span><img src={viewIcon} alt="views" width="12" style={{ marginRight: 4 }} />{log.readCount || 0}</span>
                               <span><img src={likeIcon} alt="likes" width="12" style={{ marginRight: 4 }} />{log.likeCount || 0}</span>
                             </S.RelatedStats>
                           </S.RelatedFooter>

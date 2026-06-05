@@ -43,7 +43,7 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
             date: item.logCreatedAt || '',
             likeCount: item.likeCount || 0,
             isLiked: true,
-            views: item.logReadCount || 0,
+            views: item.readCount || 0,
             progress: item.logProgress || 0,
             logStatus: item.logStatus,
           })));
