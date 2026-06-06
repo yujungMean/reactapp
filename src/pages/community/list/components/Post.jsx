@@ -101,6 +101,8 @@ const AuthorWrap = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+  cursor: pointer;
+  &:hover span { text-decoration: underline; }
 `;
 
 const AuthorImg = styled.img`
@@ -132,6 +134,7 @@ const Divider = styled.hr`
 //게시글 리스트의 게시글 단위 컴포넌트
 const Post = ({
   id,
+  memberId,
   category,
   title,
   content,
@@ -172,9 +175,9 @@ const Post = ({
             <S.Span2 size={"h7Extrabold"} color={"faillog-black"} lineclamp={1}>{title}</S.Span2>
             <S.Span2 size={"h8Bold"} color={"faillog_gray9"}>{content}</S.Span2>
             <BottomRow>
-              <AuthorWrap>
+              <AuthorWrap onClick={(e) => { e.stopPropagation(); navigate(`/user/${memberId}/profile`); }}>
                 <AuthorImg src={profile || defaultProfile} onError={handledOnErrorImg} alt={author} />
-                <S.Span size="h10Regular">{author}</S.Span> 
+                <S.Span size="h10Regular">{author}</S.Span>
               </AuthorWrap>
               <Stats>
                 <StatItem>

@@ -58,6 +58,7 @@ const CommunityListContainer = ({ initialPostList = [], initialMaxPage = 1 }) =>
         if (!json.success) return;
         const mapped = json.data.posts.map(p => ({
             id: p.id,
+            memberId: p.memberId,
             category: p.categoryId - 1,
             title: p.postTitle,
             content: stripHtml(p.postContent),

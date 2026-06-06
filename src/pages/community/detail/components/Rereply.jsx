@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import menuIcon from '../../resources/menuIcon.svg';
@@ -32,6 +33,7 @@ const Rereply = ({
   onReplyAdded,
 }) => {
   const isOwner = loginId != null && loginId === memberId;
+  const navigate = useNavigate();
   const { openMenuId, setOpenMenuId } = useMenuContext();
   const { openReport } = useReportContext();
   const menuId = useRef(`rereply-${Math.random()}`).current;
@@ -102,7 +104,7 @@ const Rereply = ({
       <TopRow>
         <ProfileGroup>
           {profileImg && <ProfileImg src={profileImg} onError={handledOnErrorImg} alt="프로필" />}
-          <S.Span size="h8Bold">{author}</S.Span>
+          <AuthorName onClick={() => navigate(`/user/${memberId}/profile`)}>{author}</AuthorName>
           <S.Span size="h10Regular" color="faillog_gray9">{createdAt}</S.Span>
         </ProfileGroup>
 
@@ -190,6 +192,13 @@ const ProfileGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 9px;
+`
+
+const AuthorName = styled.span`
+  ${sizeCSS["h8Bold"]}
+  color: ${colorCSS["faillog-black"]};
+  cursor: pointer;
+  &:hover { text-decoration: underline; }
 `
 
 const ProfileImg = styled.img`

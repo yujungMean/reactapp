@@ -150,7 +150,7 @@ const Reply = ({
       <TopRow>
         <ProfileGroup>
           {profileImg && <ProfileImg src={profileImg} onError={handledOnErrorImg} alt="프로필" />}
-          <S.Span size="h8Bold">{author}</S.Span>
+          <AuthorName onClick={() => navigate(`/user/${memberId}/profile`)}>{author}</AuthorName>
           <S.Span size="h10Regular" color="faillog_gray9">{createdAt}</S.Span>
         </ProfileGroup>
 
@@ -259,6 +259,13 @@ const ProfileGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 9px;
+`
+
+const AuthorName = styled.span`
+  ${sizeCSS["h8Bold"]}
+  color: ${colorCSS["faillog-black"]};
+  cursor: pointer;
+  &:hover { text-decoration: underline; }
 `
 
 const ProfileImg = styled.img`

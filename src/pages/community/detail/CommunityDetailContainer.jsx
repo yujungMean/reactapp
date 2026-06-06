@@ -126,6 +126,7 @@ const CommunityDetailContainer = () => {
     <Container>
         <Wrapper>
             <PostHeader
+                memberId={post.memberId}
                 category={categoryIndex}
                 title={post.postTitle}
                 profile={profileImg}
@@ -143,6 +144,7 @@ const CommunityDetailContainer = () => {
             <Divider />
 
             <AuthorInfo
+                memberId={post.memberId}
                 profile={profileImg}
                 author={post.memberNickname}
                 postCount={memberPostCount ?? 0}
@@ -176,7 +178,7 @@ const CommunityDetailContainer = () => {
                 nextId={afterPost?.id}
             />
 
-            {/* <AiPostContainer memberId={memberId} postId={post.id} /> */}
+            <AiPostContainer memberId={memberId} postId={post.id} />
         </Wrapper>
     </Container>
     {reportState && (
