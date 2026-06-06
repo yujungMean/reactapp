@@ -87,7 +87,6 @@ const LogResultContainer = () => {
   }, [id]);
 
   const handleLike = async () => {
-    // 낙관적 업데이트 (UI 먼저 변경)
     const prevLiked = liked;
     const prevCount = likeCount;
 
@@ -95,15 +94,9 @@ const LogResultContainer = () => {
     setLikeCount(prevLiked ? prevCount - 1 : prevCount + 1);
 
     try {
-      const res = await axiosInstance.post(`/api/logs/like/${id}`);
-      if (res.data?.success) {
-        // 서버에서 반환한 정확한 값으로 보정 (선택사항이나, 정확도를 위해 반영)
-        setLiked(res.data.data.isLiked === 1);
-        setLikeCount(res.data.data.likeCount);
-      }
+      await axiosInstance.post(`/api/logs/${id}/like`);
     } catch (err) {
       console.error("좋아요 처리 실패:", err);
-      // 에러 발생 시 원래 상태로 롤백
       setLiked(prevLiked);
       setLikeCount(prevCount);
     }

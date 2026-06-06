@@ -9,13 +9,13 @@ const LEGEND = [
 // SVG 도넛 치수
 const CX = 90;
 const CY = 90;
-const R  = 68;
-const SW = 22;
+const R  = 64;
+const SW = 18;
 const CIRC = 2 * Math.PI * R;
 
 // 호버 감지 범위 (스트로크 안쪽 ~ 바깥쪽)
 const INNER_R = R - SW / 2;   // 57
-const OUTER_R = R + SW / 2;   // 79
+const OUTER_R = R + SW / 2;   // 71
 
 const ProfileChartCardComponent = ({ logs = [] }) => {
   const wrapperRef = useRef(null);
@@ -69,7 +69,7 @@ const ProfileChartCardComponent = ({ logs = [] }) => {
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setHovered(null)}
         >
-          <svg width="140" height="140" viewBox="0 0 180 180">
+          <svg width="180" height="180" viewBox="0 0 180 180">
             <defs>
               {/* 전체 링에 적용되는 그라데이션 */}
               <linearGradient id="donutGrad" gradientUnits="userSpaceOnUse"
