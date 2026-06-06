@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import axios from '../../../api/axiosInstance';
 import theme from '../../../styles/theme';
@@ -131,6 +131,7 @@ const LogSelectModal = ({ onClose, onConfirm }) => {
 // ─────────────────────────────────────────
 const ProjectPublicDetailContainer = () => {
     const { id: projectId } = useParams();
+    const navigate = useNavigate();
 
     const [project, setProject] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -209,19 +210,27 @@ const ProjectPublicDetailContainer = () => {
         if (projectId) fetchProject();
     }, [projectId]);
 
-    const getDDay = (startDate) => {
-        if (!startDate) return 'D-Day';
+    const getProgressDay = (startDate) => {
+        if (!startDate) return 'D+0';
         const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
         const today = new Date();
-        const diff = Math.floor((today - start) / (1000 * 60 * 60 * 24));
-        return diff >= 0 ? `D+${diff}` : `D${diff}`;
+        today.setHours(0, 0, 0, 0);
+        const diff = Math.round((today - start) / (1000 * 60 * 60 * 24));
+        
+        if (diff < 0) return `D${diff}`;
+        return `D+${diff}`;
     };
 
     const getProgressPercent = (startDate, endDate) => {
         if (!startDate || !endDate) return 0;
         const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
         const end = new Date(endDate);
+        end.setHours(0, 0, 0, 0);
         const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
         const total = end - start;
         const elapsed = today - start;
         if (total <= 0) return 100;
@@ -247,9 +256,15 @@ const ProjectPublicDetailContainer = () => {
                 <S.PageTop>
                     <S.PageTitle>PROJECT</S.PageTitle>
                     <S.TopBtnRow>
-                        <span style={{ color: theme.GRAYSCALE[10], fontSize: '14px' }}>
+                        <span 
+                            style={{ color: theme.GRAYSCALE[10], fontSize: '14px', cursor: 'pointer', textDecoration: 'underline' }}
+                            onClick={() => navigate(`/profile/${project.memberId}`)}
+                        >
                             {project.memberNickname}님의 프로젝트
                         </span>
+                        <S.OutlineBtn onClick={() => navigate('/projects')}>
+                            목록으로
+                        </S.OutlineBtn>
                     </S.TopBtnRow>
                 </S.PageTop>
 
@@ -272,7 +287,7 @@ const ProjectPublicDetailContainer = () => {
                             <S.ProgressBar>
                                 <S.ProgressFill $percent={progressPercent} />
                             </S.ProgressBar>
-                            <S.DDay>{getDDay(project.projectStartDate)}</S.DDay>
+                            <S.DDay>{getProgressDay(project.projectStartDate)}</S.DDay>
                         </S.ProgressRow>
                     </S.ProjectCardInner>
                     <LS.AddProjectBtn onClick={handleCopyClick}>

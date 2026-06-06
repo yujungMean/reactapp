@@ -2,9 +2,13 @@ import GeminiIcon from '../project_icon/material-icon-theme_gemini-ai.svg';
 import LightBulbIcon from '../project_icon/35202510_light_bulb.svg';
 import PaperPlaneIcon from '../project_icon/Group 446.svg';
 import S from './ProjectDetailSuggestionStyle';
+import { useNavigate } from 'react-router-dom';
 
-const ProjectDetailSuggestion = ({ suggestion, setSuggestion, suggestions, onSubmit, onAddFromSuggestion, isOwner }) => (
-    <S.Section $mt="60px">
+const ProjectDetailSuggestion = ({ suggestion, setSuggestion, suggestions, onSubmit, onAddFromSuggestion, isOwner }) => {
+    const navigate = useNavigate();
+
+    return (
+        <S.Section $mt="60px">
         <S.SectionTitle>Suggestion</S.SectionTitle>
         <S.SuggestionBox>
             <S.SuggestionLeft>
@@ -45,14 +49,23 @@ const ProjectDetailSuggestion = ({ suggestion, setSuggestion, suggestions, onSub
             <S.SuggestionRight>
                 {suggestions.map((s) => (
                     <S.SuggestionItem key={s.id}>
-                        <S.SuggestionAvatarWrap>
+                        <S.SuggestionAvatarWrap 
+                            onClick={() => navigate(`/profile/${s.memberId}`)} 
+                            style={{ cursor: 'pointer' }}
+                        >
                             <S.SuggestionAvatarImg
-                                src={s.memberProfileImageUrl || '/default-profile.png'}
+                                src={s.memberProfileImageUrl || '/assets/picture/default-profile.png'}
                                 alt={s.memberNickname}
+                                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/picture/default-profile.png'; }}
                             />
                         </S.SuggestionAvatarWrap>
                         <S.SuggestionItemContent>
-                            <S.SuggestionUser>{s.memberNickname}</S.SuggestionUser>
+                            <S.SuggestionUser 
+                                onClick={() => navigate(`/profile/${s.memberId}`)} 
+                                style={{ cursor: 'pointer' }}
+                            >
+                                {s.memberNickname}
+                            </S.SuggestionUser>
                             <S.SuggestionItemText>{s.suggestionTitle}</S.SuggestionItemText>
                         </S.SuggestionItemContent>
                         {isOwner && (
@@ -63,6 +76,7 @@ const ProjectDetailSuggestion = ({ suggestion, setSuggestion, suggestions, onSub
             </S.SuggestionRight>
         </S.SuggestionBox>
     </S.Section>
-);
+    );
+};
 
 export default ProjectDetailSuggestion;

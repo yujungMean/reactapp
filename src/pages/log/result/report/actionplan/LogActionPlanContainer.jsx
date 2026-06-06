@@ -29,8 +29,17 @@ const LogActionPlanContainer = () => {
     const tryPlans = logActionPlans ? logActionPlans.filter(p => p.logActionPlanType === 'TRY') : [];
     const changePlans = logActionPlans ? logActionPlans.filter(p => p.logActionPlanType === 'CHANGE') : [];
 
+    const factorImpact = {
+        external: aiResult?.logResultExternalRatio ?? 50,
+        internal: aiResult?.logResultInternalRatio ?? 50
+    };
+
+    const higherImpactFactor = factorImpact.internal > factorImpact.external 
+        ? `내부 요인 ${factorImpact.internal}%` 
+        : `외부 요인 ${factorImpact.external}%`;
+
     const actionPlanData = {
-        badge: `${aiResult.logResultFailureType} (외부 요인 ${aiResult.logResultExternalRatio || 50}%)`,
+        badge: `${aiResult.logResultFailureType} (${higherImpactFactor})`,
         title: aiResult.logResultFailureTitle,
         description: aiResult.logResultFailureDesc,
 
@@ -70,9 +79,11 @@ const LogActionPlanContainer = () => {
 
     return (
         <S.Container>
-            {/* Profile & Like Row */}
             <S.MetaRow>
                 <S.AuthorInfo>
+                    <S.AvatarWrap>
+                        <S.ProfileImage src={selectedLog.author.profileImg} alt="profile" onError={(e) => { e.target.onerror = null; e.target.src = '/assets/picture/default-profile.png'; }} />
+                    </S.AvatarWrap>
                     <S.AuthorName>{selectedLog.author.name}</S.AuthorName>
                 </S.AuthorInfo>
                 <S.LikeButton onClick={handleLike}>

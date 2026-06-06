@@ -5,6 +5,8 @@ import S from './LogOtherListStyle';
 import viewIcon from './otherLog_icon/hugeicons--view.svg';
 import heartIcon from './otherLog_icon/ph--heart-light.svg';
 
+import DefaultThumb from './otherLog_thumbNail/Group 2956.png';
+
 import Thumb1 from './otherLog_thumbNail/image 277.png';
 import Thumb2 from './otherLog_thumbNail/image 340.png';
 import Thumb3 from './otherLog_thumbNail/image 343.png';
@@ -15,26 +17,10 @@ import Thumb7 from './otherLog_thumbNail/image 350.png';
 import Thumb8 from './otherLog_thumbNail/image 348.png';
 import Thumb9 from './otherLog_thumbNail/image 354.png';
 
-import Profile1 from './otherLog_profile/image 347.png';
-import Profile2 from './otherLog_profile/IMAGE.png';
-import Profile3 from './otherLog_profile/image 309.png';
-import Profile4 from './otherLog_profile/image 338.png';
-import Profile5 from './otherLog_profile/image 346.png';
-import Profile6 from './otherLog_profile/image 347.png';
-import Profile7 from './otherLog_profile/image 337.png';
-import Profile8 from './otherLog_profile/image 349.png';
-import Profile9 from './otherLog_profile/image 337.png';
-
 const THUMBNAIL_MAP = {
     9: Thumb1, 8: Thumb2, 7: Thumb3,
     6: Thumb4, 5: Thumb5, 4: Thumb6,
     3: Thumb7, 2: Thumb8, 1: Thumb9,
-};
-
-const PROFILE_MAP = {
-    9: Profile1, 8: Profile2, 7: Profile3,
-    6: Profile4, 5: Profile5, 4: Profile6,
-    3: Profile7, 2: Profile8, 1: Profile9,
 };
 
 const CATEGORY_VARIANT = {
@@ -130,8 +116,9 @@ const LogOtherList = ({ keyword, category, sort }) => {
                                         <S.Profile>
                                             <S.AvatarWrap>
                                                 <S.Avatar
-                                                    src={log.memberProfileImageUrl || PROFILE_MAP[log.id] || Profile1}
+                                                    src={log.memberProfileImageUrl || '/assets/picture/default-profile.png'}
                                                     alt={log.memberNickname}
+                                                    onError={(e) => { e.target.onerror = null; e.target.src = '/assets/picture/default-profile.png'; }}
                                                 />
                                             </S.AvatarWrap>
                                             <S.Nickname>{log.memberNickname}</S.Nickname>
@@ -150,7 +137,7 @@ const LogOtherList = ({ keyword, category, sort }) => {
                                 </S.CardBody>
 
                                 <S.Thumbnail
-                                    src={log.thumbnailUrl || THUMBNAIL_MAP[log.id] || Thumb1}
+                                    src={log.thumbnailUrl || THUMBNAIL_MAP[log.id] || DefaultThumb}
                                     alt={log.logTitle}
                                 />
                             </S.Card>

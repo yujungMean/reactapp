@@ -36,6 +36,26 @@ S.AuthorInfo = styled.div`
     gap: 10px;
 `;
 
+S.AvatarWrap = styled.div`
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(135deg, ${({ theme }) => theme.PALETTE.primary.main}, ${({ theme }) => theme.PALETTE.third.main});
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+`;
+
+S.ProfileImage = styled.img`
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: ${({ theme }) => theme.PALETTE.white};
+`;
+
 S.AuthorName = styled.span`
     font-size: ${({ theme }) => theme.FONT_SIZE.h8};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};

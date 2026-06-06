@@ -138,7 +138,7 @@ const LogAnalyzeModal = ({ onClose, logContent, draft }) => {
     if (step === 4) {
       const timer = setTimeout(() => {
         if (newLogId) {
-            navigate(`/logs/result/${newLogId}/detail`);
+            navigate(`/logs/result/${newLogId}/report/patterns`);
         } else {
             alert("로그 저장에 실패했습니다. 다시 시도해주세요.");
             onClose();
@@ -161,6 +161,14 @@ const LogAnalyzeModal = ({ onClose, logContent, draft }) => {
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget && step < 3) onClose();
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && step < 3) onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [step, onClose]);
 
   const renderStep1 = () => (
     <>
