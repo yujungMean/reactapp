@@ -1,18 +1,19 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import theme from '../../../styles/theme';
 import OfficeMaterialIcon from '../project_icon/office-material_227089.svg';
 import S from './ProjectMyListStyle';
 
-const getDDay = (endDate) => {
-    if (!endDate) return 'D-Day';
-    const end = new Date(endDate);
-    end.setHours(0, 0, 0, 0);
+const getProgressDay = (startDate) => {
+    if (!startDate) return 'D+0';
+    const start = new Date(startDate);
+    start.setHours(0, 0, 0, 0);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const diff = Math.round((end - today) / (1000 * 60 * 60 * 24));
+    const diff = Math.round((today - start) / (1000 * 60 * 60 * 24));
     
-    if (diff === 0) return 'D-Day';
-    return diff > 0 ? `D-${diff}` : `D+${Math.abs(diff)}`;
+    if (diff < 0) return `D${diff}`;
+    return `D+${diff}`;
 };
 
 const getAccentColor = (id) => {
@@ -35,23 +36,32 @@ const FolderIcon = () => (
     <img src={OfficeMaterialIcon} alt="folder" width="16" height="16" />
 );
 
-const ProjectCard = ({ project, onClick }) => (
+const ProjectCard = ({ project, onClick }) => {
+    const navigate = useNavigate();
+    return (
     <S.CardWrapper>
         <S.Card onClick={() => onClick?.(project)}>
             <S.AccentBar $color={project.accentColor || getAccentColor(project.id)} />
             <S.CardContent>
                 <S.CardTop>
-                    <S.OwnerRow>
+                    <S.OwnerRow 
+                        onClick={(e) => { 
+                            e.stopPropagation(); 
+                            navigate(`/profile`); 
+                        }} 
+                        style={{ cursor: 'pointer', zIndex: 10, position: 'relative' }}
+                    >
                         <S.OwnerAvatar>
                             <img
-                                src={project.memberProfileImageUrl || '/default-profile.png'}
-                                  alt="프로필"
+                                src={project.memberProfileImageUrl || '/assets/picture/default-profile.png'}
+                                alt="프로필"
+                                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/picture/default-profile.png'; }}
                                 style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover' }}
                             />
                         </S.OwnerAvatar>
-                        <S.OwnerName>{project.owner || '나의 프로젝트'}</S.OwnerName>
+                        <S.OwnerName>{project.memberNickname || '나'}</S.OwnerName>
                     </S.OwnerRow>
-                    <S.DDay>{getDDay(project.projectEndDate)}</S.DDay>
+                    <S.DDay>{getProgressDay(project.projectStartDate)}</S.DDay>
                 </S.CardTop>
                 <S.CardTitle>{project.projectTitle}</S.CardTitle>
                 <S.TagRow>
@@ -65,7 +75,8 @@ const ProjectCard = ({ project, onClick }) => (
             </S.CardContent>
         </S.Card>
     </S.CardWrapper>
-);
+    );
+};
 
 // ─────────────────────────────────────────
 // MAIN COMPONENT — 로그별 그룹화

@@ -40,7 +40,7 @@ const CARDS = [
     {
         label: '마이페이지',
         desc: '내 정보\n관리하기',
-        path: '/mypage',
+        path: '/my-page/profile',
         icon: iconMypage,
         iconBg: 'linear-gradient(135deg, #027DF0, #9333EA)',
     },

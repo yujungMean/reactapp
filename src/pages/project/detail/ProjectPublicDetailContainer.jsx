@@ -210,16 +210,16 @@ const ProjectPublicDetailContainer = () => {
         if (projectId) fetchProject();
     }, [projectId]);
 
-    const getDDay = (endDate) => {
-        if (!endDate) return 'D-Day';
-        const end = new Date(endDate);
-        end.setHours(0, 0, 0, 0);
+    const getProgressDay = (startDate) => {
+        if (!startDate) return 'D+0';
+        const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const diff = Math.round((end - today) / (1000 * 60 * 60 * 24));
+        const diff = Math.round((today - start) / (1000 * 60 * 60 * 24));
         
-        if (diff === 0) return 'D-Day';
-        return diff > 0 ? `D-${diff}` : `D+${Math.abs(diff)}`;
+        if (diff < 0) return `D${diff}`;
+        return `D+${diff}`;
     };
 
     const getProgressPercent = (startDate, endDate) => {
@@ -256,7 +256,10 @@ const ProjectPublicDetailContainer = () => {
                 <S.PageTop>
                     <S.PageTitle>PROJECT</S.PageTitle>
                     <S.TopBtnRow>
-                        <span style={{ color: theme.GRAYSCALE[10], fontSize: '14px' }}>
+                        <span 
+                            style={{ color: theme.GRAYSCALE[10], fontSize: '14px', cursor: 'pointer', textDecoration: 'underline' }}
+                            onClick={() => navigate(`/profile/${project.memberId}`)}
+                        >
                             {project.memberNickname}님의 프로젝트
                         </span>
                         <S.OutlineBtn onClick={() => navigate('/projects')}>
@@ -284,7 +287,7 @@ const ProjectPublicDetailContainer = () => {
                             <S.ProgressBar>
                                 <S.ProgressFill $percent={progressPercent} />
                             </S.ProgressBar>
-                            <S.DDay>{getDDay(project.projectEndDate)}</S.DDay>
+                            <S.DDay>{getProgressDay(project.projectStartDate)}</S.DDay>
                         </S.ProgressRow>
                     </S.ProjectCardInner>
                     <LS.AddProjectBtn onClick={handleCopyClick}>

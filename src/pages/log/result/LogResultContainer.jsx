@@ -5,8 +5,6 @@ import { S } from './LogResultContainerStyles';
 import viewIcon from './result_icon/view_icon.svg';
 import likeIcon from './result_icon/like_icon.svg';
 import theme from '../../../styles/theme';
-import defaultProfile from '../../community/resources/default.png';
-
 const LogResultContainer = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -124,7 +122,7 @@ const LogResultContainer = () => {
     date: logInfo.logCreatedAt ? logInfo.logCreatedAt.substring(0, 10).replace(/-/g, '.') : "방금 전",
     author: { 
       name: logInfo.memberNickname || "익명",
-      profileImg: logInfo.memberProfileImageUrl || defaultProfile
+      profileImg: logInfo.memberProfileImageUrl || '/assets/picture/default-profile.png'
     },
     vision: logInfo.visionTitle,
     content: logInfo.logContent,
@@ -213,7 +211,7 @@ const LogResultContainer = () => {
                   {pages.map((page, pageIdx) => (
                     <S.PageWrapper key={pageIdx} $totalPages={totalPages}>
                       {page.map(log => (
-                        <S.RelatedCard key={log.id} onClick={() => navigate(`/fail-logs/result/${log.id}/detail`)}>
+                        <S.RelatedCard key={log.id} onClick={() => navigate(`/logs/result/${log.id}/detail`)}>
                           <S.RelatedBadge style={{ backgroundColor: getCategoryColor(log.categoryName).bg, color: getCategoryColor(log.categoryName).color }}>
                             {log.categoryName || "기타"}
                           </S.RelatedBadge>
@@ -221,12 +219,20 @@ const LogResultContainer = () => {
                           <S.RelatedTitle>{log.logTitle}</S.RelatedTitle>
                           <S.RelatedSub>{log.visionTitle}</S.RelatedSub>
                           <S.RelatedFooter>
-                            <S.RelatedAuthor>
-                              <img src={log.memberProfileImageUrl || defaultProfile} alt="프로필" style={{ width: 24, height: 24, borderRadius: '50%', marginRight: 8, objectFit: 'cover' }} />
-                              {log.memberNickname || "익명"}
+                            <S.RelatedAuthor 
+                                onClick={(e) => { 
+                                    e.stopPropagation(); 
+                                    navigate(`/profile/${log.memberId}`); 
+                                }} 
+                                style={{ cursor: 'pointer', zIndex: 10, position: 'relative', display: 'flex', alignItems: 'center' }}
+                            >
+                              <S.AvatarWrap>
+                                <img src={log.memberProfileImageUrl || '/assets/picture/default-profile.png'} alt="프로필" onError={(e) => { e.target.onerror = null; e.target.src = '/assets/picture/default-profile.png'; }} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                              </S.AvatarWrap>
+                              <span style={{ textDecoration: 'underline' }}>{log.memberNickname || "익명"}</span>
                             </S.RelatedAuthor>
                             <S.RelatedStats>
-                              <span><img src={viewIcon} alt="views" width="12" style={{ marginRight: 4 }} />{log.logReadCount || 0}</span>
+                              <span><img src={viewIcon} alt="views" width="12" style={{ marginRight: 4 }} />{log.readCount || 0}</span>
                               <span><img src={likeIcon} alt="likes" width="12" style={{ marginRight: 4 }} />{log.likeCount || 0}</span>
                             </S.RelatedStats>
                           </S.RelatedFooter>
