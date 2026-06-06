@@ -11,7 +11,7 @@ import comment from '../../resources/post.svg'
 import likeFill from '../../resources/like-fill2.svg'
 import defaultProfile from '../../resources/default.png'
 
-const AiPost = ({ postId, date, category, title, profile, author, views, likes, comments }) => {
+const AiPost = ({ postId, memberId, date, category, title, profile, author, views, likes, comments }) => {
 
   const navigate = useNavigate();
   const {name, textColor ,bgColor} = getCategoryInfo(category)
@@ -34,7 +34,7 @@ const AiPost = ({ postId, date, category, title, profile, author, views, likes, 
       </TitleWrap>
 
       <BottomRow>
-        <AuthorWrap>
+        <AuthorWrap onClick={(e) => { e.stopPropagation(); navigate(`/user/${memberId}/profile`); }}>
           <AuthorImg src={profile || defaultProfile} onError={handledOnErrorImg} alt={author} />
           <S.Span size="h9Regular" color="faillog-black">{author}</S.Span>
         </AuthorWrap>
@@ -69,6 +69,13 @@ const Card = styled.div`
   justify-content: space-between;
   box-sizing: border-box;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.09);
+    border-color: ${colorCSS["faillog_purple"]};
+  }
 `;
 
 const TopRow = styled.div`
@@ -103,6 +110,8 @@ const AuthorWrap = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
+  cursor: pointer;
+  &:hover span { text-decoration: underline; }
 `;
 
 const AuthorImg = styled.img`

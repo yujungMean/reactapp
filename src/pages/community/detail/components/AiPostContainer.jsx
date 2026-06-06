@@ -24,6 +24,7 @@ const AiPostContainer = ({ memberId, postId }) => {
       if (!json.success) return;
       setAiPostList(json.data.map(p => ({
         postId: p.id,
+        memberId: p.memberId,
         date: formatDate(p.postCreatedAt),
         category: p.categoryId - 1,
         title: p.postTitle,

@@ -15,6 +15,13 @@ const Wrapper = styled.div`
   width: 984px;
   padding: 27px;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    background-color: ${colorCSS["faillog_gray1"]};
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  }
 `;
 
 const Card = styled.div`
