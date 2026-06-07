@@ -14,34 +14,9 @@ import { useMenuContext } from './MenuContext.js';
 import { useReportContext } from './ReportContext.js';
 import PopupComponent from '../../../../components/commons/PopupComponent';
 
-const LIMIT = 230;
+import defaultImage from '../../resources/default.png'
 
-//삭제예정
-const EXAMPLE = {
-  isOwner: false,
-  profileImg: 'https://i.pravatar.cc/150?img=3',
-  createdAt: '3분 전',
-  author: '해랑이',
-  content: '진짜 공감됩니다. 저도 집에서는 잘 되는데 시험장만 가면 아는 것도 막히더라고요. 그리고 댓글에는 글자가 여기까지 커집니다. 어디까지 커지는지 확인해본 결과 좁을 줄 알았는데 너무 넓은 범위까지 갑니다. 다음 줄이 언제 넘어가나 했다.',
-  isLiked: true,
-  likeCount: 3,
-  rereplyList: [
-    {
-      isOwner: false,
-      profileImg: 'https://i.pravatar.cc/150?img=5',
-      author: '취준마스터',
-      content: '저도 완전히 같았어요. 환경 적응이 생각보다 훨씬 중요하더라고요.저도 완전히 같았어요. 환경 적응이 생각보다 훨씬 중요하더라고요.저도 완전히 같았어요. 환경 적응이 생각보다 훨씬 중요하더라고요.저도 완전히 같았어요. 환경 적응이 생각보다 훨씬 중요하더라고요.저도 완전히 같았어요. 환경 적응이 생각보다 훨씬 중요하더라고요.저도 완전히 같았어요. 환경 적응이 생각보다 훨씬 중요하더라고요.저도 완전히 같았어요. 환경 적응이 생각보다 훨씬 중요하더라고요.저도 완전히 같았어요. 환경 적응이 생각보다 훨씬 중요하더라고요.저도 완전히 같았어요. 환경 적응이 생각보다 훨씬 중요하더라고요.저도 완전히 같았어요. 환경 적응이 생각보다 훨씬 중요하더라고요.',
-      createdAt: '2분전',
-    },
-    {
-      isOwner: true,
-      profileImg: 'https://i.pravatar.cc/150?img=3',
-      author: '해랑이',
-      content: '맞아요. 특히 첫 시험은 긴장감 자체가 너무 낯설더라고요.',
-      createdAt: '방금',
-    },
-  ],
-};
+const LIMIT = 230;
 
 // loginId: 로그인 유저 id, memberId: 댓글 작성자 id, replyId: 댓글 id
 // profileImg: 프로필 이미지, createdAt: 작성일
@@ -52,13 +27,13 @@ const Reply = ({
   loginId,
   memberId,
   replyId,
-  profileImg = EXAMPLE.profileImg,
-  createdAt = EXAMPLE.createdAt,
-  author = EXAMPLE.author,
-  content = EXAMPLE.content,
-  isLiked = EXAMPLE.isLiked,
-  likeCount = EXAMPLE.likeCount,
-  rereplyList = EXAMPLE.rereplyList,
+  profileImg,
+  createdAt,
+  author,
+  content,
+  isLiked,
+  likeCount,
+  rereplyList,
   onReplyAdded,
 }) => {
   const isOwner = loginId != null && loginId === memberId;
@@ -159,6 +134,10 @@ const Reply = ({
   const displayText = isOverflow && !expanded ? currentContent.slice(0, LIMIT) : currentContent;
   const showSection = rereplyList.length > 0 || replyOpen;
 
+  const handledOnErrorImg = (e) => {
+    e.target.src = defaultImage;
+  }
+
   return (
     <>
     <PopupComponent
@@ -170,8 +149,8 @@ const Reply = ({
     <Wrapper>
       <TopRow>
         <ProfileGroup>
-          {profileImg && <ProfileImg src={profileImg} alt="프로필" />}
-          <S.Span size="h8Bold">{author}</S.Span>
+          {profileImg && <ProfileImg src={profileImg} onError={handledOnErrorImg} alt="프로필" />}
+          <AuthorName onClick={() => navigate(`/user/${memberId}/profile`)}>{author}</AuthorName>
           <S.Span size="h10Regular" color="faillog_gray9">{createdAt}</S.Span>
         </ProfileGroup>
 
@@ -280,6 +259,13 @@ const ProfileGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 9px;
+`
+
+const AuthorName = styled.span`
+  ${sizeCSS["h8Bold"]}
+  color: ${colorCSS["faillog-black"]};
+  cursor: pointer;
+  &:hover { text-decoration: underline; }
 `
 
 const ProfileImg = styled.img`

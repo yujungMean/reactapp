@@ -15,6 +15,13 @@ const Wrapper = styled.div`
   width: 984px;
   padding: 27px;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    background-color: ${colorCSS["faillog_gray1"]};
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  }
 `;
 
 const Card = styled.div`
@@ -101,6 +108,8 @@ const AuthorWrap = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+  cursor: pointer;
+  &:hover span { text-decoration: underline; }
 `;
 
 const AuthorImg = styled.img`
@@ -132,6 +141,7 @@ const Divider = styled.hr`
 //게시글 리스트의 게시글 단위 컴포넌트
 const Post = ({
   id,
+  memberId,
   category,
   title,
   content,
@@ -148,6 +158,10 @@ const Post = ({
 
   const navigate = useNavigate();
   const {name, textColor ,bgColor} = getCategoryInfo(category)
+
+  const handledOnErrorImg = (e) => {
+    e.target.src = defaultProfile;
+  }
 
   return (
     <div>
@@ -168,9 +182,9 @@ const Post = ({
             <S.Span2 size={"h7Extrabold"} color={"faillog-black"} lineclamp={1}>{title}</S.Span2>
             <S.Span2 size={"h8Bold"} color={"faillog_gray9"}>{content}</S.Span2>
             <BottomRow>
-              <AuthorWrap>
-                <AuthorImg src={profile || defaultProfile} alt={author} />
-                <S.Span size="h10Regular">{author}</S.Span> 
+              <AuthorWrap onClick={(e) => { e.stopPropagation(); navigate(`/user/${memberId}/profile`); }}>
+                <AuthorImg src={profile || defaultProfile} onError={handledOnErrorImg} alt={author} />
+                <S.Span size="h10Regular">{author}</S.Span>
               </AuthorWrap>
               <Stats>
                 <StatItem>

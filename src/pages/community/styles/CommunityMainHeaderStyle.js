@@ -8,7 +8,16 @@ CommunityMainHeaderStyle.WriteButton = styled.button`
   border-radius: 10px;
   width: 200px;
   height: 60px;
-  background-color: ${colorCSS["faillog_purple"]};
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #027df0, #ab47ff);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  transition: background-position 0.6s ease;
+
+  &:hover {
+    background-position: 100% 50%;
+  }
 `
 
 CommunityMainHeaderStyle.MainHeaderWrap = styled.div`

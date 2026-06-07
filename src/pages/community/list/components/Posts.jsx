@@ -26,6 +26,7 @@ const Posts = ({postData, search = ''}) => {
           <Post
             key={post.id}
             id={post.id}
+            memberId={post.memberId}
             category={post.category}
             title={post.title}
             content={post.content}

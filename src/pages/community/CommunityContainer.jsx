@@ -30,6 +30,7 @@ const formatDate = (dateStr) => {
 
 const mapPost = (p) => ({
     id: p.id,
+    memberId: p.memberId,
     category: p.categoryId - 1,
     title: p.postTitle,
     content: stripHtml(p.postContent),
@@ -73,6 +74,7 @@ const CommunityContainer = () => {
             {bestPost && (
                 <CommunityBestPost
                     id={bestPost.id}
+                    memberId={bestPost.memberId}
                     title={bestPost.title}
                     content={bestPost.content}
                     date={bestPost.date}
@@ -95,7 +97,7 @@ const CommunityContainer = () => {
                 <S.Wrapper margintop={"55px"}>
                     <myStyle.PostListAndAiRecommandPostWrapper>
                         <CommunityListContainer initialPostList={postListMapped} initialMaxPage={initialMaxPage} />
-                        <AiPostListContainer />
+                        <AiPostListContainer memberId={memberId} />
                     </myStyle.PostListAndAiRecommandPostWrapper>
                 </S.Wrapper>
             </myStyle.ListBgWrap>

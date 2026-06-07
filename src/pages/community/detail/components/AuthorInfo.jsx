@@ -1,13 +1,20 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import S, { colorCSS } from '../../style';
+import defaultImage from '../../resources/default.png'
 
-const AuthorInfo = ({ profile, author, postCount, faillogCount, commentCount }) => {
+const AuthorInfo = ({ memberId, profile, author, postCount, faillogCount, commentCount }) => {
+  const navigate = useNavigate();
+
+  const handledOnErrorImg = (e) => {
+    e.target.src = defaultImage;
+  }
+
   return (
     <Wrapper>
-      {/* 이부분에 추가 */}
-      <AuthorWrap>
-        <ProfileImg src={profile} alt={author} />
+      <AuthorWrap onClick={() => navigate(`/user/${memberId}/profile`)} style={{ cursor: 'pointer' }}>
+        <ProfileImg src={profile} onError={handledOnErrorImg} alt={author} />
         <S.Span size="h7Bold" color="faillog-black">{author}</S.Span>
       </AuthorWrap>
 
