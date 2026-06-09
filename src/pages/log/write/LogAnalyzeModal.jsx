@@ -184,9 +184,9 @@ const LogAnalyzeModal = ({ onClose, logContent, draft }) => {
       </S.TitleSection>
 
       <S.SectionRow>
-        <S.SectionLabel>함께 분석할까요? <span style={{ fontSize: '12px', color: '#888', fontWeight: 'normal', marginLeft: '8px' }}>(최대 3개)</span></S.SectionLabel>
+        <S.SectionLabel>함께 분석할까요? <S.LimitInfoText>(최대 3개)</S.LimitInfoText></S.SectionLabel>
         <S.SelectedCount>
-          {selectedLogs.length === 3 ? <span style={{ color: '#ff4d4f' }}>최대 개수 도달</span> : selectedLogs.length > 0 ? `${selectedLogs.length}개 선택됨` : ''}
+          {selectedLogs.length === 3 ? <S.MaxReachedText>최대 개수 선택됨</S.MaxReachedText> : selectedLogs.length > 0 ? `${selectedLogs.length}개 선택됨` : ''}
         </S.SelectedCount>
       </S.SectionRow>
 
