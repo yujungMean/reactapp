@@ -150,6 +150,8 @@ S.AuthorInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
+  &:hover span { text-decoration: underline; }
 `
 
 S.AuthorAvatar = styled.img`

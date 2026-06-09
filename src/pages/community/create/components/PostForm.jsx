@@ -189,7 +189,7 @@ const PostForm = ({
         <FieldBlock $marginTop="42px">
           <Label>
             <S.Span size="h8Bold">본문 작성</S.Span>
-            {hasError && <RequiredMark> *</RequiredMark>}
+            {/* {hasError && <RequiredMark></RequiredMark>} */}
           </Label>
           <EditorBox>
             <EditorToolbar>

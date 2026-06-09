@@ -36,13 +36,14 @@ const Wrapper = styled.div`
 
 const ImageList = styled.div`
   width: 1270px;
-  height: 162px;
+  height: 172px;
   margin-top: 13px;
   display: flex;
   flex-direction: row;
   gap: 10px;
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: visible;
+  padding-top: 8px;
 `;
 
 export default ImagesContainer;

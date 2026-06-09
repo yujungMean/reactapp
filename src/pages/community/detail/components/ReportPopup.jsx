@@ -4,6 +4,7 @@ import styled, { keyframes } from 'styled-components';
 import S, { colorCSS } from '../../style.js';
 
 import check from  '../../resources/check-small.svg'
+import defaultImage from '../../resources/default.png'
 
 const REPORT_REASONS = [
   { id: 'ad',      title: '광고 / 도배',   desc: '홍보성 댓글' },
@@ -49,6 +50,10 @@ const ReportPopup = ({ type = '댓글', id, memberId, profileImg, author, conten
     if (json.success) setSubmitted(true);
   };
 
+  const handledOnErrorImg = (e) => {
+    e.target.src = defaultImage;
+  }
+
   if (submitted) {
     return (
       <Overlay>
@@ -78,7 +83,7 @@ const ReportPopup = ({ type = '댓글', id, memberId, profileImg, author, conten
         </SubTitle>
 
         <ProfileBox>
-          {profileImg && <ProfileImg src={profileImg} alt={author} />}
+          {profileImg && <ProfileImg src={profileImg} onError={handledOnErrorImg} alt={author} />}
           <ProfileRight>
             <S.Span size="h9Bold">{author}</S.Span>
             <S.Span2 size="h9Regular" color="faillog_gray9" lineclamp={2}>{content}</S.Span2>

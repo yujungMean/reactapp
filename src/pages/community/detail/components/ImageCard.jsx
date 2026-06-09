@@ -22,12 +22,12 @@ const ImageCard = ({ src, name }) => {
   };
 
   return (
-    <Card>
+    <Card onClick={handleDownload}>
       <ImageWrapper>
         {/* 나중에 크기 불러올 예정 */}
         <Image src={src} alt={name} />
       </ImageWrapper>
-      <TextArea onClick={handleDownload}>
+      <TextArea>
         <S.Span size="h11Regular" isvisible="true">{name}</S.Span>
       </TextArea>
     </Card>
@@ -43,6 +43,14 @@ const Card = styled.div`
   border-radius: 15px;
   border: 1px solid ${colorCSS["faillog_gray4"]};
   overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    border-color: ${colorCSS["faillog_purple"]};
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -75,8 +83,6 @@ const TextArea = styled.div`
   padding: 0 6px;
   background-color: #ffffff;
   box-sizing: border-box;
-
-  cursor: pointer;
 
   span {
     width: 100%;

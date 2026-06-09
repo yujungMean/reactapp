@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import S, { colorCSS } from '../../style';
 import getCategoryInfo from '../../GetCategoryInfo';
@@ -7,9 +8,15 @@ import { flexCenterRow } from '../../../../styles/common';
 import eye from '../../resources/eye.svg';
 import callendar from '../../resources/callendar.svg';
 import clock from '../../resources/clock.svg';
+import defaultImage from '../../resources/default.png'
 
-const PostHeader = ({ category, title, profile, author, views, date, timeAgo }) => {
+const PostHeader = ({ memberId, category, title, profile, author, views, date, timeAgo }) => {
   const { name, textColor, bgColor } = getCategoryInfo(category);
+  const navigate = useNavigate();
+
+  const handledOnErrorImg = (e) => {
+    e.target.src = defaultImage;
+  }
 
   return (
     <Wrapper>
@@ -21,8 +28,8 @@ const PostHeader = ({ category, title, profile, author, views, date, timeAgo }) 
       <S.Span2 size="h5Bold" color="faillog-black" lineclamp={2}>{title}</S.Span2>
 
       <BottomRow>
-        <AuthorWrap>
-          <PorileImg src={profile} alt={author} />
+        <AuthorWrap onClick={() => navigate(`/user/${memberId}/profile`)}>
+          <PorileImg src={profile} onError={handledOnErrorImg} alt={author} />
           <S.Span size="h9Regular" color="faillog_gray9">{author}</S.Span>
         </AuthorWrap>
         <MetaWrap>
@@ -73,6 +80,8 @@ const AuthorWrap = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
+  cursor: pointer;
+  &:hover span { text-decoration: underline; }
 `;
 
 const PorileImg = styled.img`

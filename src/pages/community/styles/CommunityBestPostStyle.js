@@ -104,6 +104,14 @@ CommunityBestPostStyle.UserInfo = styled.div`
   gap: 9px;
 `
 
+CommunityBestPostStyle.AuthorArea = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  &:hover span { text-decoration: underline; }
+`
+
 CommunityBestPostStyle.PostInfo = styled.div`
   margin-left: 15px;
   display: flex;

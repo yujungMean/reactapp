@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 
 const CommunityBestPost = ({
   id,
+  memberId,
   title,
   content,
   date,
@@ -41,6 +42,10 @@ const CommunityBestPost = ({
 
   const myStyle = CommunityBestPostStyle;
 
+  const handledOnErrorImg = (e) => {
+    e.target.src = defaultProfile;
+  }
+
   return (
     <div>
         <myStyle.BestPostWrap>
@@ -64,8 +69,10 @@ const CommunityBestPost = ({
                         <myStyle.BestPostMainHr></myStyle.BestPostMainHr>
                         <myStyle.BestPostMainInfo>
                           <myStyle.UserInfo>
-                            <myStyle.UserImg src={profile || defaultProfile}></myStyle.UserImg>
-                            <S.Span size={"h9Regular"} color={"faillog_black"}>{author}</S.Span>
+                            <myStyle.AuthorArea onClick={(e) => { e.stopPropagation(); navigate(`/user/${memberId}/profile`); }}>
+                              <myStyle.UserImg src={profile || defaultProfile} onError={handledOnErrorImg}></myStyle.UserImg>
+                              <S.Span size={"h9Regular"} color={"faillog_black"}>{author}</S.Span>
+                            </myStyle.AuthorArea>
                             <myStyle.PostInfo>
                               <myStyle.infoElement>
                                 <img src={eye} width={16} height={12} />
