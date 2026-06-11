@@ -47,6 +47,7 @@ const ProjectDetailContainer = () => {
     const [suggestion, setSuggestion] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
     const [newItem, setNewItem] = useState({ title: '', memo: '', priority: null });
+    const [recommendedSuggestions, setRecommendedSuggestions] = useState([]);
 
     // ── 프로젝트 상세 조회 + 체크리스트 + 제안 목록 조회 ──
     const fetchProject = async () => {
@@ -62,7 +63,20 @@ const ProjectDetailContainer = () => {
 
             // 내 프로젝트에 달린 제안 목록 조회
             const suggestionResponse = await axios.get(`/api/suggestion/list/${projectId}`);
-            setSuggestions(suggestionResponse.data.data || []);
+            const realSuggestions = suggestionResponse.data.data || [];
+            setSuggestions(realSuggestions);
+
+            // 실제 제안이 없을 때만 AI 추천 제안 조회
+            if (realSuggestions.length === 0) {
+                try {
+                    const recommendResponse = await axios.get(`/api/suggestion/recommend/${projectId}`);
+                    setRecommendedSuggestions(recommendResponse.data.data || []);
+                } catch {
+                    setRecommendedSuggestions([]);
+                }
+            } else {
+                setRecommendedSuggestions([]);
+            }
 
         } catch (err) {
             setError('프로젝트를 불러오는데 실패했습니다.');
@@ -356,6 +370,7 @@ const ProjectDetailContainer = () => {
                     suggestion={suggestion}
                     setSuggestion={setSuggestion}
                     suggestions={suggestions}
+                    recommendedSuggestions={recommendedSuggestions}
                     onSubmit={() => {}}
                     onAddFromSuggestion={handleOpenAddModalFromSuggestion}
                     isOwner={true}

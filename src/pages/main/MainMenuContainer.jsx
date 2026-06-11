@@ -5,8 +5,8 @@ import S from './MainMenuContainerStyle';
 import iconFaillog from './main_icon/file_1324039.svg';
 import iconProject from './main_icon/routine_4088138.svg';
 import iconChronology from './main_icon/graph_1357731.svg';
-import iconCommunity from './main_icon/crm_304575.svg';
-import iconMypage from './main_icon/feedback_2512312.svg';
+import iconCommunity from './main_icon/feedback_2512312.svg';
+import iconMypage from './main_icon/crm_304575.svg';
 
 const CARDS = [
     {
@@ -18,7 +18,7 @@ const CARDS = [
     },
     {
         label: '프로젝트',
-        desc: '새로운 실패 경험을\n구조화하여 기록하세요',
+        desc: '재도전을 위한\n행동 계획하기',
         path: '/projects',
         icon: iconProject,
         iconBg: 'linear-gradient(135deg, #FF34C5, #F5EE03)',
