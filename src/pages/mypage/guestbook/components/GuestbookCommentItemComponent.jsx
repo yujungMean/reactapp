@@ -58,8 +58,7 @@ const GuestbookCommentItemComponent = ({
   const isMyComment = comment.author === currentUser;
 
   const navigateToProfile = (authorId) => {
-    if (authorId === currentUserId) navigate('/my-page/profile');
-    else navigate(`/user/${authorId}/profile`);
+    navigate(`/user/${authorId}/profile`);
   };
 
   const [editMode, setEditMode] = useState(false);
@@ -333,7 +332,22 @@ const GuestbookCommentItemComponent = ({
                               </S.EditActions>
                             </>
                           ) : (
-                            <ClampedText content={rereply.content} />
+                            <>
+                              <ClampedText content={rereply.content} />
+                              <S.CommentFooter>
+                                <S.Reaction
+                                  liked={rereply.liked}
+                                  type="button"
+                                  onClick={() => onLike(comment.id, reply.id, rereply.id)}
+                                >
+                                  <img
+                                    src={rereply.liked ? likeFillIcon : likeIcon}
+                                    alt="좋아요"
+                                  />
+                                  <span>{rereply.likes}</span>
+                                </S.Reaction>
+                              </S.CommentFooter>
+                            </>
                           )}
                         </S.ReplyCard>
                       );

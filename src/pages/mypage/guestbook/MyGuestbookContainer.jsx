@@ -39,6 +39,7 @@ const mapGuestbook = (item) => ({
       content: rr.guestbookRereplyContent || '',
       createdAt: rr.guestbookRereplyCreatedAt || '',
       likes: rr.likeCount || 0,
+      liked: rr.isLike === 1,
     })),
   })),
 });
@@ -210,16 +211,32 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
   const handleReplySubmit = (commentId) => {
     const replyText = (replyTextMap[commentId] || '').trim();
     if (!replyText || !loggedInMemberId) return;
+
+    const optimisticReply = {
+      id: `temp-${Date.now()}`,
+      author: loggedInNickname,
+      authorId: loggedInMemberId,
+      profileImg: null,
+      content: replyText,
+      createdAt: new Date().toISOString(),
+      likes: 0,
+      liked: false,
+      rereplies: [],
+    };
+    setComments((prev) =>
+      prev.map((c) => c.id !== commentId ? c : { ...c, replies: [...c.replies, optimisticReply] })
+    );
+    setReplyTextMap((prev) => ({ ...prev, [commentId]: '' }));
+    setReplyOpenId(null);
+
     axiosInstance.post('/api/guestbook/reply/write', {
       guestbookId: commentId,
       writerMemberId: loggedInMemberId,
       guestbookReplyContent: replyText,
     }).then(refetchList).catch(console.error);
-    setReplyTextMap((prev) => ({ ...prev, [commentId]: '' }));
-    setReplyOpenId(null);
   };
 
-  const handleToggleLike = (commentId, replyId = null) => {
+  const handleToggleLike = (commentId, replyId = null, rereplyId = null) => {
     setComments((prev) =>
       prev.map((comment) => {
         if (comment.id !== commentId) return comment;
@@ -227,12 +244,27 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
           const liked = !comment.liked;
           return { ...comment, liked, likes: comment.likes + (liked ? 1 : -1) };
         }
+        if (rereplyId == null) {
+          return {
+            ...comment,
+            replies: comment.replies.map((reply) =>
+              reply.id === replyId
+                ? { ...reply, liked: !reply.liked, likes: reply.likes + (reply.liked ? -1 : 1) }
+                : reply,
+            ),
+          };
+        }
         return {
           ...comment,
           replies: comment.replies.map((reply) =>
-            reply.id === replyId
-              ? { ...reply, liked: !reply.liked, likes: reply.likes + (reply.liked ? -1 : 1) }
-              : reply,
+            reply.id !== replyId ? reply : {
+              ...reply,
+              rereplies: (reply.rereplies || []).map((rereply) =>
+                rereply.id === rereplyId
+                  ? { ...rereply, liked: !rereply.liked, likes: rereply.likes + (rereply.liked ? -1 : 1) }
+                  : rereply,
+              ),
+            },
           ),
         };
       }),
@@ -298,6 +330,25 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
 
   const handleRereplySubmit = (commentId, replyId, content) => {
     if (!content.trim() || !loggedInMemberId) return;
+
+    const optimisticRereply = {
+      id: `temp-${Date.now()}`,
+      author: loggedInNickname,
+      authorId: loggedInMemberId,
+      profileImg: null,
+      content: content.trim(),
+      createdAt: new Date().toISOString(),
+      likes: 0,
+    };
+    setComments((prev) =>
+      prev.map((c) => c.id !== commentId ? c : {
+        ...c,
+        replies: c.replies.map((r) => r.id !== replyId ? r : {
+          ...r, rereplies: [...(r.rereplies || []), optimisticRereply],
+        }),
+      })
+    );
+
     axiosInstance.post('/api/guestbook/rereply/write', {
       guestbookReplyId: replyId,
       writerMemberId: loggedInMemberId,

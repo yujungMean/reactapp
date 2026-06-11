@@ -47,9 +47,14 @@ const AccountDataComponent = ({
         memberNickname={memberNickname}
         onClose={() => setShowPasswordPopup(false)}
         onSubmit={(currentPw, newPw) => {
-          onPasswordSubmit?.(currentPw, newPw);
-          setShowPasswordPopup(false);
-          setSuccessMsg('비밀번호가 변경되었습니다.');
+          Promise.resolve(onPasswordSubmit?.(currentPw, newPw))
+            .then(() => {
+              setShowPasswordPopup(false);
+              setSuccessMsg('비밀번호가 변경되었습니다.');
+            })
+            .catch((err) => {
+              setSuccessMsg(err?.response?.data?.message || '비밀번호 변경에 실패했습니다.');
+            });
         }}
       />
       <EmailChangePopup

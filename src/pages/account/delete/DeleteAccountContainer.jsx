@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import S from '../styles/DeleteAccountContainerStyle';
 import PopupComponent from '../../../components/commons/PopupComponent';
+import axiosInstance from '../../../api/axiosInstance';
+import useAuthStore from '../../../store/authStore';
 
 const DeleteAccountContainer = () => {
   const navigate = useNavigate();
+  const { setUser, setIsAuthenticated } = useAuthStore();
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [agreed, setAgreed] = useState(false);
@@ -23,9 +26,15 @@ const DeleteAccountContainer = () => {
   };
 
   const handleConfirmDelete = () => {
-    // TODO: 실제 탈퇴 API 연동
-    setShowPopup(false);
-    navigate('/login');
+    axiosInstance.delete('/private/member')
+      .then(() => axiosInstance.post('/private/auth/logout'))
+      .catch(console.error)
+      .finally(() => {
+        setUser(null);
+        setIsAuthenticated(false);
+        setShowPopup(false);
+        navigate('/login');
+      });
   };
 
   return (

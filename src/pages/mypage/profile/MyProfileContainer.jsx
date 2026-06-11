@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../../api/axiosInstance';
+import useAuthStore from '../../../store/authStore';
 
 import PageS from './styles/MyPageWrapper';
 import InfoS from './styles/InfoManagementStyles';
@@ -16,10 +17,12 @@ import MyCommunityContainer from './components/MyCommunityContainer';
 import HeroRotationComponent from '../heroSection/HeroRotationComponents';
 import { getHeroContent } from '../heroSection/HeroData';
 
-const MyProfileContainer = ({ isPageOwner = true }) => {
+const MyProfileContainer = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { userId } = useParams();
+  const currentUserId = useAuthStore((state) => state.user?.id);
+  const isPageOwner = !userId || Number(userId) === currentUserId;
   const { mainContent, quickMenus } = getHeroContent(pathname);
 
   const [memberInfo, setMemberInfo] = useState({
@@ -68,9 +71,10 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
     axiosInstance.get('/api/logs/my-list')
       .then((res) => {
         if (res.data?.success && Array.isArray(res.data.data)) {
-          setStats((prev) => ({ ...prev, logCount: res.data.data.length }));
+          const completedLogs = res.data.data.filter((item) => item.logStatus !== 'DRAFT');
+          setStats((prev) => ({ ...prev, logCount: completedLogs.length }));
           setChartLogs(
-            res.data.data
+            completedLogs
               .filter((item) => item.logResultExternalRatio != null && item.logResultInternalRatio != null)
               .map((item) => ({
                 ...item,
@@ -83,18 +87,18 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
 
   }, [isPageOwner]);
 
-  const { data: myPostsData } = useQuery({
-    queryKey: ['myPosts', memberInfo.memberId],
+  const { data: myPostsTotal } = useQuery({
+    queryKey: ['myPostsTotal', memberInfo.memberId],
     queryFn: () =>
-      axiosInstance.get('/api/posts/my-list', { params: { memberId: memberInfo.memberId } })
-        .then((res) => (res.data?.success && Array.isArray(res.data.data) ? res.data.data : [])),
+      axiosInstance.get('/api/posts/my-posts', { params: { memberId: memberInfo.memberId } })
+        .then((res) => (res.data?.success ? res.data.data?.total ?? 0 : 0)),
     enabled: isPageOwner && !!memberInfo.memberId,
     staleTime: 0,
   });
 
   useEffect(() => {
-    if (myPostsData) setStats((prev) => ({ ...prev, communityCount: myPostsData.length }));
-  }, [myPostsData]);
+    if (myPostsTotal != null) setStats((prev) => ({ ...prev, communityCount: myPostsTotal }));
+  }, [myPostsTotal]);
 
   // 남의 프로필 방문 시: 공개 회원 정보 조회 + 방문 기록
   useEffect(() => {
@@ -164,13 +168,11 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
   };
 
   const handleUnregister = () => {
-    axiosInstance.delete('/private/member')
-      .then(() => navigate('/delete'))
-      .catch(console.error);
+    navigate('/delete');
   };
 
   const handlePasswordChange = (currentPw, newPw) => {
-    axiosInstance.put('/private/member/password', { currentPassword: currentPw, newPassword: newPw }).catch(console.error);
+    return axiosInstance.put('/private/member/password', { currentPassword: currentPw, newPassword: newPw });
   };
 
   const handlePhoneVerifySubmit = (phone) => {
