@@ -4,8 +4,50 @@ import PaperPlaneIcon from '../project_icon/Group 446.svg';
 import S from './ProjectDetailSuggestionStyle';
 import { useNavigate } from 'react-router-dom';
 
-const ProjectDetailSuggestion = ({ suggestion, setSuggestion, suggestions, onSubmit, onAddFromSuggestion, isOwner }) => {
+const ProjectDetailSuggestion = ({ suggestion, setSuggestion, suggestions, recommendedSuggestions = [], onSubmit, onAddFromSuggestion, isOwner }) => {
     const navigate = useNavigate();
+
+    const hasRealSuggestions = suggestions.length > 0;
+    const hasRecommended = !hasRealSuggestions && recommendedSuggestions.length > 0;
+
+    const renderSuggestionItem = (s, isRecommended = false) => (
+        <S.SuggestionItem key={(isRecommended ? 'rec-' : '') + s.id}>
+            <S.SuggestionAvatarWrap
+                onClick={() => navigate(`/profile/${s.memberId}`)}
+                style={{ cursor: 'pointer' }}
+            >
+                <S.SuggestionAvatarImg
+                    src={s.memberProfileImageUrl || '/assets/picture/default-profile.png'}
+                    alt={s.memberNickname}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/assets/picture/default-profile.png'; }}
+                />
+            </S.SuggestionAvatarWrap>
+            <S.SuggestionItemContent>
+                <S.SuggestionUser
+                    onClick={() => navigate(`/profile/${s.memberId}`)}
+                    style={{ cursor: 'pointer' }}
+                >
+                    {s.memberNickname}
+                    {isRecommended && (
+                        <span style={{
+                            marginLeft: '6px',
+                            fontSize: '10px',
+                            fontWeight: 600,
+                            color: '#7c5cfc',
+                            background: '#f0ebff',
+                            borderRadius: '4px',
+                            padding: '1px 6px',
+                            verticalAlign: 'middle',
+                        }}>AI 추천</span>
+                    )}
+                </S.SuggestionUser>
+                <S.SuggestionItemText>{s.suggestionTitle}</S.SuggestionItemText>
+            </S.SuggestionItemContent>
+            {isOwner && (
+                <S.AddListBtn onClick={() => onAddFromSuggestion(s.suggestionTitle)}>+</S.AddListBtn>
+            )}
+        </S.SuggestionItem>
+    );
 
     return (
         <S.Section $mt="60px">
@@ -47,32 +89,28 @@ const ProjectDetailSuggestion = ({ suggestion, setSuggestion, suggestions, onSub
             </S.SuggestionLeft>
 
             <S.SuggestionRight>
-                {suggestions.map((s) => (
-                    <S.SuggestionItem key={s.id}>
-                        <S.SuggestionAvatarWrap 
-                            onClick={() => navigate(`/profile/${s.memberId}`)} 
-                            style={{ cursor: 'pointer' }}
-                        >
-                            <S.SuggestionAvatarImg
-                                src={s.memberProfileImageUrl || '/assets/picture/default-profile.png'}
-                                alt={s.memberNickname}
-                                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/picture/default-profile.png'; }}
-                            />
-                        </S.SuggestionAvatarWrap>
-                        <S.SuggestionItemContent>
-                            <S.SuggestionUser 
-                                onClick={() => navigate(`/profile/${s.memberId}`)} 
-                                style={{ cursor: 'pointer' }}
-                            >
-                                {s.memberNickname}
-                            </S.SuggestionUser>
-                            <S.SuggestionItemText>{s.suggestionTitle}</S.SuggestionItemText>
-                        </S.SuggestionItemContent>
-                        {isOwner && (
-                            <S.AddListBtn onClick={() => onAddFromSuggestion(s.suggestionTitle)}>+</S.AddListBtn>
-                        )}
-                    </S.SuggestionItem>
-                ))}
+                {hasRealSuggestions && suggestions.map((s) => renderSuggestionItem(s, false))}
+
+                {hasRecommended && (
+                    <>
+                        <div style={{
+                            fontSize: '12px',
+                            color: '#9ca3af',
+                            marginBottom: '8px',
+                            paddingBottom: '8px',
+                            borderBottom: '1px dashed #e5e7eb',
+                        }}>
+                            아직 제안이 없어요. 비슷한 목표를 가진 사용자들의 제안을 먼저 확인해보세요.
+                        </div>
+                        {recommendedSuggestions.map((s) => renderSuggestionItem(s, true))}
+                    </>
+                )}
+
+                {!hasRealSuggestions && !hasRecommended && (
+                    <div style={{ color: '#9ca3af', fontSize: '14px', padding: '20px 0' }}>
+                        아직 제안이 없습니다.
+                    </div>
+                )}
             </S.SuggestionRight>
         </S.SuggestionBox>
     </S.Section>
