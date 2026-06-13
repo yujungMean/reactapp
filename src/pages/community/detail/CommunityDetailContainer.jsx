@@ -42,7 +42,7 @@ const CommunityDetailContainer = () => {
     const [error, setError] = useState(null);
     const [refreshKey, setRefreshKey] = useState(0);
 
-    const memberId = 1;//useAuthStore((state) => state.user?.id ?? 0);
+    const memberId = useAuthStore((state) => state.user?.id ?? 0);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -178,7 +178,7 @@ const CommunityDetailContainer = () => {
                 nextId={afterPost?.id}
             />
 
-            {/* <AiPostContainer memberId={memberId} postId={post.id} /> */}
+            <AiPostContainer memberId={memberId} postId={post.id} />
         </Wrapper>
     </Container>
     {reportState && (

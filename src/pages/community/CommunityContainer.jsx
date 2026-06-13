@@ -46,7 +46,7 @@ const mapPost = (p) => ({
 
 const CommunityContainer = () => {
     const [mainData, setMainData] = useState(null);
-    const memberId = 1;//useAuthStore((state) => state.user?.id ?? 0);
+    const memberId = useAuthStore((state) => state.user?.id ?? 0);
 
     useEffect(() => {
         // console.log(memberId);
