@@ -115,7 +115,11 @@ const LogResultContainer = () => {
   const selectedLog = {
     id: logInfo.id,
     badges: [
-      { label: logInfo.logStatus === "PUBLISHED" ? "분석 완료" : "작성 중", color: "#22C55E", bg: "#F0FDF4" },
+      { 
+        label: logInfo.logStatus === "PUBLISHED" ? "분석 완료" : "작성 중", 
+        color: theme.PALETTE.secondary.main, 
+        bg: theme.PALETTE.secondary.light 
+      },
       { label: logInfo.categoryName || "카테고리", color: categoryStyle.color, bg: categoryStyle.bg },
     ],
     title: logInfo.logTitle,
