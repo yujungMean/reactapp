@@ -23,7 +23,7 @@ const PostHeader = ({ memberId, category, title, profile, author, views, date, t
     <Wrapper>
       {/* 이부분에 추가 */}
       <CategoryBadge bgcolor={bgColor}>
-        <S.Span size="h11Bold" color={textColor}>{name}</S.Span>
+        <S.Span size="h10Bold" color={textColor}>{name}</S.Span>
       </CategoryBadge>
 
       <S.Span2 size="h5Bold" color="faillog-black" lineclamp={2}>{title}</S.Span2>
