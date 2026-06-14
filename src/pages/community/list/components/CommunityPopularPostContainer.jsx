@@ -11,6 +11,7 @@ import heart from '../../resources/like.svg'
 import comment from '../../resources/post.svg'
 import likeFill from '../../resources/like-fill2.svg'
 import getCategoryInfo from '../../GetCategoryInfo';
+import { goToMemberProfile } from '../../../../utils/profileNavigation';
 
 import imageEmpty from '../../resources/popular-image-empty.png'
 import defaultProfile from '../../resources/default.png'
@@ -190,7 +191,7 @@ const CommunityPopularPostContainer = ({ posts }) => {
                     </myStyle.CardContent>
                     <myStyle.CardDivider />
                     <myStyle.CardFooter>
-                      <myStyle.AuthorInfo onClick={(e) => { e.stopPropagation(); navigate(`/user/${post.memberId}/profile`); }}>
+                      <myStyle.AuthorInfo onClick={(e) => { e.stopPropagation(); goToMemberProfile(navigate, post.memberId); }}>
                         <myStyle.AuthorAvatar src={post.profile || defaultProfile} onError={handledOnErrorImg} />
                         <S.Span size="h9Regular" color="faillog_gray9">{post.author}</S.Span>
                       </myStyle.AuthorInfo>

@@ -226,6 +226,12 @@ const JoinContainer = () => {
           <S.AgreementDesc>맞춤 추천, 뉴스레터 등 유용한 혜택을 제공받을 수 있습니다.</S.AgreementDesc>
         </S.AgreementRow>
       </S.AgreementBox>
+      <S.PrimaryButton
+        onClick={() => { if (agreements.terms) setStep(2); }}
+        $disabled={!agreements.terms}
+      >
+        Fail Log 계정 만들기
+      </S.PrimaryButton>
 
       <S.OrDivider><S.OrLine /><S.OrText>또는</S.OrText><S.OrLine /></S.OrDivider>
 
@@ -257,12 +263,6 @@ const JoinContainer = () => {
         카카오톡으로 회원가입
       </S.SocialButton>
 
-      <S.PrimaryButton
-        onClick={() => { if (agreements.terms) setStep(2); }}
-        $disabled={!agreements.terms}
-      >
-        Fail Log 계정 만들기
-      </S.PrimaryButton>
 
       <S.BottomLink>이미 계정이 있으신가요? <S.PurpleLink to="/login">로그인</S.PurpleLink></S.BottomLink>
       <S.Copyright>© FAIL LOG. ALL RIGHTS RESERVED.</S.Copyright>

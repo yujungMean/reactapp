@@ -12,6 +12,7 @@ import heartFill from '../../resources/like-fill2.svg'
 import thumbnailEmpty from '../../resources/month-image-empty.png'
 import defaultProfile from '../../resources/default.png'
 import { useNavigate } from 'react-router-dom';
+import { goToMemberProfile } from '../../../../utils/profileNavigation';
 
 const CommunityBestPost = ({
   id,
@@ -69,7 +70,7 @@ const CommunityBestPost = ({
                         <myStyle.BestPostMainHr></myStyle.BestPostMainHr>
                         <myStyle.BestPostMainInfo>
                           <myStyle.UserInfo>
-                            <myStyle.AuthorArea onClick={(e) => { e.stopPropagation(); navigate(`/user/${memberId}/profile`); }}>
+                            <myStyle.AuthorArea onClick={(e) => { e.stopPropagation(); goToMemberProfile(navigate, memberId); }}>
                               <myStyle.UserImg src={profile || defaultProfile} onError={handledOnErrorImg}></myStyle.UserImg>
                               <S.Span size={"h9Regular"} color={"faillog_black"}>{author}</S.Span>
                             </myStyle.AuthorArea>

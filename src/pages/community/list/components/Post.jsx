@@ -10,6 +10,7 @@ import comment from '../../resources/post.svg'
 import likeFill from '../../resources/like-fill2.svg'
 import getCategoryInfo from '../../GetCategoryInfo';
 import defaultProfile from '../../resources/default.png';
+import { goToMemberProfile } from '../../../../utils/profileNavigation';
 
 const Wrapper = styled.div`
   width: 984px;
@@ -182,7 +183,7 @@ const Post = ({
             <S.Span2 size={"h7Extrabold"} color={"faillog-black"} lineclamp={1}>{title}</S.Span2>
             <S.Span2 size={"h8Bold"} color={"faillog_gray9"}>{content}</S.Span2>
             <BottomRow>
-              <AuthorWrap onClick={(e) => { e.stopPropagation(); navigate(`/user/${memberId}/profile`); }}>
+              <AuthorWrap onClick={(e) => { e.stopPropagation(); goToMemberProfile(navigate, memberId); }}>
                 <AuthorImg src={profile || defaultProfile} onError={handledOnErrorImg} alt={author} />
                 <S.Span size="h10Regular">{author}</S.Span>
               </AuthorWrap>
