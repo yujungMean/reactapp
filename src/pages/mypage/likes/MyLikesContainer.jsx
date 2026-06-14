@@ -15,7 +15,7 @@ import axiosInstance from '../../../api/axiosInstance';
 const MyLikesContainer = ({ isPageOwner = true }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { userId } = useParams();
+  const { handle } = useParams();
   const { mainContent, quickMenus } = getHeroContent(pathname);
   const { content, setContent, setPage } = useSearchStore();
 
@@ -53,13 +53,13 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
   }, [isPageOwner]);
 
   useEffect(() => {
-    if (isPageOwner || !userId) return;
-    axiosInstance.get(`/api/members/${userId}`)
+    if (isPageOwner || !handle) return;
+    axiosInstance.get(`/api/members/handle/${handle}`)
       .then((res) => {
         if (res.data?.success) setOwnerNickname(res.data.data.memberNickname || '');
       })
       .catch(console.error);
-  }, [isPageOwner, userId]);
+  }, [isPageOwner, handle]);
 
   const [filteredLogs, setFilteredLogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -95,7 +95,7 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
 
   return (
     <PageS.MainWrapper>
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} userId={userId} />
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} />
       <RecentLogsComponent logs={recentLogs} />
 
       {hasNoCards ? (

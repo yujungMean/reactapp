@@ -9,6 +9,7 @@ import { useMenuContext } from './MenuContext.js';
 import { useReportContext } from './ReportContext.js';
 import PopupComponent from '../../../../components/commons/PopupComponent';
 import defaultImage from '../../resources/default.png'
+import { goToMemberProfile } from '../../../../utils/profileNavigation';
 
 //삭제예정
 const EXAMPLE = {
@@ -104,7 +105,7 @@ const Rereply = ({
       <TopRow>
         <ProfileGroup>
           {profileImg && <ProfileImg src={profileImg} onError={handledOnErrorImg} alt="프로필" />}
-          <AuthorName onClick={() => navigate(`/user/${memberId}/profile`)}>{author}</AuthorName>
+          <AuthorName onClick={() => goToMemberProfile(navigate, memberId)}>{author}</AuthorName>
           <S.Span size="h10Regular" color="faillog_gray9">{createdAt}</S.Span>
         </ProfileGroup>
 
