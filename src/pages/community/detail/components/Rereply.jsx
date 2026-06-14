@@ -41,6 +41,7 @@ const Rereply = ({
   const toggleMenu = () => setOpenMenuId(menuOpen ? null : menuId);
 
   const [currentContent, setCurrentContent] = useState(content);
+  const [currentAuthor, setCurrentAuthor] = useState(author);
   const [expanded, setExpanded] = useState(false);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -68,8 +69,15 @@ const Rereply = ({
     });
     if (!res.ok) return;
     const json = await res.json();
-    if (json.success) {
-      setCurrentContent(editText);
+    if (!json.success) return;
+
+    const readRes = await fetch(`http://localhost:10000/api/posts/read-rereply/${rereplyId}`);
+    if (!readRes.ok) return;
+    const readJson = await readRes.json();
+    if (readJson.success) {
+      const d = readJson.data;
+      setCurrentContent(d.rereplyContent);
+      setCurrentAuthor(d.memberNickname);
       setEditMode(false);
     }
   };
@@ -104,7 +112,7 @@ const Rereply = ({
       <TopRow>
         <ProfileGroup>
           {profileImg && <ProfileImg src={profileImg} onError={handledOnErrorImg} alt="프로필" />}
-          <AuthorName onClick={() => navigate(`/user/${memberId}/profile`)}>{author}</AuthorName>
+          <AuthorName onClick={() => navigate(`/user/${memberId}/profile`)}>{currentAuthor}</AuthorName>
           <S.Span size="h10Regular" color="faillog_gray9">{createdAt}</S.Span>
         </ProfileGroup>
 
