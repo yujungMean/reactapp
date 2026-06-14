@@ -14,6 +14,7 @@ const MyFailLogListSectionComponent = ({
   setSearchOption,
   handleSearchSubmit,
   filteredLogs,
+  pagedLogs,
   currentPage,
   totalPages,
   handlePageChange,
@@ -44,7 +45,7 @@ const MyFailLogListSectionComponent = ({
       ) : (
         <>
           <MyFailLogCardComponent
-            filteredLogs={filteredLogs}
+            filteredLogs={pagedLogs}
             selectedDeleteIds={selectedDeleteIds}
           />
 

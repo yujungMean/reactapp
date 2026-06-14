@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import S from '../styles/MyFailLogStyles';
 import defaultProfile from '../../../../components/resources/default-profile.svg';
 import eyeIcon from '../../../../components/resources/eye.svg';
@@ -6,6 +7,12 @@ import likeFilledIcon from '../../../../components/resources/like-fill2.svg';
 import defaultThumbnail from '../../../log/other/otherLog_thumbNail/Group 2956.png';
 
 const FeaturedLogComponent = ({ logs = [], isPageOwner = true, ownerNickname = '' }) => {
+  const navigate = useNavigate();
+
+  const goToLog = (logId) => {
+    navigate(`/logs/result/${logId}/detail`);
+  };
+
   const hasLikedPosts = logs.some(
     (log) => log.isLiked || (log.likeCount || log.likes || 0) > 0,
   );
@@ -37,7 +44,7 @@ const FeaturedLogComponent = ({ logs = [], isPageOwner = true, ownerNickname = '
           </div>
 
           {topLogs.map((log, idx) => (
-            <S.FeaturedItem key={log.id ?? idx}>
+            <S.FeaturedItem key={log.id ?? idx} onClick={() => goToLog(log.id)}>
               <h4>{log.title}</h4>
               <div className="Meta">
                 <div className="User">
@@ -59,7 +66,7 @@ const FeaturedLogComponent = ({ logs = [], isPageOwner = true, ownerNickname = '
           ))}
         </S.FeaturedListArea>
 
-        <S.FeaturedMainImage>
+        <S.FeaturedMainImage onClick={() => goToLog(featuredLog.id)}>
           <img
             className="MainImg"
             src={featuredLog.thumbnailUrl || defaultThumbnail}
