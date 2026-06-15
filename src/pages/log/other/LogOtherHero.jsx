@@ -12,7 +12,10 @@ const LogOtherHero = () => {
             <S.Inner>
                 <S.TitleWrap>
                     <S.GlobeIcon src={GlobeIcon} alt="globe" />
-                    <h1 className="hero-title">다른 사람의 경험을 만나보세요.</h1>
+                    <S.TitleTextWrap>
+                        <h1 className="hero-title">다른 로거의 경험을 만나보세요.</h1>
+                        <S.HeroSub>로거들의 실패와 성장 경험을 탐색해보세요.</S.HeroSub>
+                    </S.TitleTextWrap>
                 </S.TitleWrap>
                 <S.StartBtn onClick={() => navigate('/logs/new/step1')}>
                     <span className="btn-text">시작하기</span>

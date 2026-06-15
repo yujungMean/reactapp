@@ -13,6 +13,7 @@ import ProjectOtherList from './ProjectOtherList';
 
 // 스타일 Import
 import S from './ProjectSelectAllContainerStyle';
+import projectIcon from '../project_icon/project_icon.png';
 
 // ─────────────────────────────────────────
 // MAIN COMPONENT
@@ -91,8 +92,11 @@ const ProjectSelectAllContainer = () => {
             <S.Inner>
                 <S.PageHeader>
                     <S.HeaderLeft>
-                        <S.PageTitle>Project</S.PageTitle>
-                        <S.PageSubtitle>로그별 프로젝트들을 모아보세요.</S.PageSubtitle>
+                        <S.TitleIcon src={projectIcon} alt="project icon" />
+                        <S.TitleTextWrap>
+                            <S.PageTitle>Project</S.PageTitle>
+                            <S.PageSubtitle>로그별 프로젝트들을 모아보세요.</S.PageSubtitle>
+                        </S.TitleTextWrap>
                     </S.HeaderLeft>
                     <S.BtnCreate onClick={() => setIsModalOpen(true)}>프로젝트 생성</S.BtnCreate>
                 </S.PageHeader>

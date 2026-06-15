@@ -178,4 +178,27 @@ S.Thumbnail = styled.img`
     flex-shrink: 0;
 `;
 
+S.EndMessage = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 100px 20px 40px;
+`;
+
+S.EndLine = styled.div`
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, ${theme.PALETTE.third.main}, transparent);
+    opacity: 0.7;
+`;
+
+S.EndText = styled.span`
+    font-size: 16px;
+    color: ${theme.PALETTE.black};
+    white-space: nowrap;
+    flex-shrink: 0;
+`;
+
 export default S;

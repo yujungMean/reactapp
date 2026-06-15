@@ -24,15 +24,27 @@ S.Inner = styled.div`
 
 S.TitleWrap = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 14px;
     margin-bottom: 48px;
 `;
 
 S.TrumpetIcon = styled.img`
-    width: 52px;
-    height: 52px;
+    width: 45px;
+    height: 45px;
     flex-shrink: 0;
+    margin-top: 8px;
+`;
+
+S.TitleTextWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+S.TitleSub = styled.p`
+    font-size: 20px;
+    color: ${theme.GRAYSCALE[7]};
+    margin: 4px 0 0;
 `;
 
 S.Viewport = styled.div`

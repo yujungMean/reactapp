@@ -24,10 +24,25 @@ S.PageHeader = styled.div`
 	padding-top: 80px;
 	padding-bottom: 28px;
 	${flexBetweenRow}
-	align-items: flex-end;
+	align-items: flex-start;
 `;
 
 S.HeaderLeft = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 24px;
+`;
+
+S.TitleIcon = styled.img`
+	width: 45px;
+	height: 45px;
+	object-fit: contain;
+	flex-shrink: 0;
+	margin-top: 8px;
+`;
+
+S.TitleTextWrap = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
@@ -48,6 +63,8 @@ S.BtnCreate = styled.button`
 	width: 120px;
 	height: 40px;
 	border-radius: 10px;
+	margin-top: 15px;
+	flex-shrink: 0;
 	border: 1px solid ${theme.GRAYSCALE[4]};
 	background: ${theme.PALETTE.white};
 	color: ${theme.GRAYSCALE[10]};
