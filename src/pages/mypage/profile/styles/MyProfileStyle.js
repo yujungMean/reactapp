@@ -192,7 +192,7 @@ S.AccountItem = styled.div`
     }
 
     .SubNotice {
-      font-size: 13px;
+      font-size: 14px;
       color: #94A3B8;
       margin-top: 10px;
       line-height: 1.6;
@@ -296,7 +296,7 @@ S.ProfileCard = styled.div`
         border: 1px solid #E2E8F0;
         padding: 6px 14px;
         border-radius: 10px;
-        font-size: 13px;
+        font-size: 14px;
         color: #64748B;
         cursor: pointer;
         flex-shrink: 0;
@@ -448,7 +448,7 @@ S.PostTitle = styled.h4`
 `;
 
 S.PostSummary = styled.p`
-  font-size: 13px;
+  font-size: 14px;
   color: #64748b;
   line-height: 1.5;
   margin-bottom: 18px;
@@ -489,7 +489,7 @@ S.AuthorIcon = styled.div`
 `;
 
 S.AuthorName = styled.span`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: #475569;
 `;
@@ -565,7 +565,7 @@ S.DeleteBtn = styled.button`
   border: 1px solid #ffe4e6;
   padding: 6px 14px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   &:hover { background: #ffe4e6; }
@@ -635,9 +635,10 @@ S.PaginationWrapper = styled.div`
   align-items: center;
 `;
 
-S.ControlBarAbsolute = styled.div`
-  position: absolute;
-  right: 0;
+S.ControlBarTop = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 12px;
 `;
 
 S.SearchEmptyState = styled.div`

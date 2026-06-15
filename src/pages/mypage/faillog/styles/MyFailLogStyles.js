@@ -98,7 +98,7 @@ S.FeaturedItem = styled.div`
     .Stats {
       display: flex;
       gap: 12px;
-      font-size: 13px;
+      font-size: 14px;
       color: #94a3b8;
       span { display: flex; align-items: center; gap: 4px; }
       img { width: 16px; height: 16px; }
@@ -111,11 +111,16 @@ S.FeaturedMainImage = styled.div`
   position: relative;
   min-height: 500px;
   cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1e1b1a;
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   .BlackOverlay {

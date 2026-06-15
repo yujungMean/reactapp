@@ -77,7 +77,7 @@ S.MyFailContent = styled.div`
     gap: 6px; 
     margin-bottom: auto;
     .ProfileIcon { width: 16px; height: 16px; border-radius: 50%; object-fit: cover; }
-    span { ${sizeCSS["h10-regular"] || "font-size: 13px;"} }
+    span { ${sizeCSS["h9-regular"] || "font-size: 14px;"} }
   }
 
   .CardMainImage {
@@ -94,7 +94,7 @@ S.MyFailContent = styled.div`
     display: flex; 
     justify-content: space-between; 
     align-items: center;
-    .TimeText { ${sizeCSS["h9-regular"] || "font-size: 13px;"} }
+    .TimeText { ${sizeCSS["h9-regular"] || "font-size: 14px;"} }
     .LikeArea { display: flex; align-items: center; gap: 4px; font-size: 14px; }
   }
 `;

@@ -51,7 +51,7 @@ const LikesCardItemComponent = ({ log = {}, iconSrc, onUnlike }) => {
         </div>
 
         <div className="CardMainImage">
-          <img src={iconSrc} alt="" />
+          <img src={log?.thumbnailUrl || iconSrc} alt="" />
         </div>
       </LS.LikesCardContent>
     </S.MyFailCard>

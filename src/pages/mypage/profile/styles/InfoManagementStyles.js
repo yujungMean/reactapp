@@ -123,7 +123,7 @@ S.Tooltip = styled.div`
 `;
 
 S.ChartEmptyText = styled.p`
-  font-size: 13px;
+  font-size: 14px;
   color: #94A3B8;
   text-align: center;
   line-height: 1.7;
@@ -298,9 +298,9 @@ S.AccountItem = styled.div`
     border: 1px solid #E2E8F0;
     padding: 6px 12px;
     border-radius: 8px;
-    color: #64748B; 
-    cursor: pointer; 
-    font-size: 13px;
+    color: #64748B;
+    cursor: pointer;
+    font-size: 14px;
     transition: all 0.2s;
     &:hover { background: #F1F5F9; color: #1E293B; }
   }

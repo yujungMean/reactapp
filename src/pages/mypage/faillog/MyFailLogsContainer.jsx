@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PageS from '../profile/styles/MyPageWrapper';
 
-import HeroRotationComponent from '../heroSection/HeroRotationComponents';
+import HeroRotationComponent from '../heroSection/HeroStripComponent';
 import FeaturedLogComponent from './components/FeaturedLogComponent';
 import DraftLogsComponent from './components/DraftLogsComponent'; 
 import MyFailLogListSectionComponent from './components/MyFailLogListSectionComponent';

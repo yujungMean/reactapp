@@ -175,6 +175,19 @@ const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '', memberI
 
             {currentPagePosts.length > 0 ? (
               <>
+                {isPageOwner && (
+                  <S.ControlBarTop>
+                    <PostControlBarComponent
+                      isAllChecked={isAllChecked}
+                      onSelectAll={handleSelectAll}
+                      selectedCount={selectedCount}
+                      totalCount={totalCountOnPage}
+                      onDelete={handleDelete}
+                      showRestore={false}
+                    />
+                  </S.ControlBarTop>
+                )}
+
                 <PostGridSectionComponent
                   posts={currentPagePosts}
                   selectedIds={selectedIds}
@@ -191,19 +204,6 @@ const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '', memberI
                     page={currentPage}
                     onPageChange={handlePageChange}
                   />
-
-                  {isPageOwner && (
-                    <S.ControlBarAbsolute>
-                      <PostControlBarComponent
-                        isAllChecked={isAllChecked}
-                        onSelectAll={handleSelectAll}
-                        selectedCount={selectedCount}
-                        totalCount={totalCountOnPage}
-                        onDelete={handleDelete}
-                        showRestore={false}
-                      />
-                    </S.ControlBarAbsolute>
-                  )}
                 </S.PaginationWrapper>
               </>
             ) : (

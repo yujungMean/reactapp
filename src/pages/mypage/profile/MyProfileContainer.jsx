@@ -15,7 +15,7 @@ import AccountDataComponent from './components/AccountDataComponent';
 import PhoneVerifyPopup from './components/PhoneVerifyPopup';
 import NameInfoChangePopup from './components/NameInfoChangePopup';
 import MyCommunityContainer from './components/MyCommunityContainer';
-import HeroRotationComponent from '../heroSection/HeroRotationComponents';
+import HeroRotationComponent from '../heroSection/HeroStripComponent';
 import { getHeroContent } from '../heroSection/HeroData';
 
 const MyProfileContainer = () => {
@@ -184,10 +184,6 @@ const MyProfileContainer = () => {
       .catch(console.error);
   };
 
-  const handleEmailChange = (newEmail) => {
-    setMemberInfo((prev) => ({ ...prev, memberEmail: newEmail }));
-  };
-
   const handleUnregister = () => {
     navigate('/delete');
   };
@@ -292,7 +288,6 @@ const MyProfileContainer = () => {
               memberName={memberInfo.memberName}
               memberPhone={memberInfo.memberPhone}
               memberPhoneVerified={memberInfo.memberPhoneVerified}
-              onEmailSubmit={handleEmailChange}
               onPasswordSubmit={handlePasswordChange}
               onPhoneVerify={() => setShowPhoneVerifyPopup(true)}
               onNameInfoEdit={() => setShowNameInfoPopup(true)}

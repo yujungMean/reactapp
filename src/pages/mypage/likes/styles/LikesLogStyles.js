@@ -310,7 +310,7 @@ S.LikeContent = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .TimeText { font-size: 13px; color: ${(props) => props.textColor || "#1E293B"}; opacity: 0.6; }
+    .TimeText { font-size: 14px; color: ${(props) => props.textColor || "#1E293B"}; opacity: 0.6; }
     .LikeIconArea { display: flex; align-items: center; svg { width: 18px; height: 18px; } }
   }
 `;

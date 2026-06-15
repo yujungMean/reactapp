@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PageS from '../profile/styles/MyPageWrapper';
 
-import HeroRotationComponent from '../heroSection/HeroRotationComponents';
+import HeroRotationComponent from '../heroSection/HeroStripComponent';
 import RecentLogsComponent from './components/RecentLogsComponent';
 import LikesLogListSectionComponent from './components/LikesLogListSectionComponent';
 
@@ -45,6 +45,7 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
             profileImg: item.memberProfileImageUrl || null,
             createdAt: item.logCreatedAt || '',
             date: item.logCreatedAt || '',
+            thumbnailUrl: item.thumbnailUrl || null,
             likeCount: item.likeCount || 0,
             isLiked: true,
             views: item.readCount || 0,
