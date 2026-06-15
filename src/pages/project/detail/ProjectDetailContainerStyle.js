@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import {
 	flexBetweenRow,
 	flexStartRow,
@@ -19,7 +19,38 @@ import {
 } from '../../../styles/common';
 import theme from '../../../styles/theme';
 
+const spinAnim = keyframes`
+	from { transform: rotate(0deg); }
+	to   { transform: rotate(360deg); }
+`;
+
 const S = {};
+
+S.LoadingWrap = styled.div`
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+	background-color: #F8F9FA;
+`;
+
+S.Spinner = styled.div`
+	width: 52px;
+	height: 52px;
+	border-radius: 50%;
+	border: 5px solid #e0e7ff;
+	border-top-color: #027df0;
+	animation: ${spinAnim} 0.8s linear infinite;
+`;
+
+S.LoadingText = styled.p`
+	font-size: 16px;
+	font-weight: 600;
+	color: #6b7280;
+	margin: 0;
+`;
 
 S.PageWrapper = styled.div`
 	min-height: 100vh;
@@ -146,10 +177,19 @@ S.ProjectName = styled.h3`
 `;
 
 S.ProjectDateRange = styled.span`
-	${h10Bold}
+	font-size: 20px;
+	font-weight: ${theme.FONT_WEIGHT.regular};
 	color: ${theme.GRAYSCALE[10]};
-	display: block;
-	margin-bottom: 14px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 30px;
+`;
+
+S.TotalDays = styled.span`
+	font-size: 16px;
+	font-weight: ${theme.FONT_WEIGHT.bold};
+	color: ${theme.PALETTE.primary.main};
 `;
 
 S.ProjectGoal = styled.p`
@@ -161,16 +201,22 @@ S.ProjectGoal = styled.p`
 S.AchievementRow = styled.div`
 	${flexBetweenRow}
 	align-items: center;
+	flex-wrap: nowrap;
+	gap: 16px;
 	margin-bottom: 28px;
 `;
 
 S.AchievementText = styled.p`
-	${h9Regular}
+	font-size: 20px;
+	font-weight: ${theme.FONT_WEIGHT.bold};
 	color: ${theme.GRAYSCALE[10]};
+	min-width: 0;
+	flex-shrink: 1;
 `;
 
 S.AchievementHighlight = styled.span`
-	${h9Bold}
+	font-size: 20px;
+	font-weight: ${theme.FONT_WEIGHT.bold};
 	color: ${theme.PALETTE.black};
 `;
 
@@ -186,8 +232,8 @@ S.DDay = styled.span`
 
 S.ProjectEditBtn = styled.button`
 	position: absolute;
-	top: 20px;
-	right: 20px;
+	top: 28px;
+	right: 28px;
 	width: 32px;
 	height: 32px;
 	border-radius: 8px;
@@ -204,12 +250,12 @@ S.MilestoneWrap = styled.div`
 	height: 90px;
 `;
 
-/* 트랙은 좌우 18px(원 반지름) 안으로 inset → 0%·100% 노드가 카드 안에 정확히 들어옴 */
+/* 트랙은 좌우 28px(원 반지름 24px + 여유 4px) 안으로 inset */
 S.MilestoneTrackLine = styled.div`
 	position: absolute;
-	top: 18px;
-	left: 18px;
-	right: 18px;
+	top: 24px;
+	left: 28px;
+	right: 28px;
 	height: 3px;
 	background: ${theme.GRAYSCALE[2]};
 	border-radius: 2px;
@@ -240,14 +286,14 @@ S.MilestoneNode = styled.div`
 `;
 
 S.MilestoneCircle = styled.div`
-	width: 36px;
-	height: 36px;
+	width: 48px;
+	height: 48px;
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-shrink: 0;
-	font-size: 10px;
+	font-size: 16px;
 	font-weight: 700;
 	background: ${({ $done }) =>
 		$done
@@ -278,13 +324,13 @@ S.MilestoneNodeLabel = styled.div`
 `;
 
 S.MilestoneLabelMain = styled.span`
-	font-size: 11px;
+	font-size: 16px;
 	font-weight: ${({ $active }) => ($active ? '700' : '400')};
 	color: ${({ $active }) => ($active ? theme.PALETTE.black : theme.GRAYSCALE[7])};
 `;
 
 S.MilestoneLabelSub = styled.span`
-	font-size: 10px;
+	font-size: 16px;
 	font-weight: 400;
 	color: ${({ $active }) => ($active ? theme.GRAYSCALE[10] : theme.GRAYSCALE[5])};
 `;

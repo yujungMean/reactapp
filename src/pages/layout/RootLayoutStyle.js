@@ -12,9 +12,19 @@ S.Header = styled.header`
   border-bottom: 1px solid #cccccc;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  box-sizing: border-box;
+`;
+
+S.HeaderInner = styled.div`
+  max-width: 1320px;
+  width: 100%;
   padding: 0 60px;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
 `;
 
 S.LogoLink = styled(Link)`

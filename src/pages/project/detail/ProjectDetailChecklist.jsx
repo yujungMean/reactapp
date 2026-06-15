@@ -52,6 +52,11 @@ const ChecklistItem = ({ item, onToggle, onStatusChange, readOnly = false }) => 
                             <path d="M4 4L10 10M10 4L4 10" stroke="white" strokeWidth="2" strokeLinecap="round" />
                         </svg>
                     )}
+                    {!item.status && (
+                        <svg width="10" height="2" viewBox="0 0 10 2" fill="none">
+                            <path d="M0 1H10" stroke={theme.GRAYSCALE[6]} strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                    )}
                 </S.CheckCircle>
                 <S.CheckLeft>
                     {/* 수정 모드일 때만 title 입력 가능 */}
@@ -71,7 +76,7 @@ const ChecklistItem = ({ item, onToggle, onStatusChange, readOnly = false }) => 
                         {priorityConf.label}
                     </S.PriorityBadge>
                     <S.ChevronIcon $expanded={expanded}>
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <svg width="20" height="20" viewBox="0 0 14 14" fill="none">
                             <path d="M3 5L7 9L11 5" stroke={theme.PALETTE.black} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </S.ChevronIcon>

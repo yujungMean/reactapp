@@ -56,12 +56,12 @@ S.ActionCard = styled.div`
 `;
 
 S.ActionDot = styled.div`
-	width: 16px;
-	height: 16px;
+	width: 12px;
+	height: 12px;
 	border-radius: 50%;
 	background: ${theme.PALETTE.third.main};
 	flex-shrink: 0;
-	margin-top: 4px;
+	margin-top: 9px;
 `;
 
 S.ActionContent = styled.div`

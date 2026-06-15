@@ -17,6 +17,14 @@ const fadeIn = keyframes`
 	to   { opacity: 1; transform: translateY(0) scale(1); }
 `;
 
+const floatAnim = keyframes`
+	0%   { transform: translateY(0px) rotate(0deg); }
+	25%  { transform: translateY(-5px) rotate(-4deg); }
+	50%  { transform: translateY(-7px) rotate(0deg); }
+	75%  { transform: translateY(-5px) rotate(4deg); }
+	100% { transform: translateY(0px) rotate(0deg); }
+`;
+
 const S = {};
 
 S.Fab = styled.button`
@@ -36,6 +44,9 @@ S.Fab = styled.button`
 	&:hover {
 		transform: scale(1.08);
 		box-shadow: 0 8px 28px rgba(2, 125, 240, 0.45);
+	}
+	img {
+		animation: ${floatAnim} 2.4s ease-in-out infinite;
 	}
 `;
 

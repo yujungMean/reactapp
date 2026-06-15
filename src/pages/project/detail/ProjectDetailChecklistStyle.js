@@ -71,6 +71,7 @@ S.CheckLeft = styled.div`
 S.CheckRight = styled.div`
 	${flexStartRow}
 	gap: 12px;
+	padding-right: 10px;
 `;
 
 S.CheckCircle = styled.div`
@@ -84,12 +85,11 @@ S.CheckCircle = styled.div`
 	border: 2px solid ${({ $status }) =>
 		$status === 'success' ? theme.PALETTE.secondary.main :
 		$status === 'fail' ? theme.PALETTE.fourth.main :
-		'transparent'};
+		theme.GRAYSCALE[4]};
 	background: ${({ $status }) =>
 		$status === 'success' ? theme.PALETTE.secondary.main :
 		$status === 'fail' ? theme.PALETTE.fourth.main :
 		'transparent'};
-	visibility: ${({ $status }) => $status ? 'visible' : 'hidden'};
 	${flexCenter}
 	transition: all 0.2s;
 `;
