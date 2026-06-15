@@ -144,7 +144,6 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
   return (
     <PageS.MainWrapper>
       <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} nickname={ownerNickname} />
-      <RecentLogsComponent logs={recentLogs} onToggleLike={handleToggleRecentLike} />
 
       <FailS.SectionHeader>
         <div>
@@ -185,6 +184,8 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
           onToggleLike={(log) => handleUnlikeOne(log.id)}
         />
       )}
+
+      <RecentLogsComponent logs={recentLogs} onToggleLike={handleToggleRecentLike} />
     </PageS.MainWrapper>
   );
 };

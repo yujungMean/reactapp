@@ -1,6 +1,6 @@
 import styled from "styled-components";
 // 📌 프로젝트 구조에 맞는 공통 디자인 시스템 경로 확인
-import { sizeCSS, colorCSS } from "../../../../components/style"; 
+import { sizeCSS, colorCSS, gradientText } from "../../../../components/style";
 
 const S = {};
 
@@ -9,6 +9,8 @@ const S = {};
 // ==========================================
 S.SectionHeader = styled.div`
   margin: 60px 0 30px 0;
+  padding: 0 20px;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,9 +21,7 @@ S.SectionHeader = styled.div`
     color: #1e293b;
 
     span {
-      background: linear-gradient(90deg, #6366f1, #a855f7);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      ${gradientText}
     }
   }
 

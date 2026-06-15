@@ -5,7 +5,8 @@ import theme from "../../../../styles/theme";
 const S = {};
 
 S.RecentSection = styled.section`
-  padding: 78px 0;
+  padding: 78px 20px;
+  box-sizing: border-box;
   width: 100%;
   display: flex;
   flex-direction: column;
