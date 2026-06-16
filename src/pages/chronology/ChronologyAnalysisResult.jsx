@@ -164,16 +164,6 @@ const ChronologyAnalysisResult = ({ vision, analysis, onBack }) => {
         <S.StatsDivider />
 
         <S.StatsSection>
-          <S.StatsSectionTitle>AI 사용 여부</S.StatsSectionTitle>
-          <S.StatItem>
-            <S.StatBullet />
-            <span>이용자들은 평균적으로 <S.StatHighlight>{analysis.aiUsageRate}%</S.StatHighlight> 가 직접 프로젝트를 작성 했습니다.</span>
-          </S.StatItem>
-        </S.StatsSection>
-
-        <S.StatsDivider />
-
-        <S.StatsSection>
           <S.StatsSectionTitle>프로젝트 개수</S.StatsSectionTitle>
           <S.StatItem>
             <S.StatBullet />

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { colorCSS, shadowCSS } from "../style";
-import { h2Bold, h8Regular } from "../../../styles/common";
+import { h2Bold, h3Bold, h7Regular, h8Regular } from "../../../styles/common";
 
 const S = {};
 
@@ -24,7 +24,7 @@ S.Logo = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 64px;
+  margin-bottom: 20px;
 `;
 
 S.Tagline = styled.h1`
@@ -34,8 +34,8 @@ S.Tagline = styled.h1`
 `;
 
 S.Description = styled.p`
-  ${h8Regular}
-  color: ${colorCSS.faillog_gray10};
+  ${h7Regular}
+  color: ${colorCSS.faillog_gray9};
   margin-bottom: 40px;
 `;
 
@@ -47,7 +47,7 @@ S.BulletList = styled.ul`
 `;
 
 S.BulletItem = styled.li`
-  ${h8Regular}
+  ${h7Regular}
   display: flex;
   align-items: center;
   gap: 12px;

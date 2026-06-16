@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import { colorCSS } from "../style";
 import {
-  h3Extrabold, h6Bold, h7Bold, h8Bold,
+  h3Bold, h6Bold, h7Bold, h7Regular, h8Bold,
   h9Bold, h9Regular, h10Regular,
 } from "../../../styles/common";
 
 const S = {};
 
 S.Wrapper = styled.div`
+  max-width: 1320px;
+  margin: 0 auto;
   padding: 40px 60px 80px;
 `;
 
@@ -16,13 +18,13 @@ S.Header = styled.div`
 `;
 
 S.PageTitle = styled.h1`
-  ${h3Extrabold}
+  ${h3Bold}
   color: ${colorCSS["faillog-black"]};
 `;
 
 S.PageSubtitle = styled.p`
-  ${h9Regular}
-  color: ${colorCSS.faillog_gray8};
+  ${h7Regular}
+  color: ${colorCSS["faillog-black"]};
   margin-top: 6px;
 `;
 

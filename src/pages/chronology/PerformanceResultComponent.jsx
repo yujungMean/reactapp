@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import S from './styles/PerformanceResultStyle';
 import BellCurveSVG from './BellCurveSVG';
+import chronologyIcon from './chronology_icon.png';
 
 const PerformanceResultComponent = ({ vision, analysis, onBack }) => {
   const [progress, setProgress] = useState(0);
@@ -26,8 +27,13 @@ const PerformanceResultComponent = ({ vision, analysis, onBack }) => {
   return (
     <S.Wrapper>
       <S.Header>
-        <S.PageTitle>TIME LINE</S.PageTitle>
-        <S.PageSubtitle>목표에 도달하기까지 실패와 성장의 흐름을 한눈에 확인하세요.</S.PageSubtitle>
+        <S.HeaderLeft>
+          <S.TitleIcon src={chronologyIcon} alt="chronology icon" />
+          <S.TitleTextWrap>
+            <S.PageTitle>TIME LINE</S.PageTitle>
+            <S.PageSubtitle>목표에 도달하기까지 실패와 성장의 흐름을 한눈에 확인하세요.</S.PageSubtitle>
+          </S.TitleTextWrap>
+        </S.HeaderLeft>
       </S.Header>
 
       <S.VisionCard>

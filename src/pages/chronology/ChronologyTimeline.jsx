@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import S from './styles/ChronologyTimelineStyle';
+import chronologyIcon from './chronology_icon.png';
 
 
 const ChronologyTimeline = ({
@@ -117,8 +118,11 @@ const ChronologyTimeline = ({
     <S.Wrapper>
       <S.Header>
         <S.HeaderLeft>
-          <S.PageTitle>TIME LINE</S.PageTitle>
-          <S.PageSubtitle>목표에 도달하기까지 실패와 성장의 흐름을 한눈에 확인하세요.</S.PageSubtitle>
+          <S.TitleIcon src={chronologyIcon} alt="chronology icon" />
+          <S.TitleTextWrap>
+            <S.PageTitle>TIME LINE</S.PageTitle>
+            <S.PageSubtitle>목표에 도달하기까지 실패와 성장의 흐름을 한눈에 확인하세요.</S.PageSubtitle>
+          </S.TitleTextWrap>
         </S.HeaderLeft>
         <S.HeaderBtnGroup>
           <S.EditModeBtn onClick={() => onAddAllTimeline(addProjects ?? [])}>
@@ -148,10 +152,10 @@ const ChronologyTimeline = ({
             {projects.length === 0 ? (
               <S.EmptyMessage>작성된 비전이 없습니다.</S.EmptyMessage>
             ) : (
-              projects.map((p) => (
+              [...new Map(projects.map((p) => [p.visionTitle || p.title, p])).values()].map((p) => (
                 <S.VisionDropdownItem
-                  key={p.id}
-                  $active={p.id === selectedProject.id}
+                  key={p.visionTitle || p.title}
+                  $active={(p.visionTitle || p.title) === (selectedProject.visionTitle || selectedProject.title)}
                   onClick={() => {
                     if (onVisionFirstClick) onVisionFirstClick();
                     onSelectProject(p);
@@ -159,8 +163,8 @@ const ChronologyTimeline = ({
                   }}
                 >
                   <S.ProjectToggleInfo>
-                    <S.ProjectToggleName>{p.title}</S.ProjectToggleName>
-                    <S.ProjectToggleDate>{p.visionTitle || '비전 없음'}</S.ProjectToggleDate>
+                    <S.ProjectToggleName>{p.visionTitle || p.title}</S.ProjectToggleName>
+                    <S.ProjectToggleDate>{p.startDate} ~ {p.endDate}</S.ProjectToggleDate>
                   </S.ProjectToggleInfo>
                 </S.VisionDropdownItem>
               ))

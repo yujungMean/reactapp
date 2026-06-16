@@ -7,7 +7,7 @@ const AccountLayout = () => {
     <S.Wrapper>
       <S.LeftPanel>
         <S.Logo>
-          <img src="assets\picture\logo.png" alt="FailLog" style={{ height: '211px', width: 'auto' }} />
+          <img src="assets\picture\logo.png" alt="FailLog" style={{ height: 'auto', width: '300px' }} />
         </S.Logo>
         <S.Tagline>실패는 성공의 어머니</S.Tagline>
         <S.Description>
