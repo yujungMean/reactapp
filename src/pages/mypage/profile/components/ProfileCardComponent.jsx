@@ -8,6 +8,7 @@ import PopupComponent from '../../../../components/commons/PopupComponent';
 const ProfileCardComponent = ({
   memberNickname,
   memberProfileImageUrl,
+  isDataLoaded = false,
   onNicknameChange,
   onImageChange,
   isPageOwner = true,
@@ -16,7 +17,7 @@ const ProfileCardComponent = ({
   const [tempNickname, setTempNickname] = useState(memberNickname || '');
   const [showProfileAlert, setShowProfileAlert] = useState(false);
   const fileInputRef = useRef(null);
-  const profileSrc = memberProfileImageUrl || defaltProfileImage;
+  const profileSrc = isDataLoaded ? (memberProfileImageUrl || defaltProfileImage) : null;
 
   const handleImageButtonClick = () => {
     fileInputRef.current.click();
@@ -56,11 +57,13 @@ const ProfileCardComponent = ({
           <div className="profileImageBackground">
             <img src={profileBackground} alt="" />
             <div className="profileImageCircle">
-              <img
+              {profileSrc && (
+                <img
                   src={profileSrc}
                   alt="프로필"
                   onError={(e) => { e.target.src = defaltProfileImage; }}
                 />
+              )}
             </div>
           </div>
 

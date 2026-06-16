@@ -1,33 +1,53 @@
 import styled from "styled-components";
 import { colorCSS, shadowCSS } from "../style";
 import {
-  h3Extrabold, h7Extrabold, h8Bold, h8Regular,
+  h3Bold, h7Extrabold, h7Regular, h8Bold, h8Regular,
   h9Bold, h9Regular, h10Regular, h7Bold, h10Bold,
 } from "../../../styles/common";
 
 const S = {};
 
 S.Wrapper = styled.div`
-  padding: 40px 60px 80px;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 80px 60px 80px;
 `;
 
 S.Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 32px;
+  padding-bottom: 28px;
 `;
 
-S.HeaderLeft = styled.div``;
+S.HeaderLeft = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+`;
+
+S.TitleIcon = styled.img`
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin-top: 8px;
+`;
+
+S.TitleTextWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 S.PageTitle = styled.h1`
-  ${h3Extrabold}
+  ${h3Bold}
   color: ${colorCSS["faillog-black"]};
 `;
 
 S.PageSubtitle = styled.p`
-  ${h9Regular}
-  color: ${colorCSS.faillog_gray8};
+  ${h7Regular}
+  color: ${colorCSS["faillog-black"]};
   margin-top: 6px;
 `;
 
@@ -67,7 +87,7 @@ S.VisionCard = styled.div`
 `;
 
 S.VisionLabel = styled.p`
-  ${h10Bold}
+  ${h9Bold}
   color: ${colorCSS.faillog_gray8};
   margin-bottom: 6px;
 `;
@@ -528,7 +548,7 @@ S.HeaderBtnGroup = styled.div`
 `;
 
 S.EditModeBtn = styled.button`
-  ${h9Bold}
+  ${h8Bold}
   padding: 8px 18px;
   border-radius: 8px;
   border: 1.5px solid ${({ $active }) => ($active ? colorCSS.faillog_purple : colorCSS.faillog_gray4)};

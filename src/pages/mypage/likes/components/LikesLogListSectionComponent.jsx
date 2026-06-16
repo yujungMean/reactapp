@@ -19,6 +19,7 @@ const LikesLogListSectionComponent = ({
   handlePageChange,
   navigate,
   isPageOwner = true,
+  ownerNickname = '',
   isEditMode = false,
   onToggleEditMode,
   selectedIds = [],
@@ -39,10 +40,13 @@ const LikesLogListSectionComponent = ({
 
       {filteredLogs.length === 0 ? (
         <EmptyStateComponent
-          title={<>검색 결과가 없네요.<br /><strong>다른 키워드로 찾아볼까요?</strong></>}
-          subText="실패를 외면하지 않고 기록할 때, 당신의 강력한 성장 데이터가 됩니다."
-          buttonText="피드 보러가기"
-          onButtonClick={() => navigate('/feed')}
+          title={isPageOwner
+            ? <>검색 결과가 없네요.<br /><strong>다른 키워드로 찾아볼까요?</strong></>
+            : <>{ownerNickname ? `${ownerNickname}님에 대한 ` : ''}검색 결과가 없어요.</>
+          }
+          subText={isPageOwner ? "실패를 외면하지 않고 기록할 때, 당신의 강력한 성장 데이터가 됩니다." : undefined}
+          buttonText={isPageOwner ? "피드 보러가기" : undefined}
+          onButtonClick={isPageOwner ? () => navigate('/feed') : undefined}
           styles={CommS}
         />
       ) : (

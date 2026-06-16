@@ -88,7 +88,7 @@ S.LinksRow = styled.div`
 `;
 
 S.LinkText = styled(Link)`
-  ${h10Regular}
+  ${h9Regular}
   color: ${colorCSS.faillog_gray10};
   text-decoration: none;
 

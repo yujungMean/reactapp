@@ -1,12 +1,18 @@
 import React from 'react';
 import S from './styles/PerformanceAnalysisStyle';
+import chronologyIcon from './chronology_icon.png';
 
 const PerformanceAnalysisComponent = ({ vision, analysis, progress, completedSteps, loadingSteps }) => {
   return (
     <S.Wrapper>
       <S.Header>
-        <S.PageTitle>TIME LINE</S.PageTitle>
-        <S.PageSubtitle>목표에 도달하기까지 실패와 성장의 흐름을 한눈에 확인하세요.</S.PageSubtitle>
+        <S.HeaderLeft>
+          <S.TitleIcon src={chronologyIcon} alt="chronology icon" />
+          <S.TitleTextWrap>
+            <S.PageTitle>TIME LINE</S.PageTitle>
+            <S.PageSubtitle>목표에 도달하기까지 실패와 성장의 흐름을 한눈에 확인하세요.</S.PageSubtitle>
+          </S.TitleTextWrap>
+        </S.HeaderLeft>
       </S.Header>
 
       <S.VisionCard>

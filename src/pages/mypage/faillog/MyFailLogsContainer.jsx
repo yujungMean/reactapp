@@ -341,7 +341,7 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
           }
           subText={isPageOwner 
             ? "실패를 외면하지 않고 기록할 때, 당신의 강력한 성장 데이터가 됩니다." 
-            : "실패를 기록하고 성장하는 공간, 페일로그와 함께하고 있습니다."
+            : "실패를 기록하고 성장하는 공간, 페일로그."
           }
           buttonText={isPageOwner ? "시작하기" : undefined}
           onButtonClick={isPageOwner ? () => navigate('/logs/new/step1') : undefined}
@@ -365,6 +365,7 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
             onSelectAllLogs={handleSelectAllLogs}
             onDeleteLogs={handleDeleteLogs}
             isPageOwner={isPageOwner}
+            ownerNickname={ownerNickname}
             isEditMode={isFailEditMode}
             onToggleEditMode={handleToggleFailEditMode}
             onToggleLike={handleToggleLike}

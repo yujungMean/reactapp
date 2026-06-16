@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { colorCSS } from "../style";
-import { h3Extrabold, h6Bold, h8Bold, h9Bold, h9Regular } from "../../../styles/common";
+import { h3Bold, h6Bold, h7Regular, h8Bold, h9Bold, h9Regular } from "../../../styles/common";
 
 const S = {};
 
@@ -14,22 +14,47 @@ const fadeIn = keyframes`
 `;
 
 S.Wrapper = styled.div`
-  padding: 40px 60px 80px;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 80px 60px 80px;
   animation: ${fadeIn} 0.3s ease;
 `;
 
 S.Header = styled.div`
-  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 28px;
+`;
+
+S.HeaderLeft = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+`;
+
+S.TitleIcon = styled.img`
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin-top: 8px;
+`;
+
+S.TitleTextWrap = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 S.PageTitle = styled.h1`
-  ${h3Extrabold}
+  ${h3Bold}
   color: ${colorCSS["faillog-black"]};
 `;
 
 S.PageSubtitle = styled.p`
-  ${h9Regular}
-  color: ${colorCSS.faillog_gray8};
+  ${h7Regular}
+  color: ${colorCSS["faillog-black"]};
   margin-top: 6px;
 `;
 

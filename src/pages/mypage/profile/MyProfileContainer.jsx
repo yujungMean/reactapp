@@ -17,6 +17,7 @@ import AccountDataComponent from './components/AccountDataComponent';
 import PhoneVerifyPopup from './components/PhoneVerifyPopup';
 import NameInfoChangePopup from './components/NameInfoChangePopup';
 import MyCommunityContainer from './components/MyCommunityContainer';
+import MyProjectSectionComponent from './components/MyProjectSectionComponent';
 import HeroRotationComponent from '../heroSection/HeroStripComponent';
 import { getHeroContent } from '../heroSection/HeroData';
 
@@ -269,6 +270,7 @@ const MyProfileContainer = () => {
           <ProfileCardComponent
             memberNickname={displayNickname}
             memberProfileImageUrl={memberInfo.memberProfileImageUrl}
+            isDataLoaded={memberInfo.memberId !== null}
             onNicknameChange={handleNicknameChange}
             onImageChange={handleImageChange}
             isPageOwner={isPageOwner}
@@ -299,6 +301,12 @@ const MyProfileContainer = () => {
           </InfoS.BottomAccountArea>
         )}
       </InfoS.InfoManagementSection>
+
+      <MyProjectSectionComponent
+        memberId={memberInfo.memberId}
+        isPageOwner={isPageOwner}
+        memberNickname={displayNickname}
+      />
 
       <CommS.CommunitySection id="my-community-section">
         <MyCommunityContainer isPageOwner={isPageOwner} memberNickname={displayNickname} memberId={memberInfo.memberId} />
