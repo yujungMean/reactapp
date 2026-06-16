@@ -107,7 +107,7 @@ CommunityBestPostStyle.UserInfo = styled.div`
 CommunityBestPostStyle.AuthorArea = styled.div`
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 10px;
   cursor: pointer;
   &:hover span { text-decoration: underline; }
 `
@@ -125,9 +125,23 @@ CommunityBestPostStyle.infoElement = styled.div`
   gap: 5px;
 `
 
+CommunityBestPostStyle.UserImgWrap = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #4359FC, #AB47FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+`
+
 CommunityBestPostStyle.UserImg = styled.img`
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
 `
 
 CommunityBestPostStyle.BestPostMainButton = styled.div`

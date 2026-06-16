@@ -195,8 +195,10 @@ const CommunityPopularPostContainer = ({ posts }) => {
                     <myStyle.CardDivider />
                     <myStyle.CardFooter>
                       <myStyle.AuthorInfo onClick={(e) => { e.stopPropagation(); goToMemberProfile(navigate, post.memberId); }}>
-                        <myStyle.AuthorAvatar src={post.profile || defaultProfile} onError={handledOnErrorImg} />
-                        <S.Span size="h8Regular" color="faillog-black">{post.author}</S.Span>
+                        <myStyle.AvatarWrap>
+                          <myStyle.AuthorAvatar src={post.profile || defaultProfile} onError={handledOnErrorImg} />
+                        </myStyle.AvatarWrap>
+                        <S.Span size="h8Bold" color="faillog-black">{post.author}</S.Span>
                       </myStyle.AuthorInfo>
                       <myStyle.Stats>
                         <myStyle.postInfo>

@@ -105,16 +105,28 @@ const BottomRow = styled.div`
 const AuthorWrap = styled.div`
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 9px;
   cursor: pointer;
   &:hover span { text-decoration: underline; }
 `;
 
-const AuthorImg = styled.img`
-  width: 22px;
-  height: 22px;
+const AvatarWrap = styled.div`
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  /* object-fit: cover; */
+  padding: 2px;
+  background: linear-gradient(135deg, #4359FC, #AB47FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+`;
+
+const AuthorImg = styled.img`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 const Stats = styled.div`
@@ -194,8 +206,10 @@ const Post = ({
             <ContentText>{content}</ContentText>
             <BottomRow>
               <AuthorWrap onClick={(e) => { e.stopPropagation(); goToMemberProfile(navigate, memberId); }}>
-                <AuthorImg src={profile || defaultProfile} onError={handledOnErrorImg} alt={author} />
-                <S.Span size="h9Regular">{author}</S.Span>
+                <AvatarWrap>
+                  <AuthorImg src={profile || defaultProfile} onError={handledOnErrorImg} alt={author} />
+                </AvatarWrap>
+                <S.Span size="h9Bold">{author}</S.Span>
               </AuthorWrap>
               <Stats>
                 <StatItem>

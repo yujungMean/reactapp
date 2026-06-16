@@ -71,8 +71,10 @@ const CommunityBestPost = ({
                         <myStyle.BestPostMainInfo>
                           <myStyle.UserInfo>
                             <myStyle.AuthorArea onClick={(e) => { e.stopPropagation(); goToMemberProfile(navigate, memberId); }}>
-                              <myStyle.UserImg src={profile || defaultProfile} onError={handledOnErrorImg}></myStyle.UserImg>
-                              <S.Span size={"h8Regular"} color={"faillog_black"}>{author}</S.Span>
+                              <myStyle.UserImgWrap>
+                                <myStyle.UserImg src={profile || defaultProfile} onError={handledOnErrorImg}></myStyle.UserImg>
+                              </myStyle.UserImgWrap>
+                              <S.Span size={"h8Bold"} color={"faillog_black"}>{author}</S.Span>
                             </myStyle.AuthorArea>
                             <myStyle.PostInfo>
                               <myStyle.infoElement>
