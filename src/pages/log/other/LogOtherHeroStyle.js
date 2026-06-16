@@ -15,11 +15,11 @@ S.Inner = styled.div`
     padding: 0 20px;    /* 0 60px → 0 20px */
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
 
     .hero-title {
-        font-size: ${theme.FONT_SIZE.h2};
+        font-size: 45px;
         font-weight: ${theme.FONT_WEIGHT.bold};
         color: #1a1a1a;
         margin: 0;
@@ -28,7 +28,7 @@ S.Inner = styled.div`
     }
 
     .btn-text {
-        font-size: ${theme.FONT_SIZE.h5};
+        font-size: 20px;
         font-weight: ${theme.FONT_WEIGHT.bold};
         color: ${theme.PALETTE.white};
         line-height: 1;
@@ -37,20 +37,34 @@ S.Inner = styled.div`
 
 S.TitleWrap = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 16px;
 `;
 
 S.GlobeIcon = styled.img`
     flex-shrink: 0;
-    width: 52px;
-    height: 52px;
+    width: 40px;
+    height: 40px;
+    margin-top: 8px;
+`;
+
+S.TitleTextWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+S.HeroSub = styled.p`
+    font-size: 20px;
+    color: #555;
+    margin: 6px 0 0;
 `;
 
 S.StartBtn = styled.button`
-    width: 180px;
-    height: 60px;
-    border-radius: 10px;
+    width: 135px;
+    height: 45px;
+    border-radius: 8px;
+    margin-top: 7px;
+    flex-shrink: 0;
     box-sizing: border-box;
     cursor: pointer;
     display: flex;
@@ -72,8 +86,8 @@ S.StartBtn = styled.button`
 `;
 
 S.ArrowIcon = styled.img`
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
     transform: rotate(90deg);
     filter: brightness(0) invert(1);
 `;

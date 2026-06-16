@@ -38,7 +38,10 @@ const LogPopularSolution = () => {
 
                 <S.TitleWrap>
                     <S.TrumpetIcon src={TrumpetIcon} alt="trumpet" />
-                    <h2 className="solutions-title">인기있는 솔루션</h2>
+                    <S.TitleTextWrap>
+                        <h2 className="solutions-title">인기있는 솔루션</h2>
+                        <S.TitleSub>좋아요 10개 이상을 받은 로그들이 이곳에 소개됩니다.</S.TitleSub>
+                    </S.TitleTextWrap>
                 </S.TitleWrap>
 
                 <S.Viewport>

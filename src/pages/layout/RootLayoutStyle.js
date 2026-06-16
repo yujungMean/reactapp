@@ -40,7 +40,7 @@ S.LogoImg = styled.img`
 S.Nav = styled.nav`
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 60px;
 `;
 
 S.NavLink = styled(Link)`
@@ -51,7 +51,10 @@ S.NavLink = styled(Link)`
   transition: color 0.18s;
 
   &:hover {
-    color: #027df0;
+    background: linear-gradient(135deg, #027df0, #ab47ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 `;
 
