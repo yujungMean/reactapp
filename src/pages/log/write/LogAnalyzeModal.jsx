@@ -9,6 +9,7 @@ import styleWarm1Icon from './write_icon/style_warm_1.svg';
 import styleWarm2Icon from './write_icon/style_warm_2.svg';
 import styleObjectiveIcon from './write_icon/style_objective.svg';
 import styleColdIcon from './write_icon/style_cold.svg';
+import aiImage from '../../../components/resources/ai_image.svg';
 import { S } from './LogAnalyzeModalStyles';
 
 const LogAnalyzeModal = ({ onClose, logContent, draft }) => {
@@ -182,7 +183,10 @@ const LogAnalyzeModal = ({ onClose, logContent, draft }) => {
       </S.CloseButtonWrapper>
 
       <S.TitleSection>
-        <S.ModalTitle>과거의 비슷한 실패 기록</S.ModalTitle>
+        <S.ModalTitle>
+          <S.TitleAiIcon src={aiImage} alt="AI assistant" />
+          과거의 비슷한 실패 기록
+        </S.ModalTitle>
         <S.ModalSub>선택하시면 더 깊은 패턴을 찾을 수 있어요.</S.ModalSub>
       </S.TitleSection>
 
@@ -269,7 +273,10 @@ const LogAnalyzeModal = ({ onClose, logContent, draft }) => {
       </S.HeaderNav>
 
       <S.TitleSection>
-        <S.ModalTitle>분석 스타일 설정</S.ModalTitle>
+        <S.ModalTitle>
+          <S.TitleAiIcon src={aiImage} alt="AI assistant" />
+          분석 스타일 설정
+        </S.ModalTitle>
         <S.ModalSub>나에게 필요한 분석 스타일의 온도를 골라주세요.</S.ModalSub>
       </S.TitleSection>
 
@@ -305,7 +312,10 @@ const LogAnalyzeModal = ({ onClose, logContent, draft }) => {
 
   const renderStep3 = () => (
     <S.LoadingWrapper>
-      <S.SpinnerRing />
+      <S.SpinnerContainer>
+        <S.SpinnerRing />
+        <S.AiImage src={aiImage} alt="AI is thinking" />
+      </S.SpinnerContainer>
       <S.LoadingTitle>
         입력하신 데이터를 기반으로<br />패턴을 분석하고 있어요
       </S.LoadingTitle>

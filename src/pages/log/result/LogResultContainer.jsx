@@ -108,7 +108,12 @@ const LogResultContainer = () => {
   };
 
   if (loading) {
-      return <S.Wrapper><S.Header><S.Title>Loading...</S.Title></S.Header></S.Wrapper>;
+      return (
+        <S.LoadingWrap>
+            <S.Spinner />
+            <S.LoadingText>불러오는 중...</S.LoadingText>
+        </S.LoadingWrap>
+      );
   }
 
   if (!logData) {
@@ -183,7 +188,7 @@ const LogResultContainer = () => {
 
         {/* 하단 목록으로 가기 버튼 */}
         <S.BottomActionRow>
-          <S.ListButton onClick={() => navigate('/fail-logs')}>목록으로 가기</S.ListButton>
+          <S.ListButton onClick={() => navigate('/fail-logs')}>목록으로</S.ListButton>
         </S.BottomActionRow>
       </S.ContentWrapper>
 
