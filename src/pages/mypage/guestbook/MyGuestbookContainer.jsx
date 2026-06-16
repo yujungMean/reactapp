@@ -1,16 +1,21 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getHeroContent } from '../heroSection/HeroData';
-import HeroRotationComponent from '../heroSection/HeroRotationComponents';
+import HeroRotationComponent from '../heroSection/HeroStripComponent';
 import PageS from '../profile/styles/MyPageWrapper';
 import S from './styles/MyGuestbookStyles';
 import LogSearchComponent from '../commons/LogSearchComponent';
 
-import GuestbookInputComponent from './components/GuestbookInputComponent';
 import GuestbookCommentItemComponent from './components/GuestbookCommentItemComponent';
 import axiosInstance from '../../../api/axiosInstance';
 import PopupComponent from '../../../components/commons/PopupComponent';
 import ReportPopup from '../../community/detail/components/ReportPopup';
+import PagenationComponent from '../../../components/commons/PagenationComponent';
+import CommentInputComponent from '../commons/comment/CommentInputComponent';
+import CommentListComponent from '../commons/comment/CommentListComponent';
+import CommentS from '../commons/comment/CommentStyles';
+
+const PAGE_SIZE = 5;
 
 const mapGuestbook = (item) => ({
   id: item.id,
@@ -76,10 +81,9 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
   const [replyOpenId, setReplyOpenId] = useState(null);
   const [searchType, setSearchType] = useState('내용');
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [visibleCount, setVisibleCount] = useState(4);
+  const [currentPage, setCurrentPage] = useState(1);
   const [activeMenuId, setActiveMenuId] = useState(null);
   const [reportState, setReportState] = useState(null);
-  const sentinelRef = useRef(null);
 
   const openReport = (type, reportId, profileImg, author, content) => {
     if (!loggedInMemberId) {
@@ -144,26 +148,15 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
     });
   }, [comments, searchKeyword, searchType]);
 
+  const totalPages = Math.max(1, Math.ceil(filteredComments.length / PAGE_SIZE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+
   const visibleComments = useMemo(
-    () => filteredComments.slice(0, visibleCount),
-    [filteredComments, visibleCount],
+    () => filteredComments.slice((safeCurrentPage - 1) * PAGE_SIZE, safeCurrentPage * PAGE_SIZE),
+    [filteredComments, safeCurrentPage],
   );
 
-  useEffect(() => { setVisibleCount(4); }, [searchKeyword, searchType]);
-
-  useEffect(() => {
-    if (!sentinelRef.current) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && visibleCount < filteredComments.length) {
-          setVisibleCount((prev) => Math.min(prev + 4, filteredComments.length));
-        }
-      },
-      { rootMargin: '200px' },
-    );
-    observer.observe(sentinelRef.current);
-    return () => observer.disconnect();
-  }, [filteredComments.length, visibleCount]);
+  useEffect(() => { setCurrentPage(1); }, [searchKeyword, searchType]);
 
   useEffect(() => {
     const handleOutsideClick = () => setActiveMenuId(null);
@@ -198,7 +191,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
 
     setComments((prev) => [optimisticComment, ...prev]);
     setNewComment('');
-    setVisibleCount((prev) => prev + 1);
+    setCurrentPage(1);
 
     axiosInstance.post('/api/guestbook/write', { ownerMemberId: ownerId, guestbookContent: trimmed, writerMemberId: loggedInMemberId })
       .then(() => axiosInstance.get('/api/guestbook/list', { params: { ownerMemberId: ownerId } }))
@@ -428,7 +421,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
         message="방명록은 로그인 된 사용자만 이용하실 수 있습니다."
         onConfirm={() => setLoginPopup(false)}
       />
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} />
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} nickname={ownerNickname} />
 
       <S.GuestbookSection>
         <S.GuestbookHeader>
@@ -436,19 +429,25 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
           <p>{isPageOwner ? '다른 사람들이 남긴 방명록을 통해 소통해보세요.' : `${ownerNickname || handle}님의 방명록입니다.`}</p>
         </S.GuestbookHeader>
 
-        <GuestbookInputComponent
-          value={newComment}
-          onChange={setNewComment}
-          onSubmit={handleSubmit}
-        />
+        <CommentS.SubmitBox>
+          <CommentInputComponent
+            value={newComment}
+            onChange={setNewComment}
+            onSubmit={handleSubmit}
+            subject="방명록"
+            placeholder="인사를 남겨볼까요?"
+          />
+        </CommentS.SubmitBox>
 
-        <LogSearchComponent
-          currentOption={searchType}
-          onOptionChange={setSearchType}
-          onSearchSubmit={setSearchKeyword}
-          placeholder="방명록 검색..."
-          options={['내용', '작성자']}
-        />
+        <S.SearchRowWrapper>
+          <LogSearchComponent
+            currentOption={searchType}
+            onOptionChange={setSearchType}
+            onSearchSubmit={setSearchKeyword}
+            placeholder="방명록 검색..."
+            options={['내용', '작성자']}
+          />
+        </S.SearchRowWrapper>
 
         {filteredComments.length === 0 ? (
           <S.EmptyState>
@@ -457,35 +456,45 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
             <button type="button" onClick={() => navigate('/community')}>시작하기</button>
           </S.EmptyState>
         ) : (
-          <S.CommentList>
-            {visibleComments.map((comment) => (
-              <GuestbookCommentItemComponent
-                key={comment.id}
-                comment={comment}
-                currentUser={loggedInNickname}
-                isPageOwner={isPageOwner}
-                onLike={handleToggleLike}
-                onReplyToggle={handleReplyToggle}
-                replyOpen={replyOpenId === comment.id}
-                replyText={replyTextMap[comment.id] || ''}
-                onReplyChange={handleReplyChange}
-                onReplySubmit={handleReplySubmit}
-                activeMenuId={activeMenuId}
-                onMenuToggle={handleMoreMenuToggle}
-                onCloseMenu={handleCloseMenu}
-                currentUserId={loggedInMemberId}
-                onEdit={handleEditComment}
-                onDelete={handleDeleteComment}
-                onEditReply={handleEditReply}
-                onDeleteReply={handleDeleteReply}
-                onRereplySubmit={handleRereplySubmit}
-                onEditRereply={handleEditRereply}
-                onDeleteRereply={handleDeleteRereply}
-                onReport={openReport}
+          <>
+            <CommentListComponent title="방명록" count={filteredComments.length}>
+              {visibleComments.map((comment) => (
+                <GuestbookCommentItemComponent
+                  key={comment.id}
+                  comment={comment}
+                  currentUser={loggedInNickname}
+                  isPageOwner={isPageOwner}
+                  onLike={handleToggleLike}
+                  onReplyToggle={handleReplyToggle}
+                  replyOpen={replyOpenId === comment.id}
+                  replyText={replyTextMap[comment.id] || ''}
+                  onReplyChange={handleReplyChange}
+                  onReplySubmit={handleReplySubmit}
+                  activeMenuId={activeMenuId}
+                  onMenuToggle={handleMoreMenuToggle}
+                  onCloseMenu={handleCloseMenu}
+                  currentUserId={loggedInMemberId}
+                  onEdit={handleEditComment}
+                  onDelete={handleDeleteComment}
+                  onEditReply={handleEditReply}
+                  onDeleteReply={handleDeleteReply}
+                  onRereplySubmit={handleRereplySubmit}
+                  onEditRereply={handleEditRereply}
+                  onDeleteRereply={handleDeleteRereply}
+                  onReport={openReport}
+                />
+              ))}
+            </CommentListComponent>
+
+            <S.PaginationWrapper>
+              <PagenationComponent
+                minPage={1}
+                maxPage={totalPages}
+                page={safeCurrentPage}
+                onPageChange={setCurrentPage}
               />
-            ))}
-            <div ref={sentinelRef} />
-          </S.CommentList>
+            </S.PaginationWrapper>
+          </>
         )}
       </S.GuestbookSection>
 

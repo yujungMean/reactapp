@@ -8,6 +8,8 @@ import PageS from './styles/MyPageWrapper';
 import InfoS from './styles/InfoManagementStyles';
 import CommS from './styles/CommunityStyles';
 
+import MyInfoHeaderComponent from './components/MyInfoHeaderComponent';
+import OthersInfoHeaderComponent from './components/OthersInfoHeaderComponent';
 import ProfileCardComponent from './components/ProfileCardComponent';
 import ProfileChartCardComponent from './components/ProfileChartCardComponent';
 import ProfileStreakCardComponent from './components/ProfileStreakCardComponent';
@@ -15,7 +17,7 @@ import AccountDataComponent from './components/AccountDataComponent';
 import PhoneVerifyPopup from './components/PhoneVerifyPopup';
 import NameInfoChangePopup from './components/NameInfoChangePopup';
 import MyCommunityContainer from './components/MyCommunityContainer';
-import HeroRotationComponent from '../heroSection/HeroRotationComponents';
+import HeroRotationComponent from '../heroSection/HeroStripComponent';
 import { getHeroContent } from '../heroSection/HeroData';
 
 const MyProfileContainer = () => {
@@ -184,10 +186,6 @@ const MyProfileContainer = () => {
       .catch(console.error);
   };
 
-  const handleEmailChange = (newEmail) => {
-    setMemberInfo((prev) => ({ ...prev, memberEmail: newEmail }));
-  };
-
   const handleUnregister = () => {
     navigate('/delete');
   };
@@ -253,19 +251,14 @@ const MyProfileContainer = () => {
       onSubmit={handleNameInfoSubmit}
     />
     <PageS.MainWrapper>
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} />
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} nickname={displayNickname} />
 
       <InfoS.InfoManagementSection>
-        <div className="info-header">
-          {isPageOwner ? (
-            <>
-              <h2>내 정보 관리</h2>
-              <p>내 정보의 수정 및 회원 서비스를 관리할 수 있습니다.</p>
-            </>
-          ) : (
-            <h2>{displayNickname || '회원'}의 페이지입니다.</h2>
-          )}
-        </div>
+        {isPageOwner ? (
+          <MyInfoHeaderComponent />
+        ) : (
+          <OthersInfoHeaderComponent memberNickname={displayNickname} />
+        )}
 
         <InfoS.TopCardGrid>
           <ProfileCardComponent
@@ -292,7 +285,6 @@ const MyProfileContainer = () => {
               memberName={memberInfo.memberName}
               memberPhone={memberInfo.memberPhone}
               memberPhoneVerified={memberInfo.memberPhoneVerified}
-              onEmailSubmit={handleEmailChange}
               onPasswordSubmit={handlePasswordChange}
               onPhoneVerify={() => setShowPhoneVerifyPopup(true)}
               onNameInfoEdit={() => setShowNameInfoPopup(true)}
@@ -303,7 +295,7 @@ const MyProfileContainer = () => {
         )}
       </InfoS.InfoManagementSection>
 
-      <CommS.CommunitySection>
+      <CommS.CommunitySection id="my-community-section">
         <MyCommunityContainer isPageOwner={isPageOwner} memberNickname={displayNickname} memberId={memberInfo.memberId} />
       </CommS.CommunitySection>
     </PageS.MainWrapper>

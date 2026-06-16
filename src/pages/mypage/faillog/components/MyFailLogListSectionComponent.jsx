@@ -24,6 +24,9 @@ const MyFailLogListSectionComponent = ({
   onSelectAllLogs,
   onDeleteLogs,
   isPageOwner = true,
+  isEditMode = false,
+  onToggleEditMode,
+  onToggleLike,
 }) => {
   return (
     <LogS.LogSection>
@@ -45,9 +48,38 @@ const MyFailLogListSectionComponent = ({
         />
       ) : (
         <>
+          {isPageOwner && (
+            <LogS.EditModeBar>
+              {isEditMode && (
+                <PostControlBarComponent
+                  isAllChecked={selectedDeleteIds.length === filteredLogs.length && filteredLogs.length > 0}
+                  onSelectAll={onSelectAllLogs}
+                  onDelete={onDeleteLogs}
+                  selectedCount={selectedDeleteIds.length}
+                  totalCount={filteredLogs.length}
+                  showRestore={false}
+                />
+              )}
+              <LogS.TrashToggleWrapper>
+                <input
+                  type="checkbox"
+                  id="fail-log-edit-toggle"
+                  checked={isEditMode}
+                  onChange={onToggleEditMode}
+                />
+                <LogS.TrashToggleLabel htmlFor="fail-log-edit-toggle">
+                  삭제 모드
+                </LogS.TrashToggleLabel>
+              </LogS.TrashToggleWrapper>
+            </LogS.EditModeBar>
+          )}
+
           <MyFailLogCardComponent
             filteredLogs={pagedLogs}
             selectedDeleteIds={selectedDeleteIds}
+            isEditMode={isEditMode}
+            onSelectOneLog={onSelectOneLog}
+            onToggleLike={onToggleLike}
           />
 
           <LogS.PaginationWrapper>
@@ -57,19 +89,6 @@ const MyFailLogListSectionComponent = ({
               page={currentPage}
               onPageChange={handlePageChange}
             />
-
-            {isPageOwner && (
-              <LogS.ControlBarAbsolute>
-                <PostControlBarComponent
-                  isAllChecked={selectedDeleteIds.length === filteredLogs.length && filteredLogs.length > 0}
-                  onSelectAll={onSelectAllLogs}
-                  onDelete={onDeleteLogs}
-                  selectedCount={selectedDeleteIds.length}
-                  totalCount={filteredLogs.length}
-                  showRestore={false}
-                />
-              </LogS.ControlBarAbsolute>
-            )}
           </LogS.PaginationWrapper>
         </>
       )}

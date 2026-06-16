@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import InfoS from '../styles/InfoManagementStyles';
 
 const getStreakMessage = (days) => {
@@ -33,11 +34,27 @@ const ProfileStreakCardComponent = ({
   loginStreak = 1,
 }) => {
   const { title, sub } = getStreakMessage(loginStreak);
+  const navigate = useNavigate();
+  const { handle } = useParams();
 
   const stats = [
-    { label: '작성 글 수',    value: communityCount },
-    { label: '작성 로그 수',  value: logCount       },
-    { label: '오늘 방문자 수', value: todayVisitors  },
+    {
+      label: '작성 글 수',
+      value: communityCount,
+      onClick: () => {
+        document.getElementById('my-community-section')?.scrollIntoView({ behavior: 'smooth' });
+      },
+    },
+    {
+      label: '작성 로그 수',
+      value: logCount,
+      onClick: () => navigate(handle ? `/my-page/${handle}/fail-logs` : '/my-page/fail-logs'),
+    },
+    {
+      label: '오늘 방문자 수',
+      value: todayVisitors,
+      onClick: () => navigate(handle ? `/my-page/${handle}/guestbook` : '/my-page/guestbook'),
+    },
   ];
 
   return (
@@ -49,7 +66,7 @@ const ProfileStreakCardComponent = ({
 
       <InfoS.StreakGrid>
         {stats.map((stat) => (
-          <InfoS.StreakStat key={stat.label}>
+          <InfoS.StreakStat key={stat.label} onClick={stat.onClick}>
             <strong>{stat.value.toLocaleString()}</strong>
             <span>{stat.label}</span>
           </InfoS.StreakStat>

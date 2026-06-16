@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import S from '../styles/MyProfileStyle';
-import defaltProfileImage from '../resouces/default.png';
+import defaltProfileImage from '../resouces/default-profile.svg';
+import profileBackground from '../resouces/profile-background.png';
 import cameraIcon from '../../../../components/resources/camera.svg';
 import PopupComponent from '../../../../components/commons/PopupComponent';
 
@@ -52,12 +53,15 @@ const ProfileCardComponent = ({
       />
       <S.ProfileCard>
         <div className="profileImageContainer">
-          <div className="profileImageCircle">
-            <img
-                src={profileSrc}
-                alt="프로필"
-                onError={(e) => { e.target.src = defaltProfileImage; }}
-              />
+          <div className="profileImageBackground">
+            <img src={profileBackground} alt="" />
+            <div className="profileImageCircle">
+              <img
+                  src={profileSrc}
+                  alt="프로필"
+                  onError={(e) => { e.target.src = defaltProfileImage; }}
+                />
+            </div>
           </div>
 
           {isPageOwner && (
@@ -101,7 +105,7 @@ const ProfileCardComponent = ({
                   className="edit-input"
                   value={tempNickname}
                   onChange={(e) => setTempNickname(e.target.value)}
-                  placeholder="닉네임을 입력해주세요."
+                  placeholder={`${memberNickname}`}
                   autoFocus
                 />
                 <div className="EditActions">

@@ -39,9 +39,15 @@ const LogResultContainer = () => {
     const entry = {
       id: logInfo.id,
       title: logInfo.logTitle || '',
+      content: logInfo.visionTitle || '',
       author: logInfo.memberNickname || '익명',
       profileImg: logInfo.memberProfileImageUrl || null,
+      createdAt: logInfo.logCreatedAt || '',
       date: logInfo.logCreatedAt || '',
+      thumbnailUrl: logInfo.logThumbnailUrl || null,
+      views: logInfo.logReadCount || 0,
+      likeCount: logInfo.likeCount || 0,
+      isLiked: logInfo.isLiked ?? logInfo.liked ?? false,
     };
     const filtered = recent.filter((item) => item.id !== entry.id);
     localStorage.setItem('recentViewedLogs', JSON.stringify([entry, ...filtered].slice(0, 3)));

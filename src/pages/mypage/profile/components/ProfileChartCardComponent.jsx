@@ -70,15 +70,6 @@ const ProfileChartCardComponent = ({ logs = [] }) => {
           onMouseLeave={() => setHovered(null)}
         >
           <svg width="180" height="180" viewBox="0 0 180 180">
-            <defs>
-              {/* 전체 링에 적용되는 그라데이션 */}
-              <linearGradient id="donutGrad" gradientUnits="userSpaceOnUse"
-                x1="0" y1="0" x2="180" y2="180">
-                <stop offset="0%"   stopColor="#2563EB" />
-                <stop offset="100%" stopColor="#8B5CF6" />
-              </linearGradient>
-            </defs>
-
             {/* 배경 링 (항상 회색) */}
             <circle
               cx={CX} cy={CY} r={R}
@@ -87,15 +78,28 @@ const ProfileChartCardComponent = ({ logs = [] }) => {
               strokeWidth={SW}
             />
 
-            {/* 데이터 링 (그라데이션) */}
-            {total > 0 && (
+            {/* 외부요인 구간 (파란색) */}
+            {externalCount > 0 && (
               <circle
                 cx={CX} cy={CY} r={R}
                 fill="none"
-                stroke="url(#donutGrad)"
+                stroke="#2563EB"
                 strokeWidth={SW}
-                strokeDasharray={CIRC}
+                strokeDasharray={`${(externalPct / 100) * CIRC} ${CIRC}`}
                 strokeDashoffset="0"
+                transform={`rotate(-90 ${CX} ${CY})`}
+              />
+            )}
+
+            {/* 내부요인 구간 (보라색) */}
+            {internalCount > 0 && (
+              <circle
+                cx={CX} cy={CY} r={R}
+                fill="none"
+                stroke="#8B5CF6"
+                strokeWidth={SW}
+                strokeDasharray={`${(internalPct / 100) * CIRC} ${CIRC}`}
+                strokeDashoffset={`-${(externalPct / 100) * CIRC}`}
                 transform={`rotate(-90 ${CX} ${CY})`}
               />
             )}
@@ -104,7 +108,7 @@ const ProfileChartCardComponent = ({ logs = [] }) => {
           <InfoS.ChartCenter>
             {total > 0 && (
               <>
-                <strong>{centerPct}%</strong>
+                <strong style={{ color: internalCount > externalCount ? '#8B5CF6' : '#2563EB' }}>{centerPct}%</strong>
                 <span>{typeLabel}</span>
               </>
             )}

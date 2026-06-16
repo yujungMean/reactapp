@@ -6,25 +6,23 @@ import defaultProfile from '../../../../components/resources/default-profile.svg
 import defaultThumbnail from '../../../log/other/otherLog_thumbNail/Group 2956.png';
 import getCategoryInfo from '../../../community/GetCategoryInfo';
 
-const MyCommunityPostCardComponent = ({ post, isSelected, onSelect, onNavigate, isPageOwner = true }) => {
+const MyCommunityPostCardComponent = ({ post, isSelected, isEditMode = false, onSelect, onNavigate, isPageOwner = true }) => {
   const { categoryId, title, content, author, date, likes, comments, imageUrl } = post;
   const { name: categoryName, textColor, bgColor } = getCategoryInfo(categoryId);
 
+  const handleClick = () => {
+    if (isPageOwner && isEditMode) {
+      onSelect?.();
+    } else {
+      onNavigate?.();
+    }
+  };
+
   return (
-    <S.CardWrapper isSelected={isSelected} onClick={onNavigate}>
+    <S.CardWrapper $isSelected={isSelected} $isEditMode={isEditMode} onClick={handleClick}>
       <S.ImageSection>
         <S.Thumbnail src={imageUrl || defaultThumbnail} alt={title} onError={(e) => { e.currentTarget.src = defaultThumbnail; }} />
 
-        {isPageOwner && (
-          <S.CheckboxOverlay onClick={(e) => e.stopPropagation()}>
-            <input
-              type="checkbox"
-              checked={isSelected}
-              onClick={(e) => e.stopPropagation()}
-              onChange={onSelect}
-            />
-          </S.CheckboxOverlay>
-        )}
         <S.TagLabel>
           <S.CategoryBadge bgcolor={bgColor}>
             <S.Span size="h11Bold" color={textColor}>{categoryName}</S.Span>

@@ -5,15 +5,18 @@ import theme from "../../../../styles/theme";
 const S = {};
 
 S.RecentSection = styled.section`
-  padding: 78px 0;
+  padding: 78px 20px;
+  box-sizing: border-box;
   width: 100%;
   display: flex;
   flex-direction: column;
 
   h2 {
     ${sizeCSS["h3_2Bold"]}
+    font-size: 45px;
+    font-weight: 800;
     margin-bottom: 30px;
-    color: ${colorCSS["faillog-black"]};
+    color: #1E293B;
     span {
       ${gradientText}
     }

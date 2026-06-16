@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import S from '../styles/AccountPopupStyles';
 
-const PasswordChangePopup = ({ isOpen, memberEmail, memberNickname, onClose, onSubmit }) => {
+const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[!@#])[\da-zA-Z!@#]{8,}$/;
+
+const PasswordChangePopup = ({ isOpen, memberEmail, memberNickname, onClose, onSubmit, submitError }) => {
   const [currentPw, setCurrentPw] = useState('');
   const [newPw, setNewPw] = useState('');
 
   const sameError = newPw !== '' && newPw === currentPw;
-  const canSubmit = currentPw !== '' && newPw !== '' && !sameError;
+  const policyError = newPw !== '' && !passwordRegex.test(newPw);
+  const canSubmit = currentPw !== '' && newPw !== '' && !sameError && !policyError;
 
   useEffect(() => {
     if (!isOpen) {
@@ -54,9 +57,12 @@ const PasswordChangePopup = ({ isOpen, memberEmail, memberNickname, onClose, onS
             placeholder="변경할 비밀번호"
             value={newPw}
             onChange={(e) => setNewPw(e.target.value)}
-            $hasError={sameError}
+            $hasError={sameError || policyError}
           />
+          <S.InfoBox>소문자, 숫자, 특수문자(!@#)를 각 하나씩 포함한 8자리 이상</S.InfoBox>
           {sameError && <S.ErrorText>비밀번호가 기존과 일치합니다.</S.ErrorText>}
+          {!sameError && policyError && <S.ErrorText>비밀번호 형식이 올바르지 않습니다.</S.ErrorText>}
+          {submitError && <S.ErrorText>{submitError}</S.ErrorText>}
         </S.Body>
 
         <S.Footer>
