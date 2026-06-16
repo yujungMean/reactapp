@@ -1,29 +1,29 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import CommS from '../../profile/styles/CommunityStyles';
-import failLogIcon from '../resources/fail-log-card.png';
-import MyFailCardItemComponent from '../../commons/MyFailCardItemComponent';
+import S from '../../profile/styles/MyProfileStyle';
+import FailLogPostCardComponent from '../../commons/FailLogPostCardComponent';
 
-const MyFailLogCardComponent = ({ filteredLogs, selectedDeleteIds = [] }) => {
+const MyFailLogCardComponent = ({ filteredLogs, selectedDeleteIds = [], isEditMode = false, onSelectOneLog, onToggleLike }) => {
   const navigate = useNavigate();
 
   return (
-    <CommS.PostGrid>
-      {filteredLogs.map((log, index) => {
-        const isSelected = selectedDeleteIds.includes(log.id);
+    <S.PostGrid>
+      {filteredLogs.map((log) => {
+        const isSelected = isEditMode && selectedDeleteIds.includes(log.id);
 
         return (
-          <MyFailCardItemComponent
+          <FailLogPostCardComponent
             key={log.id}
             log={log}
-            index={index}
-            iconSrc={failLogIcon}
             isSelected={isSelected}
-            onClick={() => navigate(`/logs/result/${log.id}/detail`)}
+            isEditMode={isEditMode}
+            onSelect={() => onSelectOneLog?.(log.id)}
+            onNavigate={() => navigate(`/logs/result/${log.id}/detail`)}
+            onToggleLike={onToggleLike}
           />
         );
       })}
-    </CommS.PostGrid>
+    </S.PostGrid>
   );
 };
 

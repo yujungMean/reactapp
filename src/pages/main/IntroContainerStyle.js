@@ -18,6 +18,21 @@ const fadeUpAnim = keyframes`
     }
 `;
 
+const blinkAnim = keyframes`
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+`;
+
+export const BlinkCursor = styled.span`
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background-color: ${theme.GRAYSCALE[10]};
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: ${blinkAnim} 0.7s step-end infinite;
+`;
+
 const gradientText = `
     background: linear-gradient(90deg, #027df0, #ab47ff);
     -webkit-background-clip: text;
@@ -494,8 +509,8 @@ S.StepRow = styled.div`
 
     ${({ $side }) =>
         $side === 'left'
-            ? 'justify-content: flex-start; padding-right: calc(50% + 48px);'
-            : 'justify-content: flex-end;  padding-left:  calc(50% + 48px);'}
+            ? 'justify-content: flex-start; padding-left: calc(25% - 156px); padding-right: calc(50% + 24px);'
+            : 'justify-content: flex-end;  padding-right: calc(25% - 156px); padding-left:  calc(50% + 24px);'}
 `;
 
 S.StepDot = styled.div`
@@ -629,7 +644,7 @@ S.Section5Wrapper = styled.section`
     }
 
     .intro-section5-title {
-        font-size: 40px;
+        font-size: 45px;
         font-weight: ${theme.FONT_WEIGHT.bold};
         color: ${theme.PALETTE.black};
         margin: 0;

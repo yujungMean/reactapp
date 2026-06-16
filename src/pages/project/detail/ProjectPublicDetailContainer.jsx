@@ -199,17 +199,31 @@ const ProjectPublicDetailContainer = () => {
         setShowLogSelectModal(true);
     };
 
-    // 선택한 logId로 프로젝트 복사
+    // 선택한 logId로 프로젝트 복사 후 내 프로젝트 상세로 이동
     const handleCopyConfirm = async (logId) => {
-        await axios.post(`/api/project/copy/${projectId}`, null, {
+        const response = await axios.post(`/api/project/copy/${projectId}`, null, {
             params: { logId },
         });
-        alert('내 프로젝트에 추가되었습니다!');
+        const newProjectId = response.data.data;
+        navigate(`/projects/${newProjectId}`);
     };
 
     useEffect(() => {
         if (projectId) fetchProject();
     }, [projectId]);
+
+    const formatDate = (dateStr) => {
+        if (!dateStr) return '';
+        const [year, month, day] = dateStr.split('-');
+        return `${year}년 ${month}월 ${day}일`;
+    };
+
+    const getTotalDays = (startDate, endDate) => {
+        if (!startDate || !endDate) return 0;
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        return Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
+    };
 
     // ── D- (종료일까지 남은 날) ──
     const getDDay = (endDate) => {
@@ -231,7 +245,12 @@ const ProjectPublicDetailContainer = () => {
         return Math.round((completed / items.length) * 100);
     };
 
-    if (isLoading) return <S.PageWrapper><S.Inner><p>불러오는 중...</p></S.Inner></S.PageWrapper>;
+    if (isLoading) return (
+        <S.LoadingWrap>
+            <S.Spinner />
+            <S.LoadingText>불러오는 중...</S.LoadingText>
+        </S.LoadingWrap>
+    );
     if (error)     return <S.PageWrapper><S.Inner><p>{error}</p></S.Inner></S.PageWrapper>;
     if (!project)  return null;
 
@@ -331,12 +350,13 @@ const ProjectPublicDetailContainer = () => {
                         </S.ProjectCardMeta>
                         <S.ProjectName>{project.projectTitle}</S.ProjectName>
                         <S.ProjectDateRange>
-                            {project.projectStartDate} ~ {project.projectEndDate}
+                            {formatDate(project.projectStartDate)} ~ {formatDate(project.projectEndDate)}
+                            <S.TotalDays>총 {getTotalDays(project.projectStartDate, project.projectEndDate)}일</S.TotalDays>
                         </S.ProjectDateRange>
                         <S.AchievementRow>
                             <S.AchievementText>
                                 달성률 <S.AchievementHighlight>{checklistPercent}%</S.AchievementHighlight>
-                                {' · '}체크리스트 <S.AchievementHighlight>{completedCount} / {checklist.length}</S.AchievementHighlight>
+                                {' · '}체크리스트 <S.AchievementHighlight>{completedCount} / {checklist.length} 개</S.AchievementHighlight>
                             </S.AchievementText>
                             <S.DDay>{getDDay(project.projectEndDate)}</S.DDay>
                         </S.AchievementRow>

@@ -39,9 +39,15 @@ const LogResultContainer = () => {
     const entry = {
       id: logInfo.id,
       title: logInfo.logTitle || '',
+      content: logInfo.visionTitle || '',
       author: logInfo.memberNickname || '익명',
       profileImg: logInfo.memberProfileImageUrl || null,
+      createdAt: logInfo.logCreatedAt || '',
       date: logInfo.logCreatedAt || '',
+      thumbnailUrl: logInfo.logThumbnailUrl || null,
+      views: logInfo.logReadCount || 0,
+      likeCount: logInfo.likeCount || 0,
+      isLiked: logInfo.isLiked ?? logInfo.liked ?? false,
     };
     const filtered = recent.filter((item) => item.id !== entry.id);
     localStorage.setItem('recentViewedLogs', JSON.stringify([entry, ...filtered].slice(0, 3)));
@@ -102,7 +108,12 @@ const LogResultContainer = () => {
   };
 
   if (loading) {
-      return <S.Wrapper><S.Header><S.Title>Loading...</S.Title></S.Header></S.Wrapper>;
+      return (
+        <S.LoadingWrap>
+            <S.Spinner />
+            <S.LoadingText>불러오는 중...</S.LoadingText>
+        </S.LoadingWrap>
+      );
   }
 
   if (!logData) {
@@ -177,7 +188,7 @@ const LogResultContainer = () => {
 
         {/* 하단 목록으로 가기 버튼 */}
         <S.BottomActionRow>
-          <S.ListButton onClick={() => navigate('/fail-logs')}>목록으로 가기</S.ListButton>
+          <S.ListButton onClick={() => navigate('/fail-logs')}>목록으로</S.ListButton>
         </S.BottomActionRow>
       </S.ContentWrapper>
 

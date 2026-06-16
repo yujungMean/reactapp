@@ -197,7 +197,10 @@ const ProjectCreateModal = ({ onClose, onCreated }) => {
             </S.HeaderNav>
 
             <S.TitleSection>
-                <S.ModalTitle>이 프로젝트에서 달성하고 싶은 세부 목표를 알려주세요.</S.ModalTitle>
+                <S.ModalTitle>
+                    이 프로젝트에서 달성하고 싶은 세부 목표를 알려주세요.
+                    <S.OptionalBadge>선택</S.OptionalBadge>
+                </S.ModalTitle>
                 <S.ModalSub>AI가 이 목표를 바탕으로 행동 추천과 체크리스트를 설계합니다.</S.ModalSub>
             </S.TitleSection>
 

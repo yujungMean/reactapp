@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import S from '../styles/MyProfileStyle';
 import PasswordChangePopup from './PasswordChangePopup';
-import EmailChangePopup from './EmailChangePopup';
 import PopupComponent from '../../../../components/commons/PopupComponent';
 
 const AccountDataComponent = ({
@@ -14,11 +13,10 @@ const AccountDataComponent = ({
   onNameInfoEdit,
   onUnregister,
   onPasswordSubmit,
-  onEmailSubmit,
   isSocialLogin = false,
 }) => {
   const [showPasswordPopup, setShowPasswordPopup] = useState(false);
-  const [showEmailPopup, setShowEmailPopup] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [socialLoginMsg, setSocialLoginMsg] = useState('');
 
@@ -46,30 +44,20 @@ const AccountDataComponent = ({
         isOpen={showPasswordPopup}
         memberEmail={memberEmail}
         memberNickname={memberNickname}
-        onClose={() => setShowPasswordPopup(false)}
+        submitError={passwordError}
+        onClose={() => { setShowPasswordPopup(false); setPasswordError(''); }}
         onSubmit={(currentPw, newPw) => {
+          setPasswordError('');
           Promise.resolve(onPasswordSubmit?.(currentPw, newPw))
             .then(() => {
               setShowPasswordPopup(false);
               setSuccessMsg('비밀번호가 변경되었습니다.');
             })
             .catch((err) => {
-              setSuccessMsg(err?.response?.data?.message || '비밀번호 변경에 실패했습니다.');
+              setPasswordError(err?.response?.data?.message || '비밀번호 변경에 실패했습니다.');
             });
         }}
       />
-      <EmailChangePopup
-        isOpen={showEmailPopup}
-        memberEmail={memberEmail}
-        memberNickname={memberNickname}
-        onClose={() => setShowEmailPopup(false)}
-        onSubmit={(newEmail) => {
-          onEmailSubmit?.(newEmail);
-          setShowEmailPopup(false);
-          setSuccessMsg('이메일이 변경되었습니다.');
-        }}
-      />
-
       <S.AccountDataCard>
         <S.AccountList>
           <S.AccountItem>
@@ -77,10 +65,9 @@ const AccountDataComponent = ({
             <div className="ItemContent">
               <span className="EmailText">{memberEmail || 'test@example.com'}</span>
               <p className="SubNotice">
-                • 소셜 계정으로 가입된 유저의 경우, 이메일은 별도로 변경 안됨을 알려드립니다.
+                • 현재 가입된 아이디입니다. 소셜 계정으로 가입된 유저의 경우, 아이디는 가입 시 사용한 이메일로  표시됩니다.
               </p>
             </div>
-            <button className="ItemBtn" onClick={() => setShowEmailPopup(true)}>연락처 변경</button>
           </S.AccountItem>
 
           <S.AccountItem>

@@ -12,13 +12,42 @@ const S = {};
 
 S.SearchRow = styled.div`
 	${flexBetweenRow}
+	align-items: flex-start;
 	margin-bottom: 100px;
 `;
 
+S.TitleWrap = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 16px;
+`;
+
+S.TitleIcon = styled.img`
+	width: 36px;
+	height: 36px;
+	object-fit: contain;
+	flex-shrink: 0;
+	margin-top: 12px;
+`;
+
+S.TitleTextWrap = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
 S.CommunityTitle = styled.h3`
-	${h4Bold}
+	font-size: 45px;
+	font-weight: ${theme.FONT_WEIGHT.bold};
 	color: ${theme.PALETTE.black};
 	line-height: 1.4;
+	margin: 0;
+`;
+
+S.CommunitySubtitle = styled.p`
+	font-size: 20px;
+	color: ${theme.GRAYSCALE[7]};
+	margin: 6px 0 0;
 `;
 
 S.SearchBoxWrap = styled.div`

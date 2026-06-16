@@ -39,6 +39,7 @@ const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '', memberI
   const showAlert = (message) => setPopup({ message, onConfirm: closePopup });
   const showConfirm = (message, onConfirm) => setPopup({ message, onConfirm, onCancel: closePopup });
   const [selectedIds, setSelectedIds] = useState([]);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchOption, setSearchOption] = useState("제목");
 
@@ -88,6 +89,12 @@ const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '', memberI
     setCurrentPage((prev) => prev !== safeCurrentPage ? safeCurrentPage : prev);
     setSelectedIds([]);
   }, [safeCurrentPage]);
+
+  const handleToggleEditMode = (e) => {
+    const isChecked = e.target.checked;
+    setIsEditMode(isChecked);
+    if (!isChecked) setSelectedIds([]);
+  };
 
   const handleOptionChange = (option) => setSearchOption(option);
   const handleSearchSubmit = (value) => {
@@ -162,6 +169,32 @@ const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '', memberI
               <h3>{memberNickname || '회원'}님의 커뮤니티 게시글</h3>
             )}
           </div>
+
+          {isPageOwner && currentPagePosts.length > 0 && (
+            <LogStyles.EditModeGroup>
+              {isEditMode && (
+                <PostControlBarComponent
+                  isAllChecked={isAllChecked}
+                  onSelectAll={handleSelectAll}
+                  selectedCount={selectedCount}
+                  totalCount={totalCountOnPage}
+                  onDelete={handleDelete}
+                  showRestore={false}
+                />
+              )}
+              <LogStyles.TrashToggleWrapper>
+                <input
+                  type="checkbox"
+                  id="community-edit-toggle"
+                  checked={isEditMode}
+                  onChange={handleToggleEditMode}
+                />
+                <LogStyles.TrashToggleLabel htmlFor="community-edit-toggle">
+                  삭제 모드
+                </LogStyles.TrashToggleLabel>
+              </LogStyles.TrashToggleWrapper>
+            </LogStyles.EditModeGroup>
+          )}
         </S.HeaderSection>
 
         {currentPagePosts.length > 0 || content ? (
@@ -182,6 +215,7 @@ const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '', memberI
                   onNavigateOne={handleNavigate}
                   styles={S}
                   isPageOwner={isPageOwner}
+                  isEditMode={isEditMode}
                 />
 
                 <S.PaginationWrapper>
@@ -191,19 +225,6 @@ const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '', memberI
                     page={currentPage}
                     onPageChange={handlePageChange}
                   />
-
-                  {isPageOwner && (
-                    <S.ControlBarAbsolute>
-                      <PostControlBarComponent
-                        isAllChecked={isAllChecked}
-                        onSelectAll={handleSelectAll}
-                        selectedCount={selectedCount}
-                        totalCount={totalCountOnPage}
-                        onDelete={handleDelete}
-                        showRestore={false}
-                      />
-                    </S.ControlBarAbsolute>
-                  )}
                 </S.PaginationWrapper>
               </>
             ) : (

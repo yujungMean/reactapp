@@ -162,6 +162,11 @@ S.SuggestionUser = styled.p`
 	${h9Regular}
 	color: ${theme.PALETTE.black};
 	margin-bottom: 4px;
+	cursor: pointer;
+	&:hover {
+		text-decoration: underline;
+		text-underline-position: under;
+	}
 `;
 
 S.SuggestionItemText = styled.p`

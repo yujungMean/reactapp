@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ArrowUpIcon from '../project_icon/la_arrow-up.svg';
+import CommunityIcon from '../project_icon/bank-check_4014667.png';
 import S from './ProjectOtherSearchStyle';
 
 // ─────────────────────────────────────────
@@ -20,7 +21,13 @@ const ProjectOtherSearch = ({ onSearch }) => {
 
     return (
         <S.SearchRow>
-            <S.CommunityTitle>다른 사람들과 성장과정을 공유하고 경험해보세요.</S.CommunityTitle>
+            <S.TitleWrap>
+                <S.TitleIcon src={CommunityIcon} alt="community icon" />
+                <S.TitleTextWrap>
+                    <S.CommunityTitle>로거들과 재도전을 공유해보세요.</S.CommunityTitle>
+                    <S.CommunitySubtitle>다른 로거들의 프로젝트를 탐색해보세요.</S.CommunitySubtitle>
+                </S.TitleTextWrap>
+            </S.TitleWrap>
             <S.SearchBoxWrap>
                 <S.SearchBox>
                     <S.SearchInput

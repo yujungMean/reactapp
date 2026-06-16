@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import repeatIcon from './intro_icon/repeat_238888.svg';
 import washTimeIcon from './intro_icon/wash-time_103937.svg';
@@ -16,7 +16,69 @@ import quotesIcon from './intro_icon/quotes.svg';
 import avatar1 from './intro_profile/image 337.png';
 import avatar2 from './intro_profile/image 309.png';
 import avatar3 from './intro_profile/IMAGE.png';
-import S from './IntroContainerStyle';
+import S, { BlinkCursor } from './IntroContainerStyle';
+
+/* ──────────────────────────────────────────
+   섹션 1 — 타이핑 자막
+────────────────────────────────────────── */
+const LINE1 = '실패를 외면하지 않고 기록할 때,';
+const LINE2 = '당신의 강력한 성장 데이터가 됩니다.';
+
+const TypewriterLines = () => {
+    const [text1, setText1] = useState('');
+    const [text2, setText2] = useState('');
+    const [phase, setPhase] = useState(0); // 0: typing line1, 1: typing line2, 2: done
+
+    useEffect(() => {
+        let t;
+
+        const start = (initialDelay) => {
+            let i = 0;
+            setText1('');
+            setText2('');
+            setPhase(0);
+
+            const typeLine1 = () => {
+                if (i < LINE1.length) {
+                    i++;
+                    setText1(LINE1.slice(0, i));
+                    t = setTimeout(typeLine1, 55);
+                } else {
+                    i = 0;
+                    setPhase(1);
+                    t = setTimeout(typeLine2, 350);
+                }
+            };
+
+            const typeLine2 = () => {
+                if (i < LINE2.length) {
+                    i++;
+                    setText2(LINE2.slice(0, i));
+                    t = setTimeout(typeLine2, 55);
+                } else {
+                    setPhase(2);
+                    t = setTimeout(() => start(0), 3000);
+                }
+            };
+
+            t = setTimeout(typeLine1, initialDelay);
+        };
+
+        start(600);
+        return () => clearTimeout(t);
+    }, []);
+
+    return (
+        <>
+            <p className="intro-section1-sub">
+                {text1}{phase === 0 && <BlinkCursor />}
+            </p>
+            <p className="intro-section1-sub">
+                {text2}{phase === 1 && <BlinkCursor />}
+            </p>
+        </>
+    );
+};
 
 /* ──────────────────────────────────────────
    섹션 2 — 오른쪽 카드 3개
@@ -261,8 +323,7 @@ const IntroContainer = () => {
                             <S.ColorGradient>성공의 한 패</S.ColorGradient>
                             가 됩니다.
                         </h1>
-                        <p className="intro-section1-sub">실패를 외면하지 않고 기록할 때,</p>
-                        <p className="intro-section1-sub">당신의 강력한 성장 데이터가 됩니다.</p>
+                        <TypewriterLines />
                         <S.StartButton onClick={() => navigate('/login')}>
                             시작하기
                         </S.StartButton>

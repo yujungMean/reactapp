@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PageS from '../profile/styles/MyPageWrapper';
 
-import HeroRotationComponent from '../heroSection/HeroRotationComponents';
+import HeroRotationComponent from '../heroSection/HeroStripComponent';
 import FeaturedLogComponent from './components/FeaturedLogComponent';
 import DraftLogsComponent from './components/DraftLogsComponent'; 
 import MyFailLogListSectionComponent from './components/MyFailLogListSectionComponent';
@@ -16,8 +16,8 @@ import FailS from './styles/MyFailLogStyles';
 import PopupComponent from '../../../components/commons/PopupComponent';
 import axiosInstance from '../../../api/axiosInstance';
 
-const CARDS_PER_ROW = 4;
-const ROWS_PER_PAGE = 4;
+const CARDS_PER_ROW = 3;
+const ROWS_PER_PAGE = 3;
 const PAGE_SIZE = CARDS_PER_ROW * ROWS_PER_PAGE;
 
 const mapLog = (item) => ({
@@ -55,6 +55,7 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [searchOption, setSearchOption] = useState('제목+내용');
   const [selectedDeleteIds, setSelectedDeleteIds] = useState([]);
+  const [isFailEditMode, setIsFailEditMode] = useState(false);
   const [isTrashEditMode, setIsTrashEditMode] = useState(false);
   const [selectedTrashIds, setSelectedTrashIds] = useState([]);
 
@@ -126,6 +127,38 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
     setContent(val);
     setCurrentPage(1);
     setPage(1);
+  };
+
+  const handleToggleLike = (log) => {
+    axiosInstance.post(`/api/logs/${log.id}/like`).catch(console.error);
+    setAllLogs((prev) => prev.map((item) => {
+      if (item.id !== log.id) return item;
+      const nextLiked = !item.isLiked;
+      return {
+        ...item,
+        isLiked: nextLiked,
+        likeCount: nextLiked ? (item.likeCount || 0) + 1 : Math.max(0, (item.likeCount || 0) - 1),
+      };
+    }));
+  };
+
+  const handleToggleTrashLike = (log) => {
+    axiosInstance.post(`/api/logs/${log.id}/like`).catch(console.error);
+    setTrashedLogs((prev) => prev.map((item) => {
+      if (item.id !== log.id) return item;
+      const nextLiked = !item.isLiked;
+      return {
+        ...item,
+        isLiked: nextLiked,
+        likeCount: nextLiked ? (item.likeCount || 0) + 1 : Math.max(0, (item.likeCount || 0) - 1),
+      };
+    }));
+  };
+
+  const handleToggleFailEditMode = (e) => {
+    const isChecked = e.target.checked;
+    setIsFailEditMode(isChecked);
+    if (!isChecked) setSelectedDeleteIds([]);
   };
 
   const handleSelectOneLog = (id) => {
@@ -239,8 +272,12 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
       onCancel={popup?.onCancel}
     />
     <PageS.MainWrapper>
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} />
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} nickname={ownerNickname} />
       {isPageOwner && <DraftLogsComponent draftLogs={draftLogs.slice(0, 3)} />}
+
+      <FailS.SectionHeader>
+        <h2>{isPageOwner ? '나의' : `${ownerNickname}님의`} <span>페일로그</span></h2>
+      </FailS.SectionHeader>
 
       {hasNoCards ? (
         <EmptyStateComponent
@@ -274,6 +311,9 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
             onSelectAllLogs={handleSelectAllLogs}
             onDeleteLogs={handleDeleteLogs}
             isPageOwner={isPageOwner}
+            isEditMode={isFailEditMode}
+            onToggleEditMode={handleToggleFailEditMode}
+            onToggleLike={handleToggleLike}
           />
         </>
       )}
@@ -289,6 +329,7 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
             onSelectAllTrash={handleSelectAllTrash}
             onRestoreSelected={handleRestoreSelectedLogs}
             onDeleteForeverSelected={handleDeleteForeverSelectedLogs}
+            onToggleLike={handleToggleTrashLike}
           />
         </FailS.TrashSeparator>
       )}

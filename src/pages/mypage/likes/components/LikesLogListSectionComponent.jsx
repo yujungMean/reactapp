@@ -5,6 +5,7 @@ import LogS from '../../faillog/styles/MyFailLogStyles';
 import LogSearchComponent from '../../commons/LogSearchComponent';
 import EmptyStateComponent from '../../commons/EmptyStateComponent';
 import PagenationComponent from '../../../../components/commons/PagenationComponent';
+import PostControlBarComponent from '../../commons/ControlBarComponent';
 import LikesLogComponent from './LikesLogComponent';
 
 const LikesLogListSectionComponent = ({
@@ -17,8 +18,14 @@ const LikesLogListSectionComponent = ({
   totalPages,
   handlePageChange,
   navigate,
-  onUnlikeOne,
   isPageOwner = true,
+  isEditMode = false,
+  onToggleEditMode,
+  selectedIds = [],
+  onSelectOne,
+  onSelectAll,
+  onDelete,
+  onToggleLike,
 }) => {
   return (
     <LogS.LogSection>
@@ -40,10 +47,38 @@ const LikesLogListSectionComponent = ({
         />
       ) : (
         <>
+          {isPageOwner && (
+            <LogS.EditModeBar>
+              {isEditMode && (
+                <PostControlBarComponent
+                  isAllChecked={selectedIds.length === filteredLogs.length && filteredLogs.length > 0}
+                  onSelectAll={onSelectAll}
+                  onDelete={onDelete}
+                  selectedCount={selectedIds.length}
+                  totalCount={filteredLogs.length}
+                  showRestore={false}
+                />
+              )}
+              <LogS.TrashToggleWrapper>
+                <input
+                  type="checkbox"
+                  id="likes-edit-toggle"
+                  checked={isEditMode}
+                  onChange={onToggleEditMode}
+                />
+                <LogS.TrashToggleLabel htmlFor="likes-edit-toggle">
+                  삭제 모드
+                </LogS.TrashToggleLabel>
+              </LogS.TrashToggleWrapper>
+            </LogS.EditModeBar>
+          )}
+
           <LikesLogComponent
             filteredLogs={pagedLogs}
-            onUnlikeOne={onUnlikeOne}
-            isPageOwner={isPageOwner}
+            isEditMode={isEditMode}
+            selectedIds={selectedIds}
+            onSelectOne={onSelectOne}
+            onToggleLike={onToggleLike}
           />
 
           <LogS.PaginationWrapper>

@@ -180,6 +180,21 @@ const ProjectDetailContainer = () => {
         }
     };
 
+    // ── 날짜 포맷 (yyyy-MM-dd → yyyy년 MM월 dd일) ──
+    const formatDate = (dateStr) => {
+        if (!dateStr) return '';
+        const [year, month, day] = dateStr.split('-');
+        return `${year}년 ${month}월 ${day}일`;
+    };
+
+    // ── 총 기간 (일수) 계산 ──
+    const getTotalDays = (startDate, endDate) => {
+        if (!startDate || !endDate) return 0;
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        return Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
+    };
+
     // ── D- (종료일까지 남은 날) ──
     const getDDay = (endDate) => {
         if (!endDate) return 'D-0';
@@ -207,7 +222,12 @@ const ProjectDetailContainer = () => {
     };
 
     // ── 로딩 / 에러 처리 ──
-    if (isLoading) return <S.PageWrapper><S.Inner><p>불러오는 중...</p></S.Inner></S.PageWrapper>;
+    if (isLoading) return (
+        <S.LoadingWrap>
+            <S.Spinner />
+            <S.LoadingText>불러오는 중...</S.LoadingText>
+        </S.LoadingWrap>
+    );
     if (error)     return <S.PageWrapper><S.Inner><p>{error}</p></S.Inner></S.PageWrapper>;
     if (!project)  return null;
 
@@ -237,11 +257,11 @@ const ProjectDetailContainer = () => {
                         <S.MilestoneNode key={m.pct} $left={m.pct}>
                             <S.MilestoneCircle $done={done} $current={current}>
                                 {done ? (
-                                    <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                                    <svg width="20" height="16" viewBox="0 0 14 11" fill="none">
                                         <path d="M1 5.5L5.5 10L13 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
                                 ) : m.trophy ? (
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                                         <path d="M8 21h8M12 17v4M5 3H3v5c0 2.2 1.8 4 4 4M19 3h2v5c0 2.2-1.8 4-4 4M12 17c-3.3 0-6-2.7-6-6V3h12v8c0 3.3-2.7 6-6 6z"
                                             stroke={current ? theme.PALETTE.third.main : theme.GRAYSCALE[5]}
                                             strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
@@ -322,12 +342,13 @@ const ProjectDetailContainer = () => {
                         </S.ProjectCardMeta>
                         <S.ProjectName>{project.projectTitle}</S.ProjectName>
                         <S.ProjectDateRange>
-                            {project.projectStartDate} ~ {project.projectEndDate}
+                            {formatDate(project.projectStartDate)} ~ {formatDate(project.projectEndDate)}
+                            <S.TotalDays>총 {getTotalDays(project.projectStartDate, project.projectEndDate)}일</S.TotalDays>
                         </S.ProjectDateRange>
                         <S.AchievementRow>
                             <S.AchievementText>
                                 달성률 <S.AchievementHighlight>{checklistPercent}%</S.AchievementHighlight>
-                                {' · '}체크리스트 <S.AchievementHighlight>{completedCount} / {checklist.length}</S.AchievementHighlight>
+                                {' · '}체크리스트 <S.AchievementHighlight>{completedCount} / {checklist.length} 개</S.AchievementHighlight>
                             </S.AchievementText>
                             <S.DDay>{getDDay(project.projectEndDate)}</S.DDay>
                         </S.AchievementRow>

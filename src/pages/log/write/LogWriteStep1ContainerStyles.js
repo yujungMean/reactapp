@@ -86,7 +86,14 @@ S.NextButton = styled.button`
   white-space: nowrap;
   flex-shrink: 0;
 
-  &:hover {
+  &:disabled {
+    background-color: ${({ theme }) => theme.GRAYSCALE[2]};
+    color: ${({ theme }) => theme.GRAYSCALE[6]};
+    border-color: ${({ theme }) => theme.GRAYSCALE[3]};
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
     background-color: ${({ theme }) => theme.PALETTE.third.main};
     color: ${({ theme }) => theme.PALETTE.white};
     border-color: ${({ theme }) => theme.PALETTE.third.main};
@@ -144,6 +151,20 @@ S.Label = styled.label`
   font-size: ${({ theme }) => theme.FONT_SIZE.h7};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
   color: ${({ theme }) => theme.TEXT_COLOR.basic};
+  
+  ${({ $required, theme }) => $required && `
+    &::after {
+      content: ' *';
+      color: #FF4B4B;
+    }
+  `}
+`;
+
+S.SizeInfo = styled.span`
+  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  color: ${({ theme }) => theme.GRAYSCALE[7]};
+  margin-left: 8px;
 `;
 
 S.Input = styled.input`
@@ -221,7 +242,7 @@ S.FloatingList = styled.ul`
   border: 1px solid ${({ theme }) => theme.GRAYSCALE[3]};
   border-radius: 8px;
   overflow: hidden;
-  z-index: 10;
+  z-index: 100;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 `;
 
@@ -298,12 +319,14 @@ S.EmptyVision = styled.li`
 
 S.ThumbnailRow = styled.div`
   display: flex;
-  gap: 30px;
+  flex-direction: column;
+  gap: 16px;
   align-items: flex-start;
+  width: 100%;
 `;
 
 S.UploadButtonArea = styled.div`
-  flex: 2;
+  width: 100%;
   height: 52px;
   border: 1px solid ${({ theme }) => theme.GRAYSCALE[3]};
   border-radius: 8px;
@@ -342,6 +365,7 @@ S.PreviewWrapper = styled.div`
   border: 1.5px solid ${({ theme }) => theme.GRAYSCALE[2]};
   border-radius: 12px;
   background-color: ${({ theme }) => theme.PALETTE.white};
+  margin-top: 24px;
 `;
 
 S.PreviewImage = styled.img`

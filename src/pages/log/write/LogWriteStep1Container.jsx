@@ -102,9 +102,6 @@ const LogWriteStep1Container = () => {
   }, [draftId, location.state]);
 
   const handleNext = () => {
-    if (!title.trim()) { alert("로그 제목을 입력해주세요."); return; }
-    if (!categoryId) { alert("카테고리를 선택해주세요."); return; }
-    if (!vision.trim()) { alert("이루고 싶은 비전을 입력해주세요."); return; }
 
     sessionStorage.setItem('logDraft', JSON.stringify({
       id: draftId || null,
@@ -160,6 +157,8 @@ const LogWriteStep1Container = () => {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
+  const isFormValid = title.trim() !== "" && categoryId !== null && vision.trim() !== "";
+
   return (
     <S.Wrapper>
       <S.ContentWrapper>
@@ -176,13 +175,13 @@ const LogWriteStep1Container = () => {
           <S.StepDesc>로그의 제목과 달성하고 싶은 최종 목표, 목표 태그, 로그 썸네일 사진을 설정해주세요.</S.StepDesc>
         </S.StepInfo>
         <S.ButtonRow>
-          <S.NextButton onClick={handleNext}>다음</S.NextButton>
+          <S.NextButton onClick={handleNext} disabled={!isFormValid}>다음</S.NextButton>
         </S.ButtonRow>
 
         <S.FormContainer>
           <S.FormRow>
             <S.FormGroup>
-              <S.Label>로그 제목</S.Label>
+              <S.Label $required={true}>로그 제목</S.Label>
               <S.Input
                 placeholder="예) 정보처리기사 자격증 필기 도전기"
                 value={title}
@@ -192,7 +191,7 @@ const LogWriteStep1Container = () => {
             </S.FormGroup>
 
             <S.FormGroup ref={categoryRef}>
-              <S.Label>카테고리</S.Label>
+              <S.Label $required={true}>카테고리</S.Label>
               <S.DropdownWrapper>
                 <S.DropdownHeader $isOpen={isCategoryOpen} onClick={() => setIsCategoryOpen(!isCategoryOpen)}>
                   <S.DropdownText $hasValue={!!category}>{category || "카테고리를 선택해주세요."}</S.DropdownText>
@@ -221,7 +220,7 @@ const LogWriteStep1Container = () => {
 
           <S.FormGroup ref={visionRef}>
             <S.LabelRow>
-              <S.Label>이루고 싶은 비전</S.Label>
+              <S.Label $required={true}>이루고 싶은 비전</S.Label>
               <S.LoadVisionButton $isOpen={isVisionListOpen} type="button" onClick={() => setIsVisionListOpen(!isVisionListOpen)}>
                 <VisionIconComponent />
                 기존 비전 불러오기
@@ -255,7 +254,7 @@ const LogWriteStep1Container = () => {
           </S.FormGroup>
 
           <S.FormGroup>
-            <S.Label>로그 썸네일 사진 첨부</S.Label>
+            <S.Label>로그 썸네일 사진 첨부 <S.SizeInfo>(실제 표시 크기: 424 x 200)</S.SizeInfo></S.Label>
             <S.ThumbnailRow>
               <S.UploadButtonArea onClick={() => fileInputRef.current?.click()}>
                 <S.UploadIcon>

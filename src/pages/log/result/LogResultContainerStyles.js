@@ -1,7 +1,38 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
+const spinAnim = keyframes`
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+`;
+
 export const S = {};
+
+S.LoadingWrap = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background-color: #F8F9FA;
+`;
+
+S.Spinner = styled.div`
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 5px solid #e0e7ff;
+  border-top-color: #027df0;
+  animation: ${spinAnim} 0.8s linear infinite;
+`;
+
+S.LoadingText = styled.p`
+  font-size: 16px;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0;
+`;
 
 S.Wrapper = styled.div`
   width: 100%;
@@ -20,14 +51,14 @@ S.Header = styled.div`
 `;
 
 S.Title = styled.h1`
-  font-size: ${({ theme }) => theme.FONT_SIZE.h3};
+  font-size: 45px;
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
   color: ${({ theme }) => theme.TEXT_COLOR.basic};
   margin-bottom: 12px;
 `;
 
 S.SubTitle = styled.p`
-  font-size: ${({ theme }) => theme.FONT_SIZE.h8};
+  font-size: 20px;
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
   color: ${({ theme }) => theme.TEXT_COLOR.basic};
 `;

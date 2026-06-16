@@ -8,21 +8,32 @@ S.Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 100px 40px;
-    min-height: calc(100vh - 64px);
+    min-height: calc(100vh - 100px);
     background: linear-gradient(160deg, #eaf3ff 0%, #ffffff 40%, #f5eeff 100%);
+`;
+
+S.Inner = styled.div`
+    max-width: 1320px;
+    width: 100%;
+    padding: 100px 60px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 S.TitleSection = styled.div`
     text-align: center;
     margin-bottom: 60px;
+    width: 100%;
 
     .main-menu-title {
-        font-size: ${theme.FONT_SIZE.h1};
+        font-size: clamp(40px, 4.2vw, 80px);
         font-weight: ${theme.FONT_WEIGHT.bold};
         color: ${theme.PALETTE.black};
         margin: 0 0 40px 0;
         line-height: 1.2;
+        white-space: nowrap;
     }
 
     .main-menu-subtitle {
@@ -31,6 +42,8 @@ S.TitleSection = styled.div`
         color: ${theme.PALETTE.black};
         margin: 0;
         line-height: 1.6;
+        text-align: center;
+        width: 100%;
     }
 `;
 

@@ -134,6 +134,20 @@ S.ModalTitle = styled.h2`
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
   color: ${({ theme }) => theme.TEXT_COLOR.basic};
   word-break: keep-all;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+S.OptionalBadge = styled.span`
+  font-size: ${({ theme }) => theme.FONT_SIZE.h8};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  color: #9333ea;
+  background-color: #f3e8ff;
+  border-radius: 20px;
+  padding: 5px 14px;
+  white-space: nowrap;
+  flex-shrink: 0;
 `;
 
 S.ModalSub = styled.p`
