@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import S from '../styles/MyFailLogStyles';
 import defaultProfile from '../../../../components/resources/default-profile.svg';
 import eyeIcon from '../../../../components/resources/eye.svg';
 import likeFilledIcon from '../../../../components/resources/like-fill2.svg';
-import defaultThumbnail from '../../../log/other/otherLog_thumbNail/Group 2956.png';
+import { getMatchedThumbnail } from '../../commons/FailLogPostCardComponent';
 
 const FeaturedLogComponent = ({ logs = [], isPageOwner = true, ownerNickname = '' }) => {
   const navigate = useNavigate();
-  const [imgBroken, setImgBroken] = useState(false);
 
   const goToLog = (logId) => {
     navigate(`/logs/result/${logId}/detail`);
@@ -56,9 +55,8 @@ const FeaturedLogComponent = ({ logs = [], isPageOwner = true, ownerNickname = '
         <S.FeaturedMainImage>
           <img
             className="MainImg"
-            src={!imgBroken && featuredLog.thumbnailUrl ? featuredLog.thumbnailUrl : defaultThumbnail}
+            src={featuredLog.thumbnailUrl || getMatchedThumbnail(featuredLog)}
             alt="featured"
-            onError={() => setImgBroken(true)}
           />
         </S.FeaturedMainImage>
       </S.FeaturedContainer>

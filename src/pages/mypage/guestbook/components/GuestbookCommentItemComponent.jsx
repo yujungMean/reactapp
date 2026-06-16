@@ -123,6 +123,7 @@ const GuestbookCommentItemComponent = ({
       replyLabel="답글"
       replyCount={comment.replies.length}
       onReplyToggle={() => onReplyToggle(comment.id)}
+      deleted={comment.deleted}
     >
       {(comment.replies.length > 0 || replyOpen) && (
         <>
@@ -161,6 +162,7 @@ const GuestbookCommentItemComponent = ({
                 replyLabel="답글"
                 replyCount={(reply.rereplies || []).length}
                 onReplyToggle={() => setRereplyOpenReplyId((prev) => prev === reply.id ? null : reply.id)}
+                deleted={reply.deleted}
               >
                 {((reply.rereplies || []).length > 0 || rereplyOpenReplyId === reply.id) && (
                   <>
@@ -199,6 +201,7 @@ const GuestbookCommentItemComponent = ({
                             onDeleteClick: () => { onDeleteRereply(comment.id, reply.id, rereply.id); onCloseMenu(); },
                             onEditClick: () => { setEditingRereplyId(rereply.id); setEditRereplyContent(rereply.content); onCloseMenu(); },
                           })}
+                          deleted={rereply.deleted}
                         />
                       );
                     })}
