@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import S, { boxShadow, colorCSS } from '../../style';
 import AiPost from './AiPost';
 import aiImage from '../../resources/ai_image.svg';
+import {formatRelativeTime} from '../../../../utils/relativeTime'
 
 const formatDate = (dateStr) => {
   if (!dateStr) return '';
@@ -26,7 +27,7 @@ const AiPostListContainer = ({ memberId, maxHeight }) => {
         setPosts(json.data.map(p => ({
           id: p.id,
           memberId: p.memberId,
-          date: formatDate(p.postCreatedAt),
+          date: formatRelativeTime(p.postCreatedAt),
           category: p.categoryId - 1,
           title: p.postTitle,
           profile: p.memberProfileImageUrl,

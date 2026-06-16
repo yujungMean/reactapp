@@ -5,6 +5,8 @@ import aiImage from '../../resources/ai_image.svg';
 import S from '../../style';
 import AiPost from '../../list/components/AiPost.jsx';
 
+import {formatRelativeTime} from '../../../../utils/relativeTime.js'
+
 const formatDate = (dateStr) => {
   if (!dateStr) return '';
   return dateStr.slice(0, 10).replace(/-/g, '.');
@@ -28,7 +30,7 @@ const AiPostContainer = ({ memberId, postId }) => {
         setAiPostList(json.data.map(p => ({
           postId: p.id,
           memberId: p.memberId,
-          date: formatDate(p.postCreatedAt),
+          date: formatRelativeTime(p.postCreatedAt),
           category: p.categoryId - 1,
           title: p.postTitle,
           profile: p.memberProfileImageUrl,
