@@ -29,6 +29,34 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('recentViewedLogs') || '[]');
     setRecentLogs(stored);
+
+    const staleEntries = stored.filter((entry) => !entry.thumbnailUrl);
+    if (staleEntries.length === 0) return;
+
+    Promise.all(
+      staleEntries.map((entry) =>
+        axiosInstance.get(`/api/logs/analyze/${entry.id}`)
+          .then((res) => {
+            if (!res.data?.success || !res.data.data?.logInfo) return entry;
+            const info = res.data.data.logInfo;
+            return {
+              ...entry,
+              thumbnailUrl: info.logThumbnailUrl || null,
+              category: info.categoryName || entry.category || '',
+              likeCount: info.likeCount ?? entry.likeCount,
+              isLiked: info.isLiked ?? entry.isLiked ?? false,
+            };
+          })
+          .catch(() => entry)
+      )
+    ).then((refreshed) => {
+      const freshMap = Object.fromEntries(refreshed.map((e) => [e.id, e]));
+      setRecentLogs((prev) => {
+        const next = prev.map((e) => freshMap[e.id] || e);
+        localStorage.setItem('recentViewedLogs', JSON.stringify(next));
+        return next;
+      });
+    });
   }, []);
   const [ownerNickname, setOwnerNickname] = useState('');
   const [allLogs, setAllLogs] = useState([]);
@@ -42,6 +70,7 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
             id: item.id,
             title: item.logTitle || '',
             content: item.visionTitle || '',
+            category: item.categoryName || '',
             author: item.memberNickname || '',
             profileImg: item.memberProfileImageUrl || null,
             createdAt: item.logCreatedAt || '',
@@ -98,7 +127,8 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
 
   const handleToggleRecentLike = (log) => {
     axiosInstance.post(`/api/logs/${log.id}/like`).catch(console.error);
-    setRecentLogs((prev) => prev.map((item) => {
+
+    const updater = (item) => {
       if (item.id !== log.id) return item;
       const nextLiked = !item.isLiked;
       return {
@@ -106,7 +136,23 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
         isLiked: nextLiked,
         likeCount: nextLiked ? (item.likeCount || 0) + 1 : Math.max(0, (item.likeCount || 0) - 1),
       };
-    }));
+    };
+
+    setRecentLogs((prev) => prev.map(updater));
+
+    const wasLiked = log.isLiked;
+    if (wasLiked) {
+      // 좋아요 해제 → 좋아요 목록에서 제거
+      setAllLogs((prev) => prev.filter((item) => item.id !== log.id));
+    } else {
+      // 좋아요 추가 → 좋아요 목록에 없으면 추가
+      setAllLogs((prev) => {
+        if (prev.some((item) => item.id === log.id)) {
+          return prev.map(updater);
+        }
+        return [{ ...log, isLiked: true, likeCount: (log.likeCount || 0) + 1 }, ...prev];
+      });
+    }
   };
 
   const handleUnlikeOne = (id) => {

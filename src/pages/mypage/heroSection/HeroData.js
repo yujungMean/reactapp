@@ -31,9 +31,9 @@ export const heroData = [
     align: "left",
     icon: { width: "160px", height: "160px", right: "0px", bottom: "0px" },
     other: {
-      subTitle: (nickname) => `${nickname}님이 작성한 로그를 보고 싶다면`,
+      subTitle: (nickname) => `${nickname}님의 로그를 보고 싶다면`,
       title: (nickname) => `${nickname}님의 페일로그`,
-      description: (nickname) => `${nickname}님이 작성한 로그를 볼 수 있어요.`,
+      description: (nickname) => `${nickname}님의 로그를 볼 수 있어요.`,
     }
   },
 
@@ -76,7 +76,9 @@ export const heroData = [
 ];
 
 export const getHeroContent = (pathname) => {
-  const mainContent = heroData.find(item => item.path === pathname) || heroData[0];
+  // /my-page/:handle/section → /my-page/section (남의 페이지 경로 정규화)
+  const normalized = pathname.replace(/^\/my-page\/[^/]+\//, '/my-page/');
+  const mainContent = heroData.find(item => item.path === normalized) || heroData[0];
   const quickMenus = heroData.filter(item => item.id !== mainContent.id);
   return { mainContent, quickMenus };
 };

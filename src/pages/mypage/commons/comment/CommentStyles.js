@@ -90,11 +90,16 @@ S.ListArea = styled.div`
 /* ── 댓글/답글 아이템 (커뮤니티 Reply 디자인) ── */
 S.ItemWrapper = styled.div`
   width: 100%;
-  padding: 13px 15px 15px 15px;
-  border: 1px solid ${colorCSS['faillog_gray4']};
   border-radius: 15px;
   box-sizing: border-box;
-  ${({ $indent }) => $indent && `margin-left: 20px;`}
+
+  ${({ $indent }) => $indent ? `
+    padding: 9px 11px;
+    background: ${colorCSS['faillog-sector-gray']};
+  ` : `
+    padding: 13px 15px 15px 15px;
+    border: 1px solid ${colorCSS['faillog_gray4']};
+  `}
 `;
 
 S.TopRow = styled.div`
@@ -140,8 +145,6 @@ S.MenuBtn = styled.button`
   border: none;
   cursor: pointer;
   padding: 0;
-  color: ${colorCSS['faillog_gray9']};
-  font-size: 16px;
 `;
 
 S.Dropdown = styled.div`

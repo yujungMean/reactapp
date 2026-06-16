@@ -24,12 +24,13 @@ const mapLog = (item) => ({
   id: item.id,
   title: item.logTitle || '',
   content: item.visionTitle || '',
+  category: item.categoryName || '',
   author: item.memberNickname || '나의 기록',
   profileImg: item.memberProfileImageUrl || null,
   createdAt: item.logCreatedAt || '',
   date: item.logCreatedAt || '',
   likeCount: item.likeCount || 0,
-  isLiked: false,
+  isLiked: item.liked ?? item.isLiked ?? false,
   views: item.readCount || 0,
   progress: item.logProgress || 0,
   logStatus: item.logStatus,
@@ -60,6 +61,8 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
   const [selectedTrashIds, setSelectedTrashIds] = useState([]);
 
   const [draftLogs, setDraftLogs] = useState([]);
+  const [isDraftEditMode, setIsDraftEditMode] = useState(false);
+  const [selectedDraftIds, setSelectedDraftIds] = useState([]);
   const [ownerNickname, setOwnerNickname] = useState('');
   const [targetMemberId, setTargetMemberId] = useState(null);
 
@@ -153,6 +156,47 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
         likeCount: nextLiked ? (item.likeCount || 0) + 1 : Math.max(0, (item.likeCount || 0) - 1),
       };
     }));
+  };
+
+  const handleToggleDraftEditMode = (e) => {
+    const isChecked = e.target.checked;
+    setIsDraftEditMode(isChecked);
+    if (!isChecked) setSelectedDraftIds([]);
+  };
+
+  const handleSelectOneDraft = (id) => {
+    setSelectedDraftIds((prev) => prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]);
+  };
+
+  const handleSelectAllDrafts = (e) => {
+    if (e.target.checked) {
+      setSelectedDraftIds(draftLogs.map((log) => log.id));
+    } else {
+      setSelectedDraftIds([]);
+    }
+  };
+
+  const handleDeleteDrafts = () => {
+    if (selectedDraftIds.length === 0) return;
+    showConfirm('선택한 작성 중인 페일로그를 휴지통으로 이동하시겠습니까?', async () => {
+      try {
+        const res = await axiosInstance.delete('/api/logs/trash', { data: selectedDraftIds });
+        if (res.data?.success) {
+          const logsToTrash = draftLogs.filter((log) => selectedDraftIds.includes(log.id));
+          setTrashedLogs((prev) => [...prev, ...logsToTrash]);
+          setDraftLogs((prev) => prev.filter((log) => !selectedDraftIds.includes(log.id)));
+          setSelectedDraftIds([]);
+          setIsDraftEditMode(false);
+          closePopup();
+          showAlert('페일로그가 휴지통으로 이동되었습니다.');
+        } else {
+          showAlert(res.data?.message || '페일로그 삭제에 실패했습니다.');
+        }
+      } catch (error) {
+        console.error("드래프트 삭제 실패:", error);
+        showAlert('페일로그 삭제 중 오류가 발생했습니다.');
+      }
+    });
   };
 
   const handleToggleFailEditMode = (e) => {
@@ -273,7 +317,17 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
     />
     <PageS.MainWrapper>
       <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} nickname={ownerNickname} />
-      {isPageOwner && <DraftLogsComponent draftLogs={draftLogs.slice(0, 3)} />}
+      {isPageOwner && (
+        <DraftLogsComponent
+          draftLogs={draftLogs.slice(0, 3)}
+          isEditMode={isDraftEditMode}
+          onToggleEditMode={handleToggleDraftEditMode}
+          selectedIds={selectedDraftIds}
+          onSelectOne={handleSelectOneDraft}
+          onSelectAll={handleSelectAllDrafts}
+          onDelete={handleDeleteDrafts}
+        />
+      )}
 
       <FailS.SectionHeader>
         <h2>{isPageOwner ? '나의' : `${ownerNickname}님의`} <span>페일로그</span></h2>

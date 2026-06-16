@@ -360,13 +360,13 @@ S.SearchbarWrapper = styled.div`
 
 S.FeaturedWrapper = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 1160px;
   margin: 0 auto 60px;
 `;
 
 S.TrashSeparator = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 1160px;
   margin: 100px auto 40px;
   border-top: 1px dashed #CBD5E1;
   padding-top: 60px;

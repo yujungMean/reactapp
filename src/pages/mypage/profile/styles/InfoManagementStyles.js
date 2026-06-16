@@ -219,7 +219,6 @@ S.StreakStat = styled.div`
   }
 `;
 
-// ✅ 2. 하단 긴 카드를 위한 컨테이너 (기획안의 아랫줄)
 S.BottomAccountArea = styled.div`
   width: 100%;
 `;
@@ -232,34 +231,78 @@ S.AccountDataCard = styled.div`
   /* 상단 카드들과의 독립성을 위해 margin-top 제거하거나 조정 */
 `;
 
-// --- 프로필 카드 디자인 디테일 수정 (기획안 느낌 반영) ---
 S.ProfileCard = styled.div`
   background: #ffffff;
   border-radius: 24px;
-  padding: 45px 24px 24px;
+  overflow: hidden;
+  padding: 0 24px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   border: 1px solid #F1F5F9;
   height: 100%;
 
   .profileImageContainer {
     position: relative;
-    margin-bottom: 20px;
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    padding-bottom: 72px;
+    margin-bottom: 16px;
   }
 
-  .profileImageCircle {
-    width: 110px;
+  .profileImageBackground {
+    position: relative;
     height: 110px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid #F0F3FF;
-    img { width: 100%; height: 100%; object-fit: cover; }
+
+    & > img:first-child {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profileImageCircle {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #ffffff;
+      background: #f0f3ff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      z-index: 2;
+      img { width: 100%; height: 100%; object-fit: cover; }
+    }
   }
 
-  /* 닉네임 영역 강조 */
+  input[type="file"] {
+    display: none;
+  }
+
+  .image-edit-btn {
+    position: absolute;
+    bottom: 12px;
+    left: calc(50% + 38px);
+    z-index: 3;
+    background: #ffffff;
+    border: 2px solid #E2E8F0;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    img { width: 16px; height: 16px; }
+    &:hover { background: #F8FAFC; }
+  }
+
   .nickname-area {
     width: 100%;
     text-align: center;

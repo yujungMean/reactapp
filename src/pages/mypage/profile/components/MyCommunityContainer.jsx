@@ -21,6 +21,13 @@ const stripHtml = (html) => {
   return doc.body.textContent || '';
 };
 
+const extractFirstImage = (html) => {
+  if (!html) return null;
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const img = doc.querySelector('img');
+  return img?.src || null;
+};
+
 const mapPost = (item) => ({
   id: item.id,
   categoryId: item.categoryId - 1,
@@ -30,7 +37,7 @@ const mapPost = (item) => ({
   date: formatRelativeTime(item.postCreatedAt),
   likes: item.likeCount || 0,
   comments: item.replyCount || 0,
-  imageUrl: item.postThumbnailUrl || null,
+  imageUrl: item.postThumbnailUrl || extractFirstImage(item.postContent) || null,
 });
 
 const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '', memberId = null }) => {

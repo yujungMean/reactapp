@@ -62,12 +62,15 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
   const [ownerNickname, setOwnerNickname] = useState('');
   const [viewedOwnerId, setViewedOwnerId] = useState(null);
 
-  // 남의 방명록 조회 시: handle -> memberId 변환
+  // 남의 방명록 조회 시: handle -> memberId + 닉네임 변환
   useEffect(() => {
     if (isPageOwner || !handle) return;
     axiosInstance.get(`/api/members/handle/${handle}`)
       .then((res) => {
-        if (res.data?.success) setViewedOwnerId(res.data.data.memberId);
+        if (res.data?.success) {
+          setViewedOwnerId(res.data.data.memberId);
+          setOwnerNickname(res.data.data.memberNickname || '');
+        }
       })
       .catch(console.error);
   }, [isPageOwner, handle]);
@@ -194,11 +197,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
     setCurrentPage(1);
 
     axiosInstance.post('/api/guestbook/write', { ownerMemberId: ownerId, guestbookContent: trimmed, writerMemberId: loggedInMemberId })
-      .then(() => axiosInstance.get('/api/guestbook/list', { params: { ownerMemberId: ownerId } }))
-      .then((res) => {
-        if (res.data?.success && Array.isArray(res.data.data))
-          setComments(res.data.data.map(mapGuestbook));
-      })
+      .then(() => refetchList())
       .catch((err) => {
         console.error(err);
         setComments((prev) => prev.filter((c) => c.id !== optimisticComment.id));
@@ -218,8 +217,38 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
     if (!ownerId) return Promise.resolve();
     return axiosInstance.get('/api/guestbook/list', { params: { ownerMemberId: ownerId } })
       .then((res) => {
-        if (res.data?.success && Array.isArray(res.data.data))
-          setComments(res.data.data.map(mapGuestbook));
+        if (res.data?.success && Array.isArray(res.data.data)) {
+          const fresh = res.data.data.map(mapGuestbook);
+          setComments((prev) => {
+            const prevMap = new Map(prev.map((c) => [c.id, c]));
+            return fresh.map((c) => {
+              const p = prevMap.get(c.id);
+              if (!p) return c;
+              const prevReplyMap = new Map((p.replies || []).map((r) => [r.id, r]));
+              return {
+                ...c,
+                liked: p.liked,
+                likes: p.liked !== c.liked ? (p.liked ? c.likes + 1 : c.likes - 1) : c.likes,
+                replies: (c.replies || []).map((r) => {
+                  const pr = prevReplyMap.get(r.id);
+                  if (!pr) return r;
+                  const prevRereplyMap = new Map((pr.rereplies || []).map((rr) => [rr.id, rr]));
+                  return {
+                    ...r,
+                    liked: pr.liked,
+                    likes: pr.liked !== r.liked ? (pr.liked ? r.likes + 1 : r.likes - 1) : r.likes,
+                    rereplies: (r.rereplies || []).map((rr) => {
+                      const prr = prevRereplyMap.get(rr.id);
+                      return prr
+                        ? { ...rr, liked: prr.liked, likes: prr.liked !== rr.liked ? (prr.liked ? rr.likes + 1 : rr.likes - 1) : rr.likes }
+                        : rr;
+                    }),
+                  };
+                }),
+              };
+            });
+          });
+        }
       })
       .catch(console.error);
   };
