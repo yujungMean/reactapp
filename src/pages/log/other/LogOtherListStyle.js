@@ -77,7 +77,7 @@ S.Category = styled.span`
 `;
 
 S.Date = styled.span`
-    font-size: ${theme.FONT_SIZE.h10};
+    font-size: ${theme.FONT_SIZE.h9};
     font-weight: ${theme.FONT_WEIGHT.regular};
     color: ${theme.GRAYSCALE[9]};
 `;
@@ -171,11 +171,18 @@ S.Stat = styled.span`
     color: ${theme.GRAYSCALE[10]};
 `;
 
-S.Thumbnail = styled.img`
+S.ThumbnailWrap = styled.div`
     width: 100%;
     height: 200px;
-    object-fit: cover;
     flex-shrink: 0;
+    overflow: hidden;
+`;
+
+S.Thumbnail = styled.img`
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 `;
 
 S.EndMessage = styled.div`

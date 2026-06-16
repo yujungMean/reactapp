@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import S from './LogOtherListStyle';
 import { goToMemberProfile } from '../../../utils/profileNavigation';
+import { formatRelativeTime } from '../../../utils/relativeTime';
 
 import viewIcon from './otherLog_icon/hugeicons--view.svg';
 import heartIcon from './otherLog_icon/ph--heart-light.svg';
@@ -87,26 +88,6 @@ const CATEGORY_VARIANT = {
 
 const getCategoryVariant = (categoryName) => CATEGORY_VARIANT[categoryName] || 'gray';
 
-const formatDate = (dateStr) => {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    const now = new Date();
-    const diffMs = now - date;
-    const diffMinutes = Math.floor(diffMs / (1000 * 60));
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-
-    if (diffHours < 24) {
-        if (diffMinutes < 1) return '방금 전';
-        if (diffMinutes < 60) return `${diffMinutes}분 전`;
-        return `${diffHours}시간 전`;
-    }
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}.${month}.${day}`;
-};
-
 const LogOtherList = ({ keyword, category, sort }) => {
     const navigate = useNavigate();
     const [logs, setLogs] = useState([]);
@@ -181,7 +162,7 @@ const LogOtherList = ({ keyword, category, sort }) => {
                                         <S.Category $variant={getCategoryVariant(log.categoryName)}>
                                             {log.categoryName}
                                         </S.Category>
-                                        <S.Date>{formatDate(log.logCreatedAt)}</S.Date>
+                                        <S.Date>{formatRelativeTime(log.logCreatedAt)}</S.Date>
                                     </S.CardTop>
 
                                     <S.Title>{log.logTitle}</S.Title>
@@ -211,10 +192,12 @@ const LogOtherList = ({ keyword, category, sort }) => {
                                     </S.CardBottom>
                                 </S.CardBody>
 
-                                <S.Thumbnail
-                                    src={log.thumbnailUrl || THUMBNAIL_MAP[log.id] || DefaultThumb}
-                                    alt={log.logTitle}
-                                />
+                                <S.ThumbnailWrap>
+                                    <S.Thumbnail
+                                        src={log.thumbnailUrl || THUMBNAIL_MAP[log.id] || DefaultThumb}
+                                        alt={log.logTitle}
+                                    />
+                                </S.ThumbnailWrap>
                             </S.Card>
                         </Link>
                     ))}
