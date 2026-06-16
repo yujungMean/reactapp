@@ -201,7 +201,13 @@ const LogOtherList = ({ keyword, category, sort }) => {
                 </S.CardGrid>
 
                 {loading && <div style={{ textAlign: 'center', padding: '20px' }}>로딩 중...</div>}
-                {!hasMore && <div style={{ textAlign: 'center', padding: '20px' }}>모든 로그를 불러왔습니다.</div>}
+                {!hasMore && (
+                    <S.EndMessage>
+                        <S.EndLine />
+                        <S.EndText>모든 로그를 불러왔습니다.</S.EndText>
+                        <S.EndLine />
+                    </S.EndMessage>
+                )}
             </S.ListWrapper>
         </div>
     );

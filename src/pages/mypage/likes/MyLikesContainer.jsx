@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PageS from '../profile/styles/MyPageWrapper';
 
-import HeroRotationComponent from '../heroSection/HeroRotationComponents';
+import HeroRotationComponent from '../heroSection/HeroStripComponent';
 import RecentLogsComponent from './components/RecentLogsComponent';
 import LikesLogListSectionComponent from './components/LikesLogListSectionComponent';
 
@@ -10,10 +10,11 @@ import { getHeroContent } from '../heroSection/HeroData';
 import useSearchStore from '../../../components/useSearchStore';
 import EmptyStateComponent from '../commons/EmptyStateComponent';
 import CommS from '../profile/styles/CommunityStyles';
+import FailS from '../faillog/styles/MyFailLogStyles';
 import axiosInstance from '../../../api/axiosInstance';
 
-const CARDS_PER_ROW = 4;
-const ROWS_PER_PAGE = 4;
+const CARDS_PER_ROW = 3;
+const ROWS_PER_PAGE = 3;
 const PAGE_SIZE = CARDS_PER_ROW * ROWS_PER_PAGE;
 
 const MyLikesContainer = ({ isPageOwner = true }) => {
@@ -45,6 +46,7 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
             profileImg: item.memberProfileImageUrl || null,
             createdAt: item.logCreatedAt || '',
             date: item.logCreatedAt || '',
+            thumbnailUrl: item.thumbnailUrl || null,
             likeCount: item.likeCount || 0,
             isLiked: true,
             views: item.readCount || 0,
@@ -69,6 +71,8 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchOption, setSearchOption] = useState('제목+내용');
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
 
   useEffect(() => {
     let filtered = allLogs;
@@ -92,17 +96,61 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
     setPage(1);
   };
 
+  const handleToggleRecentLike = (log) => {
+    axiosInstance.post(`/api/logs/${log.id}/like`).catch(console.error);
+    setRecentLogs((prev) => prev.map((item) => {
+      if (item.id !== log.id) return item;
+      const nextLiked = !item.isLiked;
+      return {
+        ...item,
+        isLiked: nextLiked,
+        likeCount: nextLiked ? (item.likeCount || 0) + 1 : Math.max(0, (item.likeCount || 0) - 1),
+      };
+    }));
+  };
+
   const handleUnlikeOne = (id) => {
     axiosInstance.post(`/api/logs/${id}/like`).catch(console.error);
     setAllLogs((prev) => prev.filter((log) => log.id !== id));
+  };
+
+  const handleToggleEditMode = (e) => {
+    const isChecked = e.target.checked;
+    setIsEditMode(isChecked);
+    if (!isChecked) setSelectedIds([]);
+  };
+
+  const handleSelectOne = (id) => {
+    setSelectedIds((prev) => prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]);
+  };
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedIds(pagedLogs.map((log) => log.id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleDeleteSelected = () => {
+    if (selectedIds.length === 0) return;
+    selectedIds.forEach((id) => handleUnlikeOne(id));
+    setSelectedIds([]);
+    setIsEditMode(false);
   };
 
   const hasNoCards = allLogs.length === 0;
 
   return (
     <PageS.MainWrapper>
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} />
-      <RecentLogsComponent logs={recentLogs} />
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} nickname={ownerNickname} />
+
+      <FailS.SectionHeader>
+        <div>
+          <h2>{isPageOwner ? '나의' : `${ownerNickname}님의`} 좋아요 한 <span>페일로그</span></h2>
+          <p>마음에 든 페일로그들을 한 곳에서 모아 볼 수 있어요.</p>
+        </div>
+      </FailS.SectionHeader>
 
       {hasNoCards ? (
         <EmptyStateComponent
@@ -126,10 +174,18 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
           totalPages={totalPages}
           handlePageChange={(page) => setCurrentPage(page)}
           navigate={navigate}
-          onUnlikeOne={handleUnlikeOne}
           isPageOwner={isPageOwner}
+          isEditMode={isEditMode}
+          onToggleEditMode={handleToggleEditMode}
+          selectedIds={selectedIds}
+          onSelectOne={handleSelectOne}
+          onSelectAll={handleSelectAll}
+          onDelete={handleDeleteSelected}
+          onToggleLike={(log) => handleUnlikeOne(log.id)}
         />
       )}
+
+      <RecentLogsComponent logs={recentLogs} onToggleLike={handleToggleRecentLike} />
     </PageS.MainWrapper>
   );
 };

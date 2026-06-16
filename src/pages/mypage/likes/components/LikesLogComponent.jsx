@@ -1,20 +1,25 @@
 import React from 'react';
-import CommS from '../../profile/styles/CommunityStyles';
-import failLogIcon from '../../faillog/resources/fail-log-card.png';
-import LikesCardItemComponent from './LikesCardItemComponent';
+import { useNavigate } from 'react-router-dom';
+import S from '../../profile/styles/MyProfileStyle';
+import FailLogPostCardComponent from '../../commons/FailLogPostCardComponent';
 
-const LikesLogComponent = ({ filteredLogs = [], onUnlikeOne, isPageOwner }) => {
+const LikesLogComponent = ({ filteredLogs = [], isEditMode = false, selectedIds = [], onSelectOne, onToggleLike }) => {
+  const navigate = useNavigate();
+
   return (
-    <CommS.PostGrid>
+    <S.PostGrid>
       {filteredLogs.map((log) => (
-        <LikesCardItemComponent
+        <FailLogPostCardComponent
           key={log.id}
           log={log}
-          iconSrc={failLogIcon}
-          onUnlike={isPageOwner ? onUnlikeOne : undefined}
+          isSelected={isEditMode && selectedIds.includes(log.id)}
+          isEditMode={isEditMode}
+          onSelect={() => onSelectOne?.(log.id)}
+          onNavigate={() => navigate(`/logs/result/${log.id}/detail`)}
+          onToggleLike={onToggleLike}
         />
       ))}
-    </CommS.PostGrid>
+    </S.PostGrid>
   );
 };
 
