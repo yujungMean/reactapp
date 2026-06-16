@@ -44,7 +44,7 @@ const RootLayout = () => {
         setUser(null);
         setIsAuthenticated(false);
       });
-  }, []);
+  }, [setIsAuthenticated, setUser]);
 
   return (
     <div>
