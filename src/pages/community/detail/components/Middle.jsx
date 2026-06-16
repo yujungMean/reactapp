@@ -66,7 +66,7 @@ const Middle = ({ loginId, isOwner = false, likeCount = 0, isLiked = false, memb
     />
     <Wrapper>
       <ListBtn onClick={() => navigate('/community')}>
-        <S.Span size="h10Bold">목록으로</S.Span>
+        <S.Span size="h9Regular" color="other-gray">목록으로</S.Span>
       </ListBtn>
 
       <RightGroup>

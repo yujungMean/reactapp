@@ -6,7 +6,7 @@ import S, { colorCSS, hoverBorder, sizeCSS } from '../../style.js';
 const MAX_LENGTH = 500;
 
 // onSubmit: 댓글 등록 버튼 클릭 시 이벤트
-const ReplySubmit = ({ onSubmit, subject = "댓글" }) => {
+const ReplySubmit = ({ onSubmit, subject = "댓글", textAreaSize = 1236 }) => {
   const [text, setText] = useState('');
 
   const handleChange = (e) => {
@@ -28,11 +28,12 @@ const ReplySubmit = ({ onSubmit, subject = "댓글" }) => {
         value={text}
         onChange={handleChange}
         placeholder={`${subject}을 입력해주세요`}
+        size={textAreaSize}
       />
       <BottomRow>
-        <S.Span size="h11Regular" color="faillog_gray8">{`서로를 존중하는 ${subject} 문화를 지켜주세요`}</S.Span>
+        <SubTitle>{`*서로를 존중하는 ${subject} 문화를 지켜주세요`}</SubTitle>
         <RightGroup>
-          <S.Span size="h10Regular" color={isMax ? 'faillog-red' : undefined}>
+          <S.Span size="h8Regular" color={isMax ? 'faillog-red' : undefined}>
             글자 수 ({text.length} / {MAX_LENGTH})
           </S.Span>
           <SubmitBtn onClick={handleSubmit}>
@@ -51,7 +52,7 @@ const Wrapper = styled.div`
 `
 
 const TextArea = styled.textarea`
-  width: 1236px;
+  width: ${({size}) => size};
   height: 112px;
   padding: 14px 16px;
   background: ${colorCSS["faillog-sector-gray"]};
@@ -98,6 +99,14 @@ const SubmitBtn = styled.button`
   border: none;
   border-radius: 10px;
   cursor: pointer;
+`
+
+const SubTitle = styled.span`
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 16px;
+  letter-spacing: -0.03em;
+  color: ${colorCSS["faillog_gray8"]};
 `
 
 export default ReplySubmit;

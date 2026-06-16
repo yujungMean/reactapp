@@ -186,7 +186,11 @@ const Reply = ({
     <Wrapper>
       <TopRow>
         <ProfileGroup>
-          {profileImg && <ProfileImg src={profileImg} onError={handledOnErrorImg} alt="프로필" />}
+          {profileImg && (
+            <AvatarWrap>
+              <ProfileImg src={profileImg} onError={handledOnErrorImg} alt="프로필" />
+            </AvatarWrap>
+          )}
           <AuthorName onClick={() => goToMemberProfile(navigate, memberId)}>{author}</AuthorName>
           <S.Span size="h10Regular" color="faillog_gray9">{createdAt}</S.Span>
         </ProfileGroup>
@@ -280,7 +284,7 @@ const Reply = ({
 
 const Wrapper = styled.div`
   width: 1268px;
-  padding: 13px 15px 15px 15px;
+  padding: 13px 24px 15px 24px;
   border: 1px solid ${colorCSS["faillog_gray3"]};
   border-radius: 15px;
   box-sizing: border-box;
@@ -295,7 +299,7 @@ const TopRow = styled.div`
 const ProfileGroup = styled.div`
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 10px;
 `
 
 const AuthorName = styled.span`
@@ -305,9 +309,21 @@ const AuthorName = styled.span`
   &:hover { text-decoration: underline; }
 `
 
+const AvatarWrap = styled.div`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #4359FC, #AB47FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+`
+
 const ProfileImg = styled.img`
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   object-fit: cover;
 `
@@ -352,7 +368,7 @@ const DropdownItem = styled.div`
 
 const ContentArea = styled.div`
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `
 
 const ContentText = styled.p`
@@ -394,7 +410,7 @@ const SectionArea = styled.div`
 `
 
 const Divider = styled.div`
-  width: 1236px;
+  width: 1218px;
   height: 1px;
   background: ${colorCSS["faillog_gray2"]};
 `

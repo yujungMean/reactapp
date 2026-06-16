@@ -30,8 +30,10 @@ const PostHeader = ({ memberId, category, title, profile, author, views, date, t
 
       <BottomRow>
         <AuthorWrap onClick={() => goToMemberProfile(navigate, memberId)}>
-          <PorileImg src={profile} onError={handledOnErrorImg} alt={author} />
-          <S.Span size="h9Regular" color="faillog_gray9">{author}</S.Span>
+          <AvatarWrap>
+            <PorileImg src={profile} onError={handledOnErrorImg} alt={author} />
+          </AvatarWrap>
+          <S.Span size="h9Bold">{author}</S.Span>
         </AuthorWrap>
         <MetaWrap>
           <MetaItem>
@@ -80,15 +82,28 @@ const BottomRow = styled.div`
 const AuthorWrap = styled.div`
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 9px;
   cursor: pointer;
   &:hover span { text-decoration: underline; }
 `;
 
-const PorileImg = styled.img`
-  width: 18px;
-  height: 18px;
+const AvatarWrap = styled.div`
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #4359FC, #AB47FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+`;
+
+const PorileImg = styled.img`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 const MetaWrap = styled.div`

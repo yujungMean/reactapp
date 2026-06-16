@@ -31,7 +31,7 @@ const AiPost = ({ postId, memberId, date, category, title, profile, author, view
       </TopRow>
 
       <TitleWrap>
-        <S.Span2 size="h9Bold" color="faillog-black" display="block">{title}</S.Span2>
+        <S.Span2 size="h9Bold" color="faillog-black" display="block" lineclamp={1}>{title}</S.Span2>
       </TitleWrap>
 
       <BottomRow>
@@ -62,7 +62,7 @@ const AiPost = ({ postId, memberId, date, category, title, profile, author, view
 
 const Card = styled.div`
   width: 300px;
-  height: 140px;
+  height: 120px;
   border-radius: 15px;
   border: 1px solid ${colorCSS["faillog_gray2"]};
   background-color: #ffffff;
@@ -118,8 +118,8 @@ const AuthorWrap = styled.div`
 `;
 
 const AvatarWrap = styled.div`
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   padding: 2px;
   background: linear-gradient(135deg, #4359FC, #AB47FF);
@@ -130,8 +130,8 @@ const AvatarWrap = styled.div`
 `;
 
 const AuthorImg = styled.img`
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   object-fit: cover;
 `;

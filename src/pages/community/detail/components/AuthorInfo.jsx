@@ -15,21 +15,23 @@ const AuthorInfo = ({ memberId, profile, author, postCount, faillogCount, commen
   return (
     <Wrapper>
       <AuthorWrap onClick={() => goToMemberProfile(navigate, memberId)} style={{ cursor: 'pointer' }}>
-        <ProfileImg src={profile} onError={handledOnErrorImg} alt={author} />
+        <AvatarWrap>
+          <ProfileImg src={profile} onError={handledOnErrorImg} alt={author} />
+        </AvatarWrap>
         <S.Span size="h7Bold" color="faillog-black">{author}</S.Span>
       </AuthorWrap>
 
       <StatWrap>
         <StatBox>
-          <S.Span size="h10Bold" color="faillog_gray9">작성한 게시글 수</S.Span>
+          <StatTitle>작성한 게시글 수</StatTitle>
           <S.Span size="h6Bold" color="faillog-black">{postCount}</S.Span>
         </StatBox>
         <StatBox>
-          <S.Span size="h10Bold" color="faillog_gray9">작성한 페일 로그 수</S.Span>
+          <StatTitle>작성한 페일 로그 수</StatTitle>
           <S.Span size="h6Bold" color="faillog-black">{faillogCount}</S.Span>
         </StatBox>
         <StatBox>
-          <S.Span size="h10Bold" color="faillog_gray9">작성한 댓글 수</S.Span>
+          <StatTitle>작성한 댓글 수</StatTitle>
           <S.Span size="h6Bold" color="faillog-black">{commentCount}</S.Span>
         </StatBox>
       </StatWrap>
@@ -50,6 +52,18 @@ const AuthorWrap = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+`;
+
+const AvatarWrap = styled.div`
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #4359FC, #AB47FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 `;
 
 const ProfileImg = styled.img`
@@ -77,5 +91,13 @@ const StatBox = styled.div`
   padding: 10px 16px 6px;
   box-sizing: border-box;
 `;
+
+const StatTitle = styled.span`
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  color: ${colorCSS["faillog_gray9"]};
+`
 
 export default AuthorInfo;

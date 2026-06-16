@@ -162,7 +162,9 @@ export const colorCSS = {
   "faillog_gray9" : "#8D8D8D",
   "faillog_gray10" : "#555555",
 
-  "faillog-sector-gray" : "#F8F9FA"
+  "faillog-sector-gray" : "#F8F9FA",
+
+  "other-gray" : "#666"
 }
 
 export const boxShadow = {

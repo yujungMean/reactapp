@@ -88,7 +88,7 @@ const CommunityDetailContainer = () => {
     const categoryIndex = (post.categoryId ?? 1) - 1;
 
     const profileImg = post.memberProfileImageUrl ?? icon04;
-    const dateStr = post.postCreatedAt?.slice(0, 10) ?? '';
+    const dateStr = (post.postCreatedAt?.slice(0, 10) ?? '').replaceAll('-', '.');
     const timeAgo = formatTimeAgo(post.postCreatedAt);
 
     // post.postContent에있는 이미지들의 주소들을 images에저장

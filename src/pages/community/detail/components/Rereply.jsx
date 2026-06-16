@@ -112,7 +112,11 @@ const Rereply = ({
     <Wrapper>
       <TopRow>
         <ProfileGroup>
-          {profileImg && <ProfileImg src={profileImg} onError={handledOnErrorImg} alt="프로필" />}
+          {profileImg && (
+            <AvatarWrap>
+              <ProfileImg src={profileImg} onError={handledOnErrorImg} alt="프로필" />
+            </AvatarWrap>
+          )}
           <AuthorName onClick={() => goToMemberProfile(navigate, memberId)}>{currentAuthor}</AuthorName>
           <S.Span size="h10Regular" color="faillog_gray9">{createdAt}</S.Span>
         </ProfileGroup>
@@ -183,7 +187,7 @@ const Rereply = ({
 };
 
 const Wrapper = styled.div`
-  width: 1236px;
+  width: 1218px;
   padding: 9px 11px;
   padding-bottom: 9px;
   background: ${colorCSS["faillog-sector-gray"]};
@@ -210,9 +214,21 @@ const AuthorName = styled.span`
   &:hover { text-decoration: underline; }
 `
 
+const AvatarWrap = styled.div`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #4359FC, #AB47FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+`
+
 const ProfileImg = styled.img`
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   object-fit: cover;
 `
