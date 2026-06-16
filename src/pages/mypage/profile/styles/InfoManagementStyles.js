@@ -219,7 +219,6 @@ S.StreakStat = styled.div`
   }
 `;
 
-// ✅ 2. 하단 긴 카드를 위한 컨테이너 (기획안의 아랫줄)
 S.BottomAccountArea = styled.div`
   width: 100%;
 `;
@@ -232,7 +231,6 @@ S.AccountDataCard = styled.div`
   /* 상단 카드들과의 독립성을 위해 margin-top 제거하거나 조정 */
 `;
 
-// --- 프로필 카드 디자인 디테일 수정 (기획안 느낌 반영) ---
 S.ProfileCard = styled.div`
   background: #ffffff;
   border-radius: 24px;

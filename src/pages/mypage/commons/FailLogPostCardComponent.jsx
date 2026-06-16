@@ -33,6 +33,20 @@ import th_toeic       from '../../log/other/otherLog_thumbNail/toic_900 1.png';
 import th_diary       from '../../log/other/otherLog_thumbNail/write_diary 1.png';
 import th_youtube     from '../../log/other/otherLog_thumbNail/youtube 1.png';
 
+const categoryStyleMap = {
+  공부:    { textColor: 'faillog_blue',    bgColor: 'faillog_light_blue' },
+  취업:    { textColor: 'faillog_blue',    bgColor: 'faillog_light_blue' },
+  사업:    { textColor: 'faillog_purple',  bgColor: 'faillog_light_purple' },
+  창업:    { textColor: 'faillog_purple',  bgColor: 'faillog_light_purple' },
+  인간관계: { textColor: 'faillog-red',    bgColor: 'faillog_light_red' },
+  건강:    { textColor: 'faillog_green',   bgColor: 'faillog_light_green' },
+  루틴:    { textColor: 'faillog_green',   bgColor: 'faillog_light_green' },
+  기타:    { textColor: 'faillog-black',   bgColor: 'faillog_gray2' },
+};
+
+const getCategoryStyle = (category) =>
+  categoryStyleMap[category] || { textColor: 'faillog-black', bgColor: 'faillog_gray2' };
+
 // 카테고리별 기본 풀 (키워드 미매칭 시 fallback)
 const categoryPool = {
   '공부': [th_algo, th_toeic, th_graduate, th_read, th_portfolio],
@@ -127,6 +141,7 @@ const FailLogPostCardComponent = ({ log = {}, isSelected = false, isEditMode = f
   };
 
   const thumbnailSrc = log.thumbnailUrl || getMatchedThumbnail(log);
+  const catStyle = log.category ? getCategoryStyle(log.category) : null;
 
   return (
     <S.CardWrapper $isSelected={isSelected} $isEditMode={isEditMode} onClick={handleClick}>
@@ -136,6 +151,13 @@ const FailLogPostCardComponent = ({ log = {}, isSelected = false, isEditMode = f
           alt={log.title}
           onError={(e) => { e.currentTarget.src = defaultThumbnail; }}
         />
+        {catStyle && (
+          <S.TagLabel>
+            <S.CategoryBadge bgcolor={catStyle.bgColor}>
+              <S.Span size="h11Bold" color={catStyle.textColor}>{log.category}</S.Span>
+            </S.CategoryBadge>
+          </S.TagLabel>
+        )}
       </S.ImageSection>
 
       <S.PostContentSection>
