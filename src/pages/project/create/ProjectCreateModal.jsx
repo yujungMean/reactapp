@@ -5,6 +5,7 @@ import { S } from './ProjectCreateModalStyles';
 import closeIcon from '../../log/write/write_icon/close.svg';
 import backIcon from '../../log/write/write_icon/back.svg';
 import checkIcon from '../../log/write/write_icon/check.svg';
+import aiImage from '../../../components/resources/ai_image.svg';
 
 const CATEGORIES = ['공부/취업', '사업/창업', '인간관계', '건강/루틴', '기타'];
 
@@ -231,7 +232,10 @@ const ProjectCreateModal = ({ onClose, onCreated }) => {
 
     const renderStep3 = () => (
         <S.LoadingWrapper>
-            <S.SpinnerRing />
+            <S.SpinnerContainer>
+                <S.SpinnerRing />
+                <S.AiImage src={aiImage} alt="AI is thinking" />
+            </S.SpinnerContainer>
             <S.LoadingTitle>
                 AI가 맞춤형 프로젝트를<br />생성하고 있어요
             </S.LoadingTitle>

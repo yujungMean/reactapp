@@ -81,7 +81,7 @@ S.BtnCreate = styled.button`
 `;
 
 S.CommunitySection = styled.div`
-	background-color: ${theme.GRAYSCALE[1]};
+	background-color: #f8f9fa;
 	padding: 120px 0 80px;
 `;
 

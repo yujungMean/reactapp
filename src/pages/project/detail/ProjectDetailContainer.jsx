@@ -4,6 +4,7 @@ import axios from '../../../api/axiosInstance';
 import ProjectEditModal from '../edit/ProjectEditModal';
 import theme from '../../../styles/theme';
 import S from './ProjectDetailContainerStyle';
+import projectIcon from '../project_icon/project_icon.png';
 
 // 컴포넌트 Import
 import ProjectDetailAction from './ProjectDetailAction';
@@ -317,7 +318,10 @@ const ProjectDetailContainer = () => {
             <S.Inner>
                 {/* ── PAGE TITLE ── */}
                 <S.PageTop>
-                    <S.PageTitle>PROJECT</S.PageTitle>
+                    <S.PageTitleWrap>
+                        <S.TitleIcon src={projectIcon} alt="project icon" />
+                        <S.PageTitle>Project</S.PageTitle>
+                    </S.PageTitleWrap>
                     <S.TopBtnRow>
                         <S.OutlineBtn onClick={() => navigate('/projects')}>
                             목록으로

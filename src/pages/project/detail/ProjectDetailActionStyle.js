@@ -30,13 +30,11 @@ S.SectionTitleRow = styled.div`
 	margin-bottom: 24px;
 `;
 
-S.AiBadge = styled.span`
-	display: inline-flex;
-	align-items: center;
-	gap: 4px;
-	font-size: 11px;
-	font-weight: 700;
-	color: ${theme.PALETTE.primary.main};
+S.AiIcon = styled.img`
+	width: 36px;
+	height: 36px;
+    margin-bottom: 5px;
+	vertical-align: middle;
 `;
 
 S.ActionGrid = styled.div`
