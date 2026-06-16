@@ -334,13 +334,33 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
       .catch(console.error);
   };
 
+  const cleanupDeletedItems = (comments) => {
+    return comments
+      .map((comment) => ({
+        ...comment,
+        replies: (comment.replies || [])
+          .map((reply) => ({
+            ...reply,
+            rereplies: (reply.rereplies || []).filter((rr) => !rr.deleted),
+          }))
+          .filter((reply) => !reply.deleted || reply.rereplies.length > 0),
+      }))
+      .filter((comment) => {
+        if (!comment.deleted) return true;
+        return (comment.replies || []).length > 0;
+      });
+  };
+
   const handleDeleteComment = (commentId) => {
     const comment = comments.find((c) => c.id === commentId);
     if (!comment) return;
     const ownerId = isPageOwner ? ownerMemberId : viewedOwnerId;
     axiosInstance.delete('/api/guestbook/delete', { data: { id: commentId, ownerMemberId: ownerId, writerMemberId: comment.authorId } })
       .then(() => {
-        setComments((prev) => prev.filter((c) => c.id !== commentId));
+        setComments((prev) => {
+          const next = prev.map((c) => c.id === commentId ? { ...c, deleted: true } : c);
+          return cleanupDeletedItems(next);
+        });
       })
       .catch(console.error);
   };
@@ -364,11 +384,13 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
     if (!reply) return;
     axiosInstance.delete('/api/guestbook/reply/delete', { data: { id: replyId, writerMemberId: reply.authorId } })
       .then(() => {
-        setComments((prev) =>
-          prev.map((c) => c.id !== commentId ? c : {
-            ...c, replies: c.replies.filter((r) => r.id !== replyId),
-          }),
-        );
+        setComments((prev) => {
+          const next = prev.map((c) => c.id !== commentId ? c : {
+            ...c,
+            replies: c.replies.map((r) => r.id === replyId ? { ...r, deleted: true } : r),
+          });
+          return cleanupDeletedItems(next);
+        });
       })
       .catch(console.error);
   };
@@ -430,15 +452,16 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
     if (!rereply) return;
     axiosInstance.delete('/api/guestbook/rereply/delete', { data: { id: rereplyId, writerMemberId: rereply.authorId } })
       .then(() => {
-        setComments((prev) =>
-          prev.map((c) => c.id !== commentId ? c : {
+        setComments((prev) => {
+          const next = prev.map((c) => c.id !== commentId ? c : {
             ...c,
             replies: c.replies.map((r) => r.id !== replyId ? r : {
               ...r,
-              rereplies: r.rereplies.filter((rr) => rr.id !== rereplyId),
+              rereplies: r.rereplies.map((rr) => rr.id === rereplyId ? { ...rr, deleted: true } : rr),
             }),
-          }),
-        );
+          });
+          return cleanupDeletedItems(next);
+        });
       })
       .catch(console.error);
   };

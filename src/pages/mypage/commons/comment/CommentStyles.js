@@ -295,4 +295,12 @@ S.SaveEditBtn = styled.button`
   color: ${colorCSS['faillog_white']};
 `;
 
+S.DeletedText = styled.p`
+  ${sizeCSS['h9-regular']}
+  color: ${colorCSS['faillog_gray9']};
+  font-style: italic;
+  padding: 4px 0;
+  margin: 0;
+`;
+
 export default S;

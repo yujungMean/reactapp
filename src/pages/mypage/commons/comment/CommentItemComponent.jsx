@@ -27,6 +27,7 @@ const CommentItemComponent = ({
   replyCount,
   onReplyToggle,
   indent,
+  deleted,
   children,
 }) => {
   const [expanded, setExpanded] = useState(false);
@@ -38,6 +39,20 @@ const CommentItemComponent = ({
     if (!el) return;
     setIsClamped(el.scrollHeight > el.clientHeight);
   }, [content]);
+
+  if (deleted) {
+    return (
+      <S.ItemWrapper $indent={indent}>
+        <S.DeletedText>삭제된 댓글입니다.</S.DeletedText>
+        {children && (
+          <S.SectionArea>
+            <S.Divider />
+            <S.ChildListArea>{children}</S.ChildListArea>
+          </S.SectionArea>
+        )}
+      </S.ItemWrapper>
+    );
+  }
 
   return (
     <S.ItemWrapper $indent={indent}>
