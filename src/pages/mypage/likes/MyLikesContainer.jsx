@@ -193,8 +193,8 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
 
       <FailS.SectionHeader>
         <div>
-          <h2>{isPageOwner ? '나의' : `${ownerNickname}님의`} 좋아요 한 <span>페일로그</span></h2>
-          <p>마음에 든 페일로그들을 한 곳에서 모아 볼 수 있어요.</p>
+          <h2>{isPageOwner ? '나의' : `${ownerNickname}님의`} <span>페이버릿 페일로그</span></h2>
+          {isPageOwner && <p>마음에 든 페일로그들을 한 곳에서 모아 볼 수 있어요.</p>}
         </div>
       </FailS.SectionHeader>
 
@@ -221,6 +221,7 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
           handlePageChange={(page) => setCurrentPage(page)}
           navigate={navigate}
           isPageOwner={isPageOwner}
+          ownerNickname={ownerNickname}
           isEditMode={isEditMode}
           onToggleEditMode={handleToggleEditMode}
           selectedIds={selectedIds}

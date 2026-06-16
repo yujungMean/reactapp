@@ -455,7 +455,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
       <S.GuestbookSection>
         <S.GuestbookHeader>
           <h2><span>페일로그</span> 방명록</h2>
-          <p>{isPageOwner ? '다른 사람들이 남긴 방명록을 통해 소통해보세요.' : `${ownerNickname || handle}님의 방명록입니다.`}</p>
+          <p>{isPageOwner ? '다른 로거들이 남긴 방명록을 통해 소통해보세요.' : `${ownerNickname || handle}님의 방명록입니다.`}</p>
         </S.GuestbookHeader>
 
         <CommentS.SubmitBox>
@@ -479,11 +479,18 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
         </S.SearchRowWrapper>
 
         {filteredComments.length === 0 ? (
-          <S.EmptyState>
-            <h3>아직 작성된 방명록이 없어요.<br /><span>페일로그</span>의 커뮤니티를 이용해볼까요?</h3>
-            <p>실패를 외면하지 않고 기록할 때,<br />당신의 강력한 성장 데이터가 됩니다.</p>
-            <button type="button" onClick={() => navigate('/community')}>시작하기</button>
-          </S.EmptyState>
+          isPageOwner ? (
+            <S.EmptyState>
+              <h3>아직 작성된 방명록이 없어요.<br /><span>페일로그</span>의 커뮤니티를 이용해볼까요?</h3>
+              <p>실패를 외면하지 않고 기록할 때,<br />당신의 강력한 성장 데이터가 됩니다.</p>
+              <button type="button" onClick={() => navigate('/community')}>시작하기</button>
+            </S.EmptyState>
+          ) : (
+            <S.EmptyState>
+              <h3>{ownerNickname || handle}님의 방명록에<br />첫 번째 <span>방명록</span>을 남겨보세요!</h3>
+              <p>실패를 외면하지 않고 기록할 때,<br />당신의 강력한 성장 데이터가 됩니다.</p>
+            </S.EmptyState>
+          )
         ) : (
           <>
             <CommentListComponent title="방명록" count={filteredComments.length}>
