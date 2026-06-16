@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ArrowUpIcon from '../project_icon/la_arrow-up.svg';
 import CommunityIcon from '../project_icon/bank-check_4014667.png';
+import GeminiIcon from '../../log/other/otherLog_icon/material-icon-theme_gemini-ai.svg';
 import S from './ProjectOtherSearchStyle';
 
 // ─────────────────────────────────────────
@@ -30,6 +31,7 @@ const ProjectOtherSearch = ({ onSearch }) => {
             </S.TitleWrap>
             <S.SearchBoxWrap>
                 <S.SearchBox>
+                    <S.SearchIcon src={GeminiIcon} alt="search" />
                     <S.SearchInput
                         placeholder="다양한 성장 과정을 탐색해보세요."
                         value={keyword}

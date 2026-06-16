@@ -71,8 +71,23 @@ S.PageTop = styled.div`
 	margin-bottom: 50px;
 `;
 
+S.PageTitleWrap = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 16px;
+`;
+
+S.TitleIcon = styled.img`
+	width: 45px;
+	height: 45px;
+	object-fit: contain;
+	flex-shrink: 0;
+`;
+
 S.PageTitle = styled.h1`
-	${h2Bold}
+	font-size: 45px;
+	font-weight: ${theme.FONT_WEIGHT.bold};
 	color: ${theme.PALETTE.black};
 `;
 
