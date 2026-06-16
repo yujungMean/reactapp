@@ -1,43 +1,70 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import S from "./styles/DraftLogsComponentStyle";
-import failLogIcon from '../resources/fail-log-card.png';
+import FailLogPostCardComponent from '../../commons/FailLogPostCardComponent';
 
-const DraftLogsComponent = ({ draftLogs = [] }) => {
+const DraftLogsComponent = ({
+  draftLogs = [],
+  isEditMode = false,
+  onToggleEditMode,
+  selectedIds = [],
+  onSelectOne,
+  onSelectAll,
+  onDelete,
+}) => {
   const navigate = useNavigate();
 
   if (!draftLogs || draftLogs.length === 0) return null;
 
+  const isAllSelected = draftLogs.length > 0 && selectedIds.length === draftLogs.length;
+  const hasSelected = selectedIds.length > 0;
+
   return (
     <S.DraftSection>
-      <h2>아직 <span>작성 중인 페일로그</span>가 있어요.</h2>
+      <S.DraftHeader>
+        <h2>아직 <span>작성 중인 페일로그</span>가 있어요.</h2>
+        <S.EditModeBar>
+          {isEditMode && (
+            <S.EditModeGroup>
+              <S.ToggleWrapper>
+                <input
+                  type="checkbox"
+                  id="draft-select-all"
+                  checked={isAllSelected}
+                  onChange={onSelectAll}
+                />
+                <S.ToggleLabel htmlFor="draft-select-all">전체 선택</S.ToggleLabel>
+              </S.ToggleWrapper>
+              <S.DeleteButton onClick={onDelete} disabled={!hasSelected}>
+                삭제
+              </S.DeleteButton>
+            </S.EditModeGroup>
+          )}
+          <S.ToggleWrapper>
+            <input
+              type="checkbox"
+              id="draft-edit-mode"
+              checked={isEditMode}
+              onChange={onToggleEditMode}
+            />
+            <S.ToggleLabel htmlFor="draft-edit-mode">삭제 모드</S.ToggleLabel>
+          </S.ToggleWrapper>
+        </S.EditModeBar>
+      </S.DraftHeader>
 
       <S.DraftGrid>
         {draftLogs.map((log) => (
-          <S.DraftCard
-            key={log.id}
-            bgColor={log.color}
-            onClick={() => navigate(`/logs/new/step1/${log.id}`)}
-          >
-            <div className="ContentGroup">
-              <div className="CardHeader">
-                <h3>{log.title || "제목 없는 페일로그"}</h3>
-                <p>{log.content || "내용이 없습니다."}</p>
-              </div>
-
-              <div className="CardFooter">
-                <div className="InfoText">
-                  <div>진행도 : {log.progress ?? 0}%</div>
-                  <div>마지막 수정 : {log.date || "방금 전"}</div>
-                </div>
-                <div className="StatusTag">작성중</div>
-              </div>
-            </div>
-
-            <div className="CardImage">
-              <img src={failLogIcon} alt="" />
-            </div>
-          </S.DraftCard>
+          <S.DraftCardWrapper key={log.id}>
+            <S.StatusBadge>작성중</S.StatusBadge>
+            <FailLogPostCardComponent
+              log={log}
+              isSelected={isEditMode && selectedIds.includes(log.id)}
+              isEditMode={isEditMode}
+              onSelect={() => onSelectOne?.(log.id)}
+              onNavigate={() => navigate(`/logs/new/step1/${log.id}`)}
+              compact
+            />
+          </S.DraftCardWrapper>
         ))}
       </S.DraftGrid>
     </S.DraftSection>

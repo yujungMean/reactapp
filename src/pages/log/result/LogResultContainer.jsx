@@ -40,6 +40,7 @@ const LogResultContainer = () => {
       id: logInfo.id,
       title: logInfo.logTitle || '',
       content: logInfo.visionTitle || '',
+      category: logInfo.categoryName || '',
       author: logInfo.memberNickname || '익명',
       profileImg: logInfo.memberProfileImageUrl || null,
       createdAt: logInfo.logCreatedAt || '',

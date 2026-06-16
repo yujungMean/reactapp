@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import S from './LogOtherListStyle';
 import { goToMemberProfile } from '../../../utils/profileNavigation';
+import { formatRelativeTime } from '../../../utils/relativeTime';
 
 import viewIcon from './otherLog_icon/hugeicons--view.svg';
 import heartIcon from './otherLog_icon/ph--heart-light.svg';
@@ -161,7 +162,7 @@ const LogOtherList = ({ keyword, category, sort }) => {
                                         <S.Category $variant={getCategoryVariant(log.categoryName)}>
                                             {log.categoryName}
                                         </S.Category>
-                                        <S.Date>{log.logCreatedAt}</S.Date>
+                                        <S.Date>{formatRelativeTime(log.logCreatedAt)}</S.Date>
                                     </S.CardTop>
 
                                     <S.Title>{log.logTitle}</S.Title>
@@ -191,10 +192,12 @@ const LogOtherList = ({ keyword, category, sort }) => {
                                     </S.CardBottom>
                                 </S.CardBody>
 
-                                <S.Thumbnail
-                                    src={log.thumbnailUrl || THUMBNAIL_MAP[log.id] || DefaultThumb}
-                                    alt={log.logTitle}
-                                />
+                                <S.ThumbnailWrap>
+                                    <S.Thumbnail
+                                        src={log.thumbnailUrl || THUMBNAIL_MAP[log.id] || DefaultThumb}
+                                        alt={log.logTitle}
+                                    />
+                                </S.ThumbnailWrap>
                             </S.Card>
                         </Link>
                     ))}

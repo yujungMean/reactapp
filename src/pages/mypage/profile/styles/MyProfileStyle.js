@@ -402,7 +402,7 @@ S.CardWrapper = styled.div`
 S.ImageSection = styled.div`
   position: relative;
   width: 100%;
-  height: 180px;
+  height: ${({ $height }) => $height || '180px'};
   background: #f5f5f5;
 `;
 
@@ -419,12 +419,12 @@ S.TagLabel = styled.div`
 `;
 
 S.CategoryBadge = styled.div`
-  background-color: ${({ bgcolor }) => colorCSS[bgcolor]};
-  width: 52px;
-  height: 20px;
-  padding-top: 1px;
+  background-color: ${({ $bgcolor }) => colorCSS[$bgcolor]};
+  height: 22px;
+  padding: 0 10px;
   ${flexCenterRow}
   border-radius: 15px;
+  white-space: nowrap;
 `;
 
 S.PostContentSection = styled.div`

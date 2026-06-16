@@ -54,20 +54,9 @@ S.EmptyState = styled.p`
     padding: 60px 0;
 `;
 
-/*
- * ── 카드 스크롤 래퍼 ──
- * margin-left: -50px + padding-left: 50px 트릭:
- * 카드의 box-shadow가 왼쪽으로 40px 확장되는데,
- * overflow-x: auto는 padding 영역을 클리핑하지 않으므로
- * padding 안으로 그림자를 숨겨 좌측 잘림 현상을 방지.
- */
 S.CardScrollWrapper = styled.div`
     overflow-x: auto;
-    margin-left: -50px;
-    padding-left: 50px;
-    padding-right: 35px;
-    padding-top: 12px;
-    padding-bottom: 65px;
+    padding: 12px 35px 65px 4px;
 
     &::-webkit-scrollbar {
         height: 6px;

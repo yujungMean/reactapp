@@ -12,6 +12,11 @@ const progressAnim = keyframes`
   to { opacity: 1; }
 `;
 
+const bounce = keyframes`
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+`;
+
 const fadeIn = keyframes`
   from { opacity: 0; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1); }
@@ -410,13 +415,30 @@ S.LoadingWrapper = styled.div`
   padding: 20px 0;
 `;
 
+S.SpinnerContainer = styled.div`
+  position: relative;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+`;
+
 S.SpinnerRing = styled.div`
-  width: 80px;
-  height: 80px;
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
   border: 4px solid ${({ theme }) => theme.PALETTE.third.light};
   border-top-color: ${({ theme }) => theme.PALETTE.third.main};
-  animation: ${spin} 1s linear infinite;
+  animation: ${spin} 1.2s linear infinite;
+`;
+
+S.AiImage = styled.img`
+  width: 48px;
+  height: 48px;
+  z-index: 1;
+  animation: ${bounce} 2s infinite ease-in-out;
 `;
 
 S.LoadingTitle = styled.p`

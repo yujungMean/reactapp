@@ -52,6 +52,12 @@ const MyProfileContainer = () => {
   const [showNameInfoPopup, setShowNameInfoPopup] = useState(false);
   const [memberNotFound, setMemberNotFound] = useState(false);
 
+  // 프로필 이동 시 stale 상태 초기화
+  useEffect(() => {
+    setMemberInfo((prev) => ({ ...prev, memberId: null, memberNickname: '', memberProfileImageUrl: null }));
+    setChartLogs([]);
+  }, [handle]);
+
   // 1. 내 프로필일 때 정보 조회
   useEffect(() => {
     if (!isPageOwner) return;
@@ -103,13 +109,12 @@ const MyProfileContainer = () => {
       });
   }, [isPageOwner, handle]);
 
-  // 3. 로그 리스트 조회 
+  // 3. 로그 리스트 조회 (isPageOwner=true: JWT 사용, false: 대상 memberId 전달)
   useEffect(() => {
     if (!isPageOwner && !memberInfo.memberId) return;
 
-    const url = isPageOwner ? '/api/logs/my-list' : `/api/logs/list?memberId=${memberInfo.memberId}`; 
-    
-    axiosInstance.get(isPageOwner ? '/api/logs/my-list' : '/api/logs/my-list', { params: { memberId: memberInfo.memberId } })
+    const params = isPageOwner ? {} : { memberId: memberInfo.memberId };
+    axiosInstance.get('/api/logs/my-list', { params })
       .then((res) => {
         if (res.data?.success && Array.isArray(res.data.data)) {
           const completedLogs = res.data.data.filter((item) => item.logStatus !== 'DRAFT');
@@ -268,7 +273,7 @@ const MyProfileContainer = () => {
             onImageChange={handleImageChange}
             isPageOwner={isPageOwner}
           />
-          <ProfileChartCardComponent logs={chartLogs} />
+          <ProfileChartCardComponent logs={chartLogs} isPageOwner={isPageOwner} nickname={displayNickname} />
           <ProfileStreakCardComponent
             communityCount={stats.communityCount}
             logCount={stats.logCount}

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import {
 	flexBetweenRow,
 	flexStartRow,
@@ -7,6 +7,12 @@ import {
 	h8Regular,
 } from '../../../styles/common';
 import theme from '../../../styles/theme';
+
+const glow = keyframes`
+    0%   { filter: drop-shadow(0 0 3px rgba(171, 71, 255, 0.6)); opacity: 1; }
+    50%  { filter: drop-shadow(0 0 10px rgba(2, 125, 240, 1)) drop-shadow(0 0 20px rgba(171, 71, 255, 0.9)); opacity: 0.85; }
+    100% { filter: drop-shadow(0 0 3px rgba(171, 71, 255, 0.6)); opacity: 1; }
+`;
 
 const S = {};
 
@@ -46,7 +52,7 @@ S.CommunityTitle = styled.h3`
 
 S.CommunitySubtitle = styled.p`
 	font-size: 20px;
-	color: ${theme.GRAYSCALE[7]};
+	color: ${theme.TEXT_COLOR.basic};
 	margin: 6px 0 0;
 `;
 
@@ -66,6 +72,13 @@ S.SearchBox = styled.div`
 	background: ${theme.PALETTE.white};
 	padding: 0 12px 0 20px;
 	gap: 10px;
+`;
+
+S.SearchIcon = styled.img`
+	width: 20px;
+	height: 20px;
+	flex-shrink: 0;
+	animation: ${glow} 2.4s ease-in-out infinite;
 `;
 
 S.SearchInput = styled.input`
