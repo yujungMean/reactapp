@@ -9,6 +9,7 @@ import myStyle from './styles/CommunityContainerStyle'
 import CommunityListContainer from './list/CommunityListContainer'
 import S from './style'
 import AiPostListContainer from './list/components/AiPostListContainer';
+import { formatRelativeTime } from '../../utils/relativeTime';
 
 const stripHtml = (html) => {
     if (!html) return '';
@@ -23,18 +24,13 @@ const extractFirstImage = (html) => {
     return img ? img.getAttribute('src') : null;
 };
 
-const formatDate = (dateStr) => {
-    if (!dateStr) return '';
-    return dateStr.slice(0, 10).replace(/-/g, '.');
-};
-
 const mapPost = (p) => ({
     id: p.id,
     memberId: p.memberId,
     category: p.categoryId - 1,
     title: p.postTitle,
     content: stripHtml(p.postContent),
-    date: formatDate(p.postCreatedAt),
+    date: formatRelativeTime(p.postCreatedAt),
     profile: p.memberProfileImageUrl,
     author: p.memberNickname,
     views: p.postReadCount,
@@ -46,6 +42,7 @@ const mapPost = (p) => ({
 
 const CommunityContainer = () => {
     const [mainData, setMainData] = useState(null);
+    const [postsHeight, setPostsHeight] = useState(null);
     const memberId = 1//useAuthStore((state) => state.user?.id ?? 0);
 
     useEffect(() => {
@@ -96,8 +93,8 @@ const CommunityContainer = () => {
                 <CommunityPostSearchContainer />
                 <S.Wrapper margintop={"55px"}>
                     <myStyle.PostListAndAiRecommandPostWrapper>
-                        <CommunityListContainer initialPostList={postListMapped} initialMaxPage={initialMaxPage} />
-                        <AiPostListContainer memberId={memberId} />
+                        <CommunityListContainer initialPostList={postListMapped} initialMaxPage={initialMaxPage} onPostsHeightChange={setPostsHeight} />
+                        <AiPostListContainer memberId={memberId} maxHeight={postsHeight} />
                     </myStyle.PostListAndAiRecommandPostWrapper>
                 </S.Wrapper>
             </myStyle.ListBgWrap>

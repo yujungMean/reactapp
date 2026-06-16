@@ -209,7 +209,7 @@ const Post = ({
                 <AvatarWrap>
                   <AuthorImg src={profile || defaultProfile} onError={handledOnErrorImg} alt={author} />
                 </AvatarWrap>
-                <S.Span size="h9Bold">{author}</S.Span>
+                <S.Span size="h8Bold">{author}</S.Span>
               </AuthorWrap>
               <Stats>
                 <StatItem>

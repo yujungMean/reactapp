@@ -9,7 +9,7 @@ const formatDate = (dateStr) => {
   return dateStr.slice(0, 10).replace(/-/g, '.');
 };
 
-const AiPostListContainer = ({ memberId }) => {
+const AiPostListContainer = ({ memberId, maxHeight }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -43,6 +43,7 @@ const AiPostListContainer = ({ memberId }) => {
   }, [memberId]);
 
   return (
+    <Column height={maxHeight}>
     <Wrapper>
       <Header>
         <TitleRow>
@@ -87,10 +88,17 @@ const AiPostListContainer = ({ memberId }) => {
         </LoginRequired>
       )}
     </Wrapper>
+    </Column>
   );
 };
 
+const Column = styled.div`
+  height: ${({ height }) => (height ? `${height}px` : 'auto')};
+`;
+
 const Wrapper = styled.div`
+  position: sticky;
+  top: 24px;
   width: 312px;
   background-color: ${colorCSS["faillog_white"]};
   border-radius: 15px;
