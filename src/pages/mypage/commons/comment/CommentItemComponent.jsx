@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import S from './CommentStyles';
+import menuIcon from '../../../community/resources/menuIcon.svg';
 
 const CommentItemComponent = ({
   profileImg,
@@ -56,7 +57,7 @@ const CommentItemComponent = ({
         {menuItems.length > 0 && (
           <S.MenuContainer>
             <S.MenuBtn type="button" aria-label="옵션" onClick={onMenuToggle}>
-              ···
+              <img src={menuIcon} width={20} height={20} alt="메뉴" />
             </S.MenuBtn>
             {menuOpen && (
               <S.Dropdown onClick={(e) => e.stopPropagation()}>

@@ -17,7 +17,7 @@ const CIRC = 2 * Math.PI * R;
 const INNER_R = R - SW / 2;   // 57
 const OUTER_R = R + SW / 2;   // 71
 
-const ProfileChartCardComponent = ({ logs = [] }) => {
+const ProfileChartCardComponent = ({ logs = [], isPageOwner = true, nickname = '' }) => {
   const wrapperRef = useRef(null);
   const [hovered, setHovered]   = useState(null);
   const [tooltip, setTooltip]   = useState({ x: 0, y: 0 });
@@ -62,7 +62,7 @@ const ProfileChartCardComponent = ({ logs = [] }) => {
   return (
     <InfoS.InfoCard>
       <InfoS.DonutChartArea>
-        <InfoS.CardTitle>성장 성향 분석</InfoS.CardTitle>
+        <InfoS.CardTitle>{isPageOwner ? '성장 성향 분석' : `${nickname ? `${nickname}님의 ` : ''}성장 성향 분석`}</InfoS.CardTitle>
 
         <InfoS.ChartWrapper
           ref={wrapperRef}
@@ -125,7 +125,10 @@ const ProfileChartCardComponent = ({ logs = [] }) => {
 
         {total === 0 && (
           <InfoS.ChartEmptyText>
-            아직 분석된 페일로그가 없습니다.<br />첫 페일로그를 작성해 보세요!
+            {isPageOwner
+              ? <>아직 분석된 페일로그가 없습니다.<br />첫 페일로그를 작성해 보세요!</>
+              : <>{nickname ? `${nickname}님은 ` : ''}아직 분석된 페일로그가 없습니다.</>
+            }
           </InfoS.ChartEmptyText>
         )}
 

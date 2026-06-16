@@ -24,7 +24,7 @@ const MyCommunityPostCardComponent = ({ post, isSelected, isEditMode = false, on
         <S.Thumbnail src={imageUrl || defaultThumbnail} alt={title} onError={(e) => { e.currentTarget.src = defaultThumbnail; }} />
 
         <S.TagLabel>
-          <S.CategoryBadge bgcolor={bgColor}>
+          <S.CategoryBadge $bgcolor={bgColor}>
             <S.Span size="h11Bold" color={textColor}>{categoryName}</S.Span>
           </S.CategoryBadge>
         </S.TagLabel>
