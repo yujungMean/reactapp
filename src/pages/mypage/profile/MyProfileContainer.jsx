@@ -18,6 +18,7 @@ import PhoneVerifyPopup from './components/PhoneVerifyPopup';
 import NameInfoChangePopup from './components/NameInfoChangePopup';
 import MyCommunityContainer from './components/MyCommunityContainer';
 import MyProjectSectionComponent from './components/MyProjectSectionComponent';
+import PopupComponent from '../../../components/commons/PopupComponent';
 import HeroRotationComponent from '../heroSection/HeroStripComponent';
 import { getHeroContent } from '../heroSection/HeroData';
 
@@ -52,6 +53,8 @@ const MyProfileContainer = () => {
   const [showPhoneVerifyPopup, setShowPhoneVerifyPopup] = useState(false);
   const [showNameInfoPopup, setShowNameInfoPopup] = useState(false);
   const [memberNotFound, setMemberNotFound] = useState(false);
+  const [profilePopup, setProfilePopup] = useState(null);
+  const closeProfilePopup = () => setProfilePopup(null);
 
   // 프로필 이동 시 stale 상태 초기화
   useEffect(() => {
@@ -209,6 +212,8 @@ const MyProfileContainer = () => {
       .then((res) => {
         if (res.data?.success) {
           setMemberInfo((prev) => ({ ...prev, memberName, memberPhone, memberPhoneVerified: 1 }));
+          setShowNameInfoPopup(false);
+          setProfilePopup({ message: '회원정보가 수정되었습니다.', onConfirm: closeProfilePopup });
         }
       });
   };
@@ -218,10 +223,13 @@ const MyProfileContainer = () => {
       .then((res) => {
         if (res.data?.success) {
           setMemberInfo((prev) => ({ ...prev, memberPhone: phone, memberPhoneVerified: 1 }));
+          setShowPhoneVerifyPopup(false);
+          setProfilePopup({ message: '본인인증이 완료되었습니다.', onConfirm: closeProfilePopup });
         }
       })
-      .catch(console.error)
-      .finally(() => setShowPhoneVerifyPopup(false));
+      .catch(() => {
+        setProfilePopup({ message: '본인인증 저장에 실패했습니다.', onConfirm: closeProfilePopup });
+      });
   };
 
   const displayNickname = memberInfo.memberNickname || (!isPageOwner ? handle : '');
@@ -241,6 +249,12 @@ const MyProfileContainer = () => {
 
   return (
     <>
+    <PopupComponent
+      isOpen={!!profilePopup}
+      message={profilePopup?.message}
+      onConfirm={profilePopup?.onConfirm}
+      onCancel={profilePopup?.onCancel}
+    />
     <PhoneVerifyPopup
       isOpen={showPhoneVerifyPopup}
       memberNickname={memberInfo.memberNickname}

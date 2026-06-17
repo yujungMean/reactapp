@@ -201,7 +201,7 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
       {hasNoCards ? (
         <EmptyStateComponent
           title={isPageOwner
-            ? <>아직 마음에 든 페일로그가 없네요.<br /><span>다른 사람들의 페일로그</span>를 살펴볼까요?</>
+            ? <>아직 마음에 든 페일로그가 없네요.<br /><span>다른 로거들의 페일로그</span>를 살펴볼까요?</>
             : <>아직 <span>{ownerNickname}</span>님의 페일로그가 없어요.</>
           }
           subText="실패를 외면하지 않고 기록할 때, 당신의 강력한 성장 데이터가 됩니다."

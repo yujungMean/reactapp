@@ -4,6 +4,7 @@ import S from '../styles/MyFailLogStyles';
 import defaultProfile from '../../../../components/resources/default-profile.svg';
 import eyeIcon from '../../../../components/resources/eye.svg';
 import likeFilledIcon from '../../../../components/resources/like-fill2.svg';
+import likeEmptyIcon from '../../../../components/resources/like.svg';
 import { getMatchedThumbnail } from '../../commons/FailLogPostCardComponent';
 
 const FeaturedLogComponent = ({ logs = [], isPageOwner = true, ownerNickname = '' }) => {
@@ -45,7 +46,7 @@ const FeaturedLogComponent = ({ logs = [], isPageOwner = true, ownerNickname = '
                 {featuredLog.views || 0}
               </span>
               <span>
-                <img src={likeFilledIcon} alt="좋아요" />
+                <img src={featuredLog.isLiked ? likeFilledIcon : likeEmptyIcon} alt="좋아요" />
                 {featuredLog.likeCount || featuredLog.likes || 0}
               </span>
             </div>

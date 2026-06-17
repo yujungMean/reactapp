@@ -19,7 +19,7 @@ const REASON_CATEGORY_MAP = { ad: 1, abuse: 2, privacy: 3, other: 4 };
 const API_URL_MAP = {
   '방명록':       'http://localhost:10000/api/guestbook/report/comment',
   '방명록 답글':   'http://localhost:10000/api/guestbook/report/reply',
-  '방명록 대댓글': 'http://localhost:10000/api/guestbook/report/rereply',
+  '방명록 대댓글': 'http://localhost:10000/api/guestbook/report/rereply', 
 };
 
 const GuestbookReportPopup = ({ type = '방명록', id, memberId, profileImg, author, content, onClose = () => {} }) => {

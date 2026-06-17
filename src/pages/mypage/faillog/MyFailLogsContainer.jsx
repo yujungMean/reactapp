@@ -291,24 +291,52 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
     });
   };
 
-  const handleDeleteForeverSelectedLogs = () => {
-    if (selectedTrashIds.length === 0) return;
-    showConfirm('로그를 영구 삭제 하시겠습니까?', async () => {
-      try {
-        const res = await axiosInstance.delete('/api/logs/permanent', { data: selectedTrashIds });
-        if (res.data?.success) {
-          setTrashedLogs((prev) => prev.filter((log) => !selectedTrashIds.includes(log.id)));
-          setSelectedTrashIds([]);
-          setIsTrashEditMode(false);
-          closePopup();
-          showAlert('로그가 완전히 삭제되었습니다.');
-        } else {
-          showAlert(res.data?.message || '로그 영구 삭제에 실패했습니다.');
-        }
-      } catch (error) {
-        console.error("로그 영구 삭제 실패:", error);
+  const executeDeleteForever = async (ids) => {
+    try {
+      const res = await axiosInstance.delete('/api/logs/permanent', { data: ids });
+      if (res.data?.success) {
+        setTrashedLogs((prev) => prev.filter((log) => !ids.includes(log.id)));
+        setSelectedTrashIds([]);
+        setIsTrashEditMode(false);
+        closePopup();
+        showAlert('로그가 완전히 삭제되었습니다.');
+      } else {
+        showAlert(res.data?.message || '로그 영구 삭제에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error("로그 영구 삭제 실패:", error);
+      const msg = error.response?.data?.message || '';
+      if (msg.includes('무결성') || msg.includes('constraint') || msg.includes('자식')) {
+        closePopup();
+        showConfirm(
+          '해당 로그에 연결된 체크리스트 및 프로젝트가 있습니다.\n관련 데이터가 모두 삭제됩니다. 그래도 삭제하시겠습니까?',
+          async () => {
+            try {
+              const retryRes = await axiosInstance.delete('/api/logs/permanent', { data: ids });
+              if (retryRes.data?.success) {
+                setTrashedLogs((prev) => prev.filter((log) => !ids.includes(log.id)));
+                setSelectedTrashIds([]);
+                setIsTrashEditMode(false);
+                closePopup();
+                showAlert('로그가 완전히 삭제되었습니다.');
+              } else {
+                showAlert('삭제에 실패했습니다.');
+              }
+            } catch {
+              showAlert('삭제 중 오류가 발생했습니다.');
+            }
+          }
+        );
+      } else {
         showAlert('로그 영구 삭제 중 오류가 발생했습니다.');
       }
+    }
+  };
+
+  const handleDeleteForeverSelectedLogs = () => {
+    if (selectedTrashIds.length === 0) return;
+    showConfirm('로그를 영구 삭제 하시겠습니까?\n연결된 체크리스트·프로젝트도 함께 삭제됩니다.', () => {
+      executeDeleteForever(selectedTrashIds);
     });
   };
 

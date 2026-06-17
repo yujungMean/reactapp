@@ -108,7 +108,6 @@ const NameInfoChangePopup = ({
     if (!verified || !name.trim() || !phone.trim()) return;
     setError('');
     Promise.resolve(onSubmit?.({ memberName: name, memberPhone: phone }))
-      .then(() => setStep('success'))
       .catch((err) => {
         setError(err?.response?.data?.message || '수정에 실패했습니다.');
       });

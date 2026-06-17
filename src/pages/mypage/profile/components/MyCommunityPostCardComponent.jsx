@@ -7,7 +7,7 @@ import defaultThumbnail from '../../../log/other/otherLog_thumbNail/Group 2956.p
 import getCategoryInfo from '../../../community/GetCategoryInfo';
 
 const MyCommunityPostCardComponent = ({ post, isSelected, isEditMode = false, onSelect, onNavigate, isPageOwner = true }) => {
-  const { categoryId, title, content, author, date, likes, comments, imageUrl } = post;
+  const { categoryId, title, content, author, profileImageUrl, date, likes, comments, imageUrl } = post;
   const { name: categoryName, textColor, bgColor } = getCategoryInfo(categoryId);
 
   const handleClick = () => {
@@ -37,7 +37,9 @@ const MyCommunityPostCardComponent = ({ post, isSelected, isEditMode = false, on
 
         <S.CardFooter>
           <S.AuthorInfo>
-            <img src={defaultProfile} alt="profile" />
+            <S.ProfileRing>
+              <img src={profileImageUrl || defaultProfile} alt="profile" onError={(e) => { e.currentTarget.src = defaultProfile; }} />
+            </S.ProfileRing>
             <S.AuthorName>{author}</S.AuthorName>
           </S.AuthorInfo>
           <S.PostStats>

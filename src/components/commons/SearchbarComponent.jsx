@@ -9,14 +9,12 @@ const SearchbarComponent = ({onSubmit, placeholder = "ex)게시글을 검색해�
   const input = useRef([]);
 
   const handleOnClick = () => {
-      if(input.current[0].value !== "") {
-        onSubmit?.(input.current[0].value)
-        input.current[0].value = "";
-      }
+      onSubmit?.(input.current[0].value)
+      input.current[0].value = "";
   }
 
   const handleKeyDown = (e) => {
-      if(e.target.value !== "" && e.key === "Enter") {
+      if(e.key === "Enter") {
         onSubmit?.(e.target.value)
         e.target.value = "";
       }

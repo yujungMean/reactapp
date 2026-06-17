@@ -62,7 +62,9 @@ const FailLogPostCardComponent = ({ log = {}, isSelected = false, isEditMode = f
 
         <S.CardFooter>
           <S.AuthorInfo>
-            <img src={log.profileImg || defaultProfile} alt="profile" />
+            <S.ProfileRing>
+              <img src={log.profileImg || defaultProfile} alt="profile" onError={(e) => { e.currentTarget.src = defaultProfile; }} />
+            </S.ProfileRing>
             <S.AuthorName>{log.author || '나의 기록'}</S.AuthorName>
           </S.AuthorInfo>
           <S.PostStats>

@@ -23,9 +23,8 @@ const stripHtml = (html) => {
 
 const extractFirstImage = (html) => {
   if (!html) return null;
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  const img = doc.querySelector('img');
-  return img?.src || null;
+  const match = html.match(/<img[^>]+src\s*=\s*["']([^"']+)["']/i);
+  return match ? match[1] : null;
 };
 
 const mapPost = (item) => ({
@@ -34,10 +33,11 @@ const mapPost = (item) => ({
   title: item.postTitle || '',
   content: stripHtml(item.postContent),
   author: item.memberNickname || '',
+  profileImageUrl: item.memberProfileImageUrl || null,
   date: formatRelativeTime(item.postCreatedAt),
   likes: item.likeCount || 0,
   comments: item.replyCount || 0,
-  imageUrl: item.postThumbnailUrl || extractFirstImage(item.postContent) || null,
+  imageUrl: extractFirstImage(item.postContent) || null,
 });
 
 const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '', memberId = null }) => {
@@ -132,7 +132,9 @@ const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '', memberI
     if (selectedIds.length === 0) return;
     showConfirm('게시글을 삭제 하시겠습니까?', async () => {
       try {
-        await Promise.all(selectedIds.map((id) => axiosInstance.delete(`/api/posts/delete/${id}`)));
+        for (const id of selectedIds) {
+          await axiosInstance.delete(`/api/posts/delete/${id}`);
+        }
         setAllPosts((prev) => prev.filter((post) => !selectedIds.includes(post.id)));
         setSelectedIds([]);
         queryClient.invalidateQueries({ queryKey: ['myPosts', memberId] });
@@ -211,6 +213,7 @@ const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '', memberI
               onOptionChange={handleOptionChange}
               onSearchSubmit={handleSearchSubmit}
               styles={LogStyles}
+              placeholder={isPageOwner ? '내 커뮤니티 게시글을 검색해볼까요?' : `${memberNickname}님의 게시글을 검색해볼까요?`}
             />
 
             {currentPagePosts.length > 0 ? (

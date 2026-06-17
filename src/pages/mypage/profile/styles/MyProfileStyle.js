@@ -475,6 +475,18 @@ S.AuthorInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+`;
+
+S.ProfileRing = styled.div`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #4359FC, #AB47FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 
   img {
     width: 24px;

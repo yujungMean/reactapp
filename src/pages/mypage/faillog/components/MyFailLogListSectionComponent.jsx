@@ -37,6 +37,7 @@ const MyFailLogListSectionComponent = ({
         onSearchSubmit={handleSearchSubmit}
         styles={LogS}
         options={['제목', '제목+내용', '내용']}
+        placeholder={isPageOwner ? '내 페일로그를 검색해볼까요?' : `${ownerNickname}님의 페일로그를 검색해볼까요?`}
       />
 
       {filteredLogs.length === 0 ? (
