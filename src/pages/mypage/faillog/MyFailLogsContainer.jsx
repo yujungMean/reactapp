@@ -20,22 +20,29 @@ const CARDS_PER_ROW = 3;
 const ROWS_PER_PAGE = 3;
 const PAGE_SIZE = CARDS_PER_ROW * ROWS_PER_PAGE;
 
-const mapLog = (item) => ({
-  id: item.id,
-  title: item.logTitle || '',
-  content: item.visionTitle || '',
-  category: item.categoryName || '',
-  author: item.memberNickname || '나의 기록',
-  profileImg: item.memberProfileImageUrl || null,
-  createdAt: item.logCreatedAt || '',
-  date: item.logCreatedAt || '',
-  likeCount: item.likeCount || 0,
-  isLiked: item.liked ?? item.isLiked ?? false,
-  views: item.readCount || 0,
-  progress: item.logProgress || 0,
-  logStatus: item.logStatus,
-  thumbnailUrl: item.thumbnailUrl || null,
-});
+const mapLog = (item) => {
+  const isDraft = item.logStatus === 'DRAFT';
+  return {
+    id: item.id,
+    title: item.logTitle || '',
+    content: item.visionTitle || '',
+    category: item.categoryName || '',
+    author: item.memberNickname || '나의 기록',
+    profileImg: item.memberProfileImageUrl || null,
+    createdAt: isDraft
+      ? (item.logUpdatedAt || item.logCreatedAt || '')
+      : (item.logCreatedAt || ''),
+    date: isDraft
+      ? (item.logUpdatedAt || item.logCreatedAt || '')
+      : (item.logCreatedAt || ''),
+    likeCount: item.likeCount || 0,
+    isLiked: item.liked ?? item.isLiked ?? false,
+    views: item.readCount || 0,
+    progress: item.logProgress || 0,
+    logStatus: item.logStatus,
+    thumbnailUrl: item.thumbnailUrl || null,
+  };
+};
 
 const MyFailLogsContainer = ({ isPageOwner = true }) => {
   const navigate = useNavigate();

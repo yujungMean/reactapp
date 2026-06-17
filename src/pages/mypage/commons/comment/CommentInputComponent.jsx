@@ -31,13 +31,13 @@ const CommentInputComponent = ({
         placeholder={placeholder || `${subject}을 입력해주세요`}
       />
       <S.SubmitBottomRow>
-        <span>{`서로를 존중하는 ${subject} 문화를 지켜주세요`}</span>
+        <S.SubmitSubTitle>{`서로를 존중하는 ${subject} 문화를 지켜주세요`}</S.SubmitSubTitle>
         <S.SubmitRightGroup>
-          <span style={{ color: isMax ? '#F53102' : undefined }}>
+          <S.CharCount $isMax={isMax}>
             글자 수 ({value.length} / {MAX_LENGTH})
-          </span>
+          </S.CharCount>
           <S.SubmitBtn type="button" onClick={handleSubmit} disabled={!value.trim()}>
-            <span style={{ color: '#FFFFFF', fontWeight: 700 }}>{`${subject} 등록`}</span>
+            <span style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '16px' }}>{`${subject} 등록`}</span>
           </S.SubmitBtn>
         </S.SubmitRightGroup>
       </S.SubmitBottomRow>

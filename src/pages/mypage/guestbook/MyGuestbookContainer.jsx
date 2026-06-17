@@ -9,7 +9,7 @@ import LogSearchComponent from '../commons/LogSearchComponent';
 import GuestbookCommentItemComponent from './components/GuestbookCommentItemComponent';
 import axiosInstance from '../../../api/axiosInstance';
 import PopupComponent from '../../../components/commons/PopupComponent';
-import ReportPopup from '../../community/detail/components/ReportPopup';
+import ReportPopup from './components/GuestbookReportPopup';
 import PagenationComponent from '../../../components/commons/PagenationComponent';
 import CommentInputComponent from '../commons/comment/CommentInputComponent';
 import CommentListComponent from '../commons/comment/CommentListComponent';
@@ -58,6 +58,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
 
   const [loggedInMemberId, setLoggedInMemberId] = useState(null);
   const [loggedInNickname, setLoggedInNickname] = useState('익명');
+  const [loggedInProfileImg, setLoggedInProfileImg] = useState(null);
   const [ownerMemberId, setOwnerMemberId] = useState(null);
   const [ownerNickname, setOwnerNickname] = useState('');
   const [viewedOwnerId, setViewedOwnerId] = useState(null);
@@ -106,6 +107,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
           const d = res.data.data;
           setLoggedInMemberId(d.id);
           setLoggedInNickname(d.memberNickname || '익명');
+          setLoggedInProfileImg(d.memberPicture || null);
           if (isPageOwner) {
             setOwnerMemberId(d.id);
           }
@@ -183,7 +185,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
       ownerNickname: '',
       author: loggedInNickname,
       authorId: loggedInMemberId,
-      profileImg: null,
+      profileImg: loggedInProfileImg,
       title: trimmed.slice(0, 20),
       content: trimmed,
       createdAt: new Date().toISOString(),
@@ -261,7 +263,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
       id: `temp-${Date.now()}`,
       author: loggedInNickname,
       authorId: loggedInMemberId,
-      profileImg: null,
+      profileImg: loggedInProfileImg,
       content: replyText,
       createdAt: new Date().toISOString(),
       likes: 0,
@@ -402,7 +404,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
       id: `temp-${Date.now()}`,
       author: loggedInNickname,
       authorId: loggedInMemberId,
-      profileImg: null,
+      profileImg: loggedInProfileImg,
       content: content.trim(),
       createdAt: new Date().toISOString(),
       likes: 0,

@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import S from './CommentStyles';
 import menuIcon from '../../../community/resources/menuIcon.svg';
+
+const CONTENT_LIMIT = 230;
 
 const CommentItemComponent = ({
   profileImg,
@@ -31,40 +33,25 @@ const CommentItemComponent = ({
   children,
 }) => {
   const [expanded, setExpanded] = useState(false);
-  const [isClamped, setIsClamped] = useState(false);
-  const textRef = useRef(null);
 
-  useEffect(() => {
-    const el = textRef.current;
-    if (!el) return;
-    setIsClamped(el.scrollHeight > el.clientHeight);
-  }, [content]);
+  const isOverflow = content && content.length > CONTENT_LIMIT;
+  const displayText = isOverflow && !expanded ? content.slice(0, CONTENT_LIMIT) : content;
 
-  if (deleted) {
-    return (
-      <S.ItemWrapper $indent={indent}>
-        <S.DeletedText>삭제된 댓글입니다.</S.DeletedText>
-        {children && (
-          <S.SectionArea>
-            <S.Divider />
-            <S.ChildListArea>{children}</S.ChildListArea>
-          </S.SectionArea>
-        )}
-      </S.ItemWrapper>
-    );
-  }
-
-  return (
-    <S.ItemWrapper $indent={indent}>
+  const cardBody = (
+    <>
       <S.TopRow>
         <S.ProfileGroup>
-          <S.ProfileImg
-            src={profileImg || defaultProfileImg}
-            alt="profile"
-            onError={(e) => { if (defaultProfileImg) e.target.src = defaultProfileImg; }}
-            onClick={onProfileClick}
-            style={{ cursor: onProfileClick ? 'pointer' : 'default' }}
-          />
+          {(profileImg || defaultProfileImg) && (
+            <S.AvatarWrap>
+              <S.ProfileImg
+                src={profileImg || defaultProfileImg}
+                alt="profile"
+                onError={(e) => { if (defaultProfileImg) e.target.src = defaultProfileImg; }}
+                onClick={onProfileClick}
+                style={{ cursor: onProfileClick ? 'pointer' : 'default' }}
+              />
+            </S.AvatarWrap>
+          )}
           <S.AuthorName onClick={onProfileClick}>{author}</S.AuthorName>
           <S.DateText>{createdAt}</S.DateText>
         </S.ProfileGroup>
@@ -105,14 +92,15 @@ const CommentItemComponent = ({
       ) : (
         <>
           <S.ContentArea>
-            <S.ContentText ref={textRef} $clamped={!expanded}>
-              {content}
+            <S.ContentText>
+              {displayText}
+              {isOverflow && !expanded && '... '}
+              {isOverflow && (
+                <S.InlineToggle onClick={() => setExpanded((prev) => !prev)}>
+                  {expanded ? ' (접기)' : '(자세히보기)'}
+                </S.InlineToggle>
+              )}
             </S.ContentText>
-            {isClamped && (
-              <S.InlineToggle onClick={() => setExpanded((prev) => !prev)}>
-                {expanded ? ' (접기)' : ' (자세히보기)'}
-              </S.InlineToggle>
-            )}
           </S.ContentArea>
 
           <S.ActionRow>
@@ -127,6 +115,36 @@ const CommentItemComponent = ({
             )}
           </S.ActionRow>
         </>
+      )}
+    </>
+  );
+
+  if (deleted) {
+    return (
+      <S.ItemWrapper $indent={indent}>
+        {indent ? (
+          <S.IndentCard>
+            <S.DeletedText>삭제된 댓글입니다.</S.DeletedText>
+          </S.IndentCard>
+        ) : (
+          <S.DeletedText>삭제된 댓글입니다.</S.DeletedText>
+        )}
+        {children && (
+          <S.SectionArea>
+            <S.Divider />
+            <S.ChildListArea>{children}</S.ChildListArea>
+          </S.SectionArea>
+        )}
+      </S.ItemWrapper>
+    );
+  }
+
+  return (
+    <S.ItemWrapper $indent={indent}>
+      {indent ? (
+        <S.IndentCard>{cardBody}</S.IndentCard>
+      ) : (
+        cardBody
       )}
 
       {children && (

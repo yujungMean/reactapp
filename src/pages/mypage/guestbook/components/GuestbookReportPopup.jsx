@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import styled, { keyframes } from 'styled-components';
 
-import S, { colorCSS } from '../../style.js';
+import S, { colorCSS } from '../../../community/style.js';
 
-import check from  '../../resources/check-small.svg'
-import defaultImage from '../../resources/default.png'
+import check from '../../../community/resources/check-small.svg';
+import defaultImage from '../../../community/resources/default.png';
 
 const REPORT_REASONS = [
   { id: 'ad',      title: '광고 / 도배',   desc: '홍보성 댓글' },
@@ -16,27 +17,18 @@ const REPORT_REASONS = [
 const REASON_CATEGORY_MAP = { ad: 1, abuse: 2, privacy: 3, other: 4 };
 
 const API_URL_MAP = {
-  '게시글': 'http://localhost:10000/api/CommunityReport/post',
-  '댓글':   'http://localhost:10000/api/CommunityReport/reply',
-  '대댓글': 'http://localhost:10000/api/CommunityReport/rereply',
   '방명록':       'http://localhost:10000/api/guestbook/report/comment',
   '방명록 답글':   'http://localhost:10000/api/guestbook/report/reply',
   '방명록 대댓글': 'http://localhost:10000/api/guestbook/report/rereply',
 };
 
-// type: 팝업 종류 (게시글/댓글/대댓글), id: 신고 대상 id, memberId: 로그인 멤버 id(신고자 멤버 id)
-// profileImg: 작성자 프로필 이미지, author: 작성자, content: 내용
-// onClose: 팝업 닫기 이벤트
-const ReportPopup = ({ type = '댓글', id, memberId, profileImg, author, content, onClose = () => {} }) => {
+const GuestbookReportPopup = ({ type = '방명록', id, memberId, profileImg, author, content, onClose = () => {} }) => {
   const [selectedReason, setSelectedReason] = useState(null);
   const [reportText, setReportText] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const buildBody = () => {
     const categoryId = REASON_CATEGORY_MAP[selectedReason];
-    if (type === '게시글') return { memberId, postId: id, reportReasonCategoryId: categoryId, postReportContent: reportText };
-    if (type === '댓글')   return { memberId, replyId: id, reportReasonCategoryId: categoryId, replyReportContent: reportText };
-    if (type === '대댓글') return { memberId, rereplyId: id, reportReasonCategoryId: categoryId, rereplyReportContent: reportText };
     if (type === '방명록')       return { memberId, guestbookId: id, reportReasonCategoryId: categoryId, guestbookReportContent: reportText };
     if (type === '방명록 답글')   return { memberId, guestbookReplyId: id, reportReasonCategoryId: categoryId, guestbookReplyReportContent: reportText };
     if (type === '방명록 대댓글') return { memberId, guestbookRereplyId: id, reportReasonCategoryId: categoryId, guestbookRereplyReportContent: reportText };
@@ -56,12 +48,10 @@ const ReportPopup = ({ type = '댓글', id, memberId, profileImg, author, conten
     if (json.success) setSubmitted(true);
   };
 
-  const handledOnErrorImg = (e) => {
-    e.target.src = defaultImage;
-  }
+  const handleErrorImg = (e) => { e.target.src = defaultImage; };
 
   if (submitted) {
-    return (
+    return ReactDOM.createPortal(
       <Overlay>
         <CompletedPopup>
           <CheckCircle>
@@ -72,27 +62,28 @@ const ReportPopup = ({ type = '댓글', id, memberId, profileImg, author, conten
             <S.Span size="h8Bold" color="faillog_white">확인</S.Span>
           </ConfirmBtn>
         </CompletedPopup>
-      </Overlay>
+      </Overlay>,
+      document.body,
     );
   }
 
-  return (
+  return ReactDOM.createPortal(
     <Overlay>
       <Popup>
         <Header>
-          <S.Span size="h6Bold">{type} 신고하기</S.Span>
+          <S.Span size="h6Bold">신고하기</S.Span>
           <CloseBtn onClick={onClose}>✕</CloseBtn>
         </Header>
 
         <SubTitle>
-          <S.Span size="h8Regular">부적절한 {type} 사유를 선택해주세요.</S.Span>
+          <S.Span size="h8Regular">신고 사유를 선택해주세요.</S.Span>
         </SubTitle>
 
         <ProfileBox>
-          {profileImg && <ProfileImg src={profileImg} onError={handledOnErrorImg} alt={author} />}
+          {profileImg && <ProfileImg src={profileImg} onError={handleErrorImg} alt={author} />}
           <ProfileRight>
             <S.Span size="h9Bold">{author}</S.Span>
-            <S.Span2 size="h9Regular" color="faillog_gray9" lineclamp={2}>{content}</S.Span2>
+            <ContentText>{content}</ContentText>
           </ProfileRight>
         </ProfileBox>
 
@@ -131,7 +122,8 @@ const ReportPopup = ({ type = '댓글', id, memberId, profileImg, author, conten
           </SubmitBtn>
         </ButtonRow>
       </Popup>
-    </Overlay>
+    </Overlay>,
+    document.body,
   );
 };
 
@@ -154,10 +146,10 @@ const Overlay = styled.div`
 `
 
 const Popup = styled.div`
-  width: 648px;
+  width: 480px;
   background: #fff;
   border-radius: 15px;
-  padding: 33px 39px 41px 39px;
+  padding: 20px 39px 24px 39px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -184,17 +176,15 @@ const SubTitle = styled.div`
 `
 
 const ProfileBox = styled.div`
-  width: 568px;
-  height: 133px;
-  margin-top: 25px;
+  width: 400px;
+  margin-top: 16px;
   background: ${colorCSS["faillog_gray1"]};
   border-radius: 10px;
-  padding: 18px 20px;
+  padding: 14px 20px;
   box-sizing: border-box;
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  overflow: hidden;
 `
 
 const ProfileImg = styled.img`
@@ -212,16 +202,29 @@ const ProfileRight = styled.div`
   min-width: 0;
 `
 
+const ContentText = styled.p`
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  color: ${colorCSS["faillog_gray9"]};
+  word-break: break-all;
+  max-height: calc(22px * 3);
+  overflow-y: auto;
+  overflow-x: hidden;
+`
+
 const ReasonList = styled.div`
-  margin-top: 24px;
+  margin-top: 14px;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 7px;
 `
 
 const ReasonBox = styled.div`
-  width: 568px;
-  height: 78px;
+  width: 400px;
+  height: 64px;
   border: 1px solid ${({ selected }) => selected ? colorCSS["faillog_purple"] : colorCSS["faillog_gray2"]};
   border-radius: 10px;
   padding: 0 20px;
@@ -251,7 +254,6 @@ const RadioCircle = styled.div`
   justify-content: center;
   flex-shrink: 0;
   box-sizing: border-box;
-  /* transition: all 0.2s; */
 `
 
 const RadioCheck = styled.img`
@@ -261,9 +263,9 @@ const RadioCheck = styled.img`
 `
 
 const ContentTextArea = styled.textarea`
-  width: 568px;
-  height: 100px;
-  margin-top: 16px;
+  width: 400px;
+  height: 72px;
+  margin-top: 10px;
   background: ${colorCSS["faillog-sector-gray"]};
   border: none;
   border-radius: 10px;
@@ -276,24 +278,19 @@ const ContentTextArea = styled.textarea`
   letter-spacing: -0.03em;
   color: ${colorCSS["faillog-black"]};
 
-  &::placeholder {
-    color: ${colorCSS["faillog_gray9"]};
-  }
-
-  &:focus {
-    outline: none;
-  }
+  &::placeholder { color: ${colorCSS["faillog_gray9"]}; }
+  &:focus { outline: none; }
 `
 
 const Divider = styled.div`
-  width: 568px;
+  width: 400px;
   height: 1px;
   background: ${colorCSS["faillog_gray2"]};
-  margin-top: 29px;
+  margin-top: 16px;
 `
 
 const ButtonRow = styled.div`
-  margin-top: 41px;
+  margin-top: 22px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -318,10 +315,8 @@ const SubmitBtn = styled.button`
   cursor: pointer;
 `
 
-/* ── 신고 완료 팝업 ── */
-
 const CompletedPopup = styled.div`
-  width: 648px;
+  width: 480px;
   background: #fff;
   border-radius: 20px;
   display: flex;
@@ -329,6 +324,7 @@ const CompletedPopup = styled.div`
   align-items: center;
   justify-content: center;
   gap: 24px;
+  padding: 60px 39px;
   animation: ${fadeIn} 0.4s ease;
 `
 
@@ -351,7 +347,7 @@ const CheckMark = styled.div`
 `
 
 const ConfirmBtn = styled.button`
-  width: 568px;
+  width: 400px;
   height: 52px;
   background: ${colorCSS["faillog_purple"]};
   border: none;
@@ -360,4 +356,4 @@ const ConfirmBtn = styled.button`
   margin-top: 8px;
 `
 
-export default ReportPopup;
+export default GuestbookReportPopup;

@@ -31,6 +31,16 @@ S.SubmitTextArea = styled.textarea`
   &:focus { outline: none; }
 `;
 
+S.SubmitSubTitle = styled.span`
+  ${sizeCSS['h8-regular']}
+  color: ${colorCSS['faillog_gray8']};
+`;
+
+S.CharCount = styled.span`
+  ${sizeCSS['h8-regular']}
+  color: ${({ $isMax }) => $isMax ? colorCSS['faillog-red'] : 'inherit'};
+`;
+
 S.SubmitBottomRow = styled.div`
   display: flex;
   align-items: center;
@@ -76,7 +86,7 @@ S.ListTitleRow = styled.div`
 
 S.SubmitBox = styled.div`
   padding: 17px;
-  border: 1px solid ${colorCSS['faillog_gray4']};
+  border: 1px solid #D9D9D9;
   border-radius: 15px;
 `;
 
@@ -90,16 +100,20 @@ S.ListArea = styled.div`
 /* ── 댓글/답글 아이템 (커뮤니티 Reply 디자인) ── */
 S.ItemWrapper = styled.div`
   width: 100%;
-  border-radius: 15px;
   box-sizing: border-box;
 
-  ${({ $indent }) => $indent ? `
-    padding: 9px 11px;
-    background: ${colorCSS['faillog-sector-gray']};
-  ` : `
-    padding: 13px 15px 15px 15px;
-    border: 1px solid ${colorCSS['faillog_gray4']};
+  ${({ $indent }) => !$indent && `
+    padding: 13px 24px 15px 24px;
+    border: 1px solid #D9D9D9;
+    border-radius: 15px;
   `}
+`;
+
+S.IndentCard = styled.div`
+  padding: 9px 11px;
+  background: ${colorCSS['faillog-sector-gray']};
+  border-radius: 15px;
+  box-sizing: border-box;
 `;
 
 S.TopRow = styled.div`
@@ -121,9 +135,21 @@ S.AuthorName = styled.span`
   &:hover { text-decoration: underline; }
 `;
 
-S.ProfileImg = styled.img`
+S.AvatarWrap = styled.div`
   width: 24px;
   height: 24px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #4359FC, #AB47FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+`;
+
+S.ProfileImg = styled.img`
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   object-fit: cover;
 `;
@@ -174,22 +200,16 @@ S.DropdownItem = styled.div`
 
 S.ContentArea = styled.div`
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `;
 
 S.ContentText = styled.p`
   margin: 0;
+  padding-right: 170px;
   ${sizeCSS['h9-regular']}
   color: ${colorCSS['faillog_gray9']};
   word-break: break-all;
   white-space: pre-wrap;
-
-  ${({ $clamped }) => $clamped && `
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  `}
 `;
 
 S.InlineToggle = styled.span`

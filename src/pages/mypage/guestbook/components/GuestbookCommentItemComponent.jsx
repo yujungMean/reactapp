@@ -134,6 +134,7 @@ const GuestbookCommentItemComponent = ({
             return (
               <CommentItemComponent
                 key={reply.id}
+                indent
                 profileImg={reply.profileImg}
                 defaultProfileImg={defaultProfile}
                 author={reply.author}
