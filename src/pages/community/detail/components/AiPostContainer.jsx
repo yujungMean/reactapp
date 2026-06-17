@@ -37,6 +37,7 @@ const AiPostContainer = ({ memberId, postId }) => {
           author: p.memberNickname,
           views: p.postReadCount,
           likes: p.likeCount,
+          isLiked: p.isLiked,
           comments: p.replyCount,
         })));
       } finally {

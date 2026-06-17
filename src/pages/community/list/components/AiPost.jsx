@@ -12,7 +12,7 @@ import likeFill from '../../resources/like-fill2.svg'
 import defaultProfile from '../../resources/default.png'
 import { goToMemberProfile } from '../../../../utils/profileNavigation';
 
-const AiPost = ({ postId, memberId, date, category, title, profile, author, views, likes, comments }) => {
+const AiPost = ({ postId, memberId, date, category, title, profile, author, views, likes, isLiked, comments }) => {
 
   const navigate = useNavigate();
   const {name, textColor ,bgColor} = getCategoryInfo(category)
@@ -47,7 +47,7 @@ const AiPost = ({ postId, memberId, date, category, title, profile, author, view
             <S.Span size="h10Regular" color="faillog-black">{views}</S.Span>
           </StatItem>
           <StatItem>
-            <img src={heart} width={12} height={12}></img>
+            <img src={isLiked === 1 ? likeFill : heart} width={12} height={12}></img>
             <S.Span size="h10Regular" color="faillog-black">{likes}</S.Span>
           </StatItem>
           <StatItem>

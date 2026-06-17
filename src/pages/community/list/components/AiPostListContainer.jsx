@@ -34,6 +34,7 @@ const AiPostListContainer = ({ memberId, maxHeight }) => {
           author: p.memberNickname,
           views: p.postReadCount,
           likes: p.likeCount,
+          isLiked: p.isLiked,
           comments: p.replyCount,
         })));
       } finally {
@@ -74,6 +75,7 @@ const AiPostListContainer = ({ memberId, maxHeight }) => {
                 author={post.author}
                 views={post.views}
                 likes={post.likes}
+                isLiked={post.isLiked}
                 comments={post.comments}
               />
             ))}
